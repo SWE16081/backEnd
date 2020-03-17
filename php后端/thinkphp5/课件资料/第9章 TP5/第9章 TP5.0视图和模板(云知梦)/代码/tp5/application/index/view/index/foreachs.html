@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h1>foreach</h1>
+
+
+	<!-- {foreach name="data" item="val" key="abc"}
+		<p> {$abc} {$val.id} {$val.name}</p>
+	{/foreach} -->
+
+	<h1>For</h1>
+
+	<!-- {for start="0" end="10"}
+		<p>{$i}</p>
+	{/for} -->
+	<!-- {for start="0" end="10" comparison="elt" step="2" name="abc"}
+		<p>{$abc}</p>
+	{/for} -->
+
+	<!-- {for start="10" end="0" comparison="gt" step="-1"}
+		<p>{$i}</p>
+	{/for} -->
+	
+<!-- 	{eq name="a" value="11"}正确{/eq}
+	{neq name="a" value="11"}正确{/neq}
+	{lt name="a" value="11"}正确{/lt}
+	{gt name="a" value="11"}正确{/gt}
+	{egt name="a" value="11"}正确{/egt}
+	{elt name="a" value="11"}正确{/elt}
+	{heq name="a" value="11"}正确{/heq}
+	{nheq name="a" value="11"}正确{/nheq} -->
+
+	
+
+<!-- 	{if condition="$a eq $b"}
+
+		<p>a和b数值相等</p>
+	{else /}
+		<p>a和b数值不相等</p>
+
+	{/if} -->
+
+
+	<!-- {switch name="week"}
+		{case value='1'}周一{/case}
+		{case value='2'}周二{/case}
+		{case value='3'}周三{/case}
+		{case value='4'}周四{/case}
+		{case value='5'}周五{/case}
+		{case value='6'}周六{/case}
+		{default /} 周日
+	{/switch} -->
+
+
+<!-- 	{in name="week" value="0,1,2,3,4,5,6"}
+
+		合法的数据
+		{else /}
+		不合法数据
+	{/in} -->
+
+<!-- 	{between name="week" value="0,6"}
+		合法数据
+		{else/}
+
+		非法数据
+
+	{/between} -->
+
+<!-- 	{php}
+
+		echo "123";
+	{/php} -->
+	
+<!-- 	{volist name="data" id="val"}
+		{if condition="$key % 2"}
+			<p style="color:red">{$key} {$val.id} {$val.name}</p>
+		{else /}
+			<p style="color:blue">{$key} {$val.id} {$val.name}</p>
+		{/if}
+	{/volist} -->
+
+
+<!-- 	{volist name="data" id="val"}
+		{php}
+			$sw=$key%3;
+		{/php}
+		{switch name="sw"}
+
+			{case value="0"}
+				<p style="color:red">{$key} {$val.id} {$val.name}</p>
+			{/case}
+			{case value="1"}
+				<p style="color:green">{$key} {$val.id} {$val.name}</p>
+			{/case}
+			{case value="2"}
+				<p style="color:blue">{$key} {$val.id} {$val.name}</p>
+			{/case}
+		{/switch}
+	{/volist} -->
+
+
+	{volist name="type" id="val"}
+
+		<h2>{$val.name}</h2>
+
+		{volist name="val.goods" id="goods"}
+
+			<p>{$goods.name} {$goods.price}</p>
+		{/volist}
+	{/volist}
+
+</body>
+</html>

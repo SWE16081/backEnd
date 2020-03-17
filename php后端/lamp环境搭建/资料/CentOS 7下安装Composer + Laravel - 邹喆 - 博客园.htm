@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>CentOS 7下安装Composer + Laravel - 邹喆 - 博客园</title>
+<meta property="og:description" content="3.composer global require &quot;laravel/installer&quot; 4.请确定你已将 /root/.config/composer/vendor/bin 路">
+    <link type="text/css" rel="stylesheet" href="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-coffee.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-coffee-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zouzhe0/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zouzhe0/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zouzhe0/wlwmanifest.xml">
+    <script src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019040101.js"></script><script async="" src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script>var currentBlogId=320828;var currentBlogApp='zouzhe0',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/default.css"><link rel="preload" href="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019040101.js" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/zouzhe0/"><img id="blogLogo" src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/zouzhe0/">邹喆</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+	<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zouzhe0/">首页</a></li>
+	<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li><a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E9%82%B9%E5%96%86">联系</a></li>
+	<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+	<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/zouzhe0/rss">订阅</a>
+	<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/zouzhe0/rss"><img src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/xml.gif" alt="订阅"></a></li>
+</ul>
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats">
+<!--done-->
+随笔- 74&nbsp;
+文章- 4&nbsp;
+评论- 3&nbsp;
+</div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/zouzhe0/p/7146706.html">CentOS 7下安装Composer + Laravel</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><pre class="  language-php"><code class="language-php hljs"><span class="hljs-number">1.</span>wget https<span class="token punctuation">:<span class="token comment"><span class="hljs-comment">//dl.laravel-china.org/composer.phar -O /usr/local/bin/composer</span>
+chmod a<span class="token operator">+x <span class="token operator">/usr<span class="token operator">/local<span class="token operator">/bin<span class="token operator">/composer<br>2.查看composer 是否安装<br><img src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1074367-20170710163658134-2057050407.png" alt=""><br></span></span></span></span></span></span></span></code></pre>
+<p><code class=" language-php">&nbsp;3.composer <span class="token keyword">global <span class="token keyword">require <span class="token string">"laravel/installer"</span></span></span></code></p>
+<p><span class="token keyword"><span class="token keyword"><span class="token string">&nbsp;&nbsp; 4.</span></span></span>请确定你已将 <code class=" language-php"><span class="token operator">/root<span class="token operator">/<span class="token punctuation">.config/composer<span class="token operator">/vendor<span class="token operator">/bin</span></span></span></span></span></code> 路径加到 PATH，只有这样系统才能找到 <code class=" language-php">laravel</code> 的执行文件。</p>
+<p>　&nbsp; 一旦安装完成，就可以使用 <code class=" language-php">laravel <span class="token keyword">new</span></code> 命令在指定目录创建一个新的 Laravel 项目，例如：<code class=" language-php">laravel <span class="token keyword">new <span class="token class-name">blog</span></span></code> 将会在当前目录下创建一个叫 <code class=" language-php">blog</code> 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个方法的安装速度比通过 Composer 安装要快上许多：</p>
+<pre class=" language-php"><code class="language-php hljs">  laravel <span class="token keyword"><span class="hljs-keyword">new</span> <span class="token class-name">blog<br><br>注:<span class="hljs-number">1.</span>查看 path  : <span class="hljs-keyword">echo</span> $PATH<br>　 <span class="hljs-number">2.</span>添加到path里面 :export PATH=$PATH:/root/.config/composer/vendor/bin (可以先find 一下，添加正确的地址)<br>   <span class="hljs-number">3.</span>执行 <code>source /etc/profile</code> 使配置生效<br>   <span class="hljs-number">4.</span>如果出现如下错误：可以 <code>cd /root/.config/composer/vendor/laravel/installer</code> 到这个目录下面,对laravel这个目录进行授权 chmod a+x laravel<br>　　<img src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1074367-20170710164209431-1514868804.png" alt=""><br>   <span class="hljs-number">5.</span>如果出现如下错误，就是php.ini 里面没有开启服务，找到proc_open, 在disable_functions变量里面，删除该函数即可，重启php-frm(php version <span class="hljs-number">7.1</span><span class="hljs-number">.5</span>)<br>   <img src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1074367-20170710170159103-1737538087.png" alt=""><br><br><br></span></span></code></pre>
+<pre class="  language-php"><code class="language-php hljs"><span class="token punctuation"><span class="token comment"><span class="token operator"><span class="token operator"><span class="token operator"><span class="token operator"><span class="token operator">&nbsp;</span></span></span></span></span></span></span></code></pre></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/zouzhe0/category/939745.html" target="_blank">laravel</a>,<a href="https://www.cnblogs.com/zouzhe0/category/935520.html" target="_blank">linux</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(7146706,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('bef91a46-07b9-e611-845c-ac853d9f53ac');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/zouzhe0/" target="_blank"><img src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/zouzhe0/">邹喆</a><br>
+            <a href="http://home.cnblogs.com/u/zouzhe0/followees">关注 - 8</a><br>
+            <a href="http://home.cnblogs.com/u/zouzhe0/followers">粉丝 - 7</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('bef91a46-07b9-e611-845c-ac853d9f53ac');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(7146706,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(7146706,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/zouzhe0/p/7145064.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/zouzhe0/p/7145064.html" title="发布于2017-07-10 11:49">LNMP一键安装包</a><br><a href="https://www.cnblogs.com/zouzhe0/p/7146752.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/zouzhe0/p/7146752.html" title="发布于2017-07-10 17:12">如何查看Laravel版本号的三种方法</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-07-10 17:04</span> <a href="https://www.cnblogs.com/zouzhe0/">邹喆</a> 阅读(<span id="post_view_count">10363</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7146706" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(7146706);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=320828,cb_entryId=7146706,cb_blogApp=currentBlogApp,cb_blogUserGuid='bef91a46-07b9-e611-845c-ac853d9f53ac',cb_entryCreatedDate='2017/7/10 17:04:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-gitee')">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br><a href="https://www.bagevent.com/event/2468856" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-GAITC')">【活动】2019第四届全球人工技术大会解码“智能+时代”</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85Composer%20+%20Laravel%20-%20%E9%82%B9%E5%96%86%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CLaniMjCwOECFc6Hwgod_pUAng"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/xin-jun/p/8494404.html" target="_blank" onclick="clickRecomItmem(8494404)">composer下安装laravel</a><br>·  <a href="https://www.cnblogs.com/lonmyblog/p/7445690.html" target="_blank" onclick="clickRecomItmem(7445690)">composer 安装Laravel</a><br>·  <a href="https://www.cnblogs.com/HoverM/p/7191129.html" target="_blank" onclick="clickRecomItmem(7191129)">[Laravel系列](-).windows 下安装composer</a><br>·  <a href="https://www.cnblogs.com/songyanan/p/8011264.html" target="_blank" onclick="clickRecomItmem(8011264)">composer 安装laravel</a><br>·  <a href="https://www.cnblogs.com/itobylove/p/5809774.html" target="_blank" onclick="clickRecomItmem(5809774)">window下安装composer和laravel</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CLeniMjCwOECFc6Hwgod_pUAng"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/623448/" target="_blank">传Pinterest今晚确定IPO发行价区间 估值低于预期</a><br> ·  <a href="https://news.cnblogs.com/n/623447/" target="_blank">马斯克：特斯拉车上大屏即将支持播放视频 但停车才能看</a><br> ·  <a href="https://news.cnblogs.com/n/623446/" target="_blank">计算机科学家发布不会被黑的加密代码</a><br> ·  <a href="https://news.cnblogs.com/n/623445/" target="_blank">IDC：中国将于2023年成为全球最大的私有云IT基础架构市场</a><br> ·  <a href="https://news.cnblogs.com/n/623444/" target="_blank">原来，737Max上的MCAS和我想的不完全一样</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/zouzhe0/">邹喆</a><br>园龄：<a href="https://home.cnblogs.com/u/zouzhe0/" title="入园时间：2016-12-03">2年4个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/zouzhe0/followers/">7</a><br>关注：<a href="https://home.cnblogs.com/u/zouzhe0/followees/">8</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('bef91a46-07b9-e611-845c-ac853d9f53ac')">+加关注</a></div><script>getFollowStatus('bef91a46-07b9-e611-845c-ac853d9f53ac')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/03/01');return false;">&lt;</a></td><td align="center">2019年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/05/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td class="CalTodayDay" align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/zouzhe0/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/zouzhe0/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/zouzhe0/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/zouzhe0/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/zouzhe0/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a id="itemListLink" onclick="this.blur();WarpClass('itemListLink', 'itemListLin_con');return false;" href="#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/zouzhe0/category/1121331.html">elasticsearch(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/zouzhe0/category/934026.html">https</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/zouzhe0/category/926438.html">js/jquery(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/zouzhe0/category/939745.html">laravel(8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/zouzhe0/category/935520.html">linux(14)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/zouzhe0/category/1140919.html">mac(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/zouzhe0/category/920524.html">mysql(10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/zouzhe0/category/919744.html">node.js(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/zouzhe0/category/919743.html">php(26)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/zouzhe0/category/1065468.html">redis(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/zouzhe0/category/973453.html">微擎开发手册</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/zouzhe0/category/935640.html">小程序(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/zouzhe0/archive/2018/12.html">2018年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/zouzhe0/archive/2018/01.html">2018年1月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/zouzhe0/archive/2017/11.html">2017年11月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/zouzhe0/archive/2017/09.html">2017年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/zouzhe0/archive/2017/08.html">2017年8月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/zouzhe0/archive/2017/07.html">2017年7月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/zouzhe0/archive/2017/06.html">2017年6月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/zouzhe0/archive/2017/05.html">2017年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/zouzhe0/archive/2017/04.html">2017年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/zouzhe0/archive/2017/03.html">2017年3月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/zouzhe0/archive/2017/02.html">2017年2月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/zouzhe0/archive/2017/01.html">2017年1月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="https://www.cnblogs.com/zouzhe0/archive/2016/12.html">2016年12月 (23)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListArticleCategory">
+<h3 class="catListTitle">文章分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_2_Link_0" href="https://www.cnblogs.com/zouzhe0/category/932895.html">MySQL(2)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/zouzhe0/p/6245434.html#4119903">1. Re:php curl 采集</a></li>
+        <li class="recent_comment_body">你好，这个比较简单直接采集页面标签数据，如果目标网址数据在table里面，但是源码显示table里面是为空，ajxa也是没有的；不知道数据怎么响应到前端的；这种情况怎么去采集；</li>
+        <li class="recent_comment_author">--woaiwo</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/zouzhe0/p/6206517.html#3865859">2. Re:JQuery 绑定select标签的onchange事件，弹出选择的值，并实现跳转、传参</a></li>
+        <li class="recent_comment_body">mark<br><a href="" target="_blank"></a></li>
+        <li class="recent_comment_author">--zvjjmjgkftqp94</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/zouzhe0/p/6245434.html#3673758">3. Re:php curl 采集</a></li>
+        <li class="recent_comment_body">头文件输出：<br>curl_setopt($url,CURLOPT_HEADER,true);</li>
+        <li class="recent_comment_author">--dsheldon</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/zouzhe0/p/6197594.html">1. PHP保留两位小数的几种方法(162497)</a></li><li><a href="https://www.cnblogs.com/zouzhe0/p/6206517.html">2. JQuery 绑定select标签的onchange事件，弹出选择的值，并实现跳转、传参(51300)</a></li><li><a href="https://www.cnblogs.com/zouzhe0/p/6307077.html">3. laravel 原生 sql(12593)</a></li><li><a href="https://www.cnblogs.com/zouzhe0/p/6383316.html">4. Linux常用命令大全 --- 文件备份和压缩命令(10439)</a></li><li><a href="https://www.cnblogs.com/zouzhe0/p/7146706.html">5. CentOS 7下安装Composer + Laravel(10363)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/zouzhe0/p/6245434.html">1. php curl 采集(2)</a></li><li><a href="https://www.cnblogs.com/zouzhe0/p/6206517.html">2. JQuery 绑定select标签的onchange事件，弹出选择的值，并实现跳转、传参(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/zouzhe0/p/6197594.html">1. PHP保留两位小数的几种方法(3)</a></li><li><a href="https://www.cnblogs.com/zouzhe0/p/6206517.html">2. JQuery 绑定select标签的onchange事件，弹出选择的值，并实现跳转、传参(2)</a></li><li><a href="https://www.cnblogs.com/zouzhe0/p/6269506.html">3. 微信小程序显示cms里的html文章(2)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 邹喆
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

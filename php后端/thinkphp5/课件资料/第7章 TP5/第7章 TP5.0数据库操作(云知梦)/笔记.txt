@@ -1,0 +1,549 @@
+第7章 TP5.0数据库操作
+=========================================================
+今日学习
+
+1、TP5.0 支持数据库类型
+	Mysql、SqlServer、PgSQL、Sqlite等数据库的支持。
+
+2、如何连接数据库
+
+	1、配置文件定义
+
+		a、配置文件目录
+			C:\AppServ\www\tp5\application\database.php
+
+		b、如何配置
+			return [
+			    // 数据库类型
+			    'type'            => 'mysql',
+			    // 服务器地址
+			    'hostname'        => '127.0.0.1',
+			    // 数据库名
+			    'database'        => 'yzmedu',
+			    // 用户名
+			    'username'        => 'root',
+			    // 密码
+			    'password'        => '123456789',
+			    // 端口
+			    'hostport'        => '3306',
+			];
+
+		c、如何使用
+
+			// 实例化系统数据库类
+
+			$DB=new Db;
+
+			// 查询数据
+
+			$data=$DB::table("user")->select();
+
+			// 使用sql语句
+
+			$data=$DB::query("select * from user");
+
+	2、方法配置
+
+		1、使用数组
+
+			$Db=Db::connect([
+					// 数据库类型
+					'type'            => 'mysql',
+					// 服务器地址
+					'hostname'        => '127.0.0.1',
+					// 数据库名
+					'database'        => 'yzmedu2',
+					// 用户名
+					'username'        => 'root',
+					// 密码
+					'password'        => '123456789',
+					// 端口
+					'hostport'        => '3306',
+
+				]);
+
+		2、使用字符串
+			$Db=Db::connect("mysql://root:123456789@127.0.0.1:3306/yzmedu#utf8");
+			// 数据库类型://用户名:密码@数据库地址:数据库端口/数据库名#字符集
+
+
+		3、如何使用
+
+			$data=$Db->table("user")->select();
+
+	3、模型类定义
+
+		1、创建数据模型
+
+			a、命令行创建
+
+				1、切换到项目目录
+
+				2、执行命令
+					php think make:model app\index\model\User
+
+			b、手动创建
+
+				1、打开数据模型目录
+
+					C:\AppServ\www\tp5\application\index\model
+
+				2、在目录下新建 文件 User.php
+
+
+				3、在文件中书写代码
+
+					namespace app\index\model;
+
+					use think\Model;
+
+					class User extends Model
+					{
+					    //
+					}
+
+		2、如何设置
+
+			class User extends Model
+			{
+			    // 使用数组配置链接数据库
+
+			    protected $connection=[
+
+			    	// 数据库类型
+			    	'type'            => 'mysql',
+			    	// 服务器地址
+			    	'hostname'        => '127.0.0.1',
+			    	// 数据库名
+			    	'database'        => 'yzmedu',
+			    	// 用户名
+			    	'username'        => 'root',
+			    	// 密码
+			    	'password'        => '123456789',
+			    	// 端口
+			    	'hostport'        => '3306',
+
+			    ];
+
+			    // 使用字符串配置链接数据库
+
+    			protected $connection="mysql://root:123456789@127.0.0.1:3306/yzmedu#utf8";
+
+			}
+
+		3、如何控制器中使用
+
+			$user=new \app\index\model\User();
+
+			// 查询所有的数据
+			dump($user::all());
+
+
+3、查询数据
+	1、tp方法
+
+		// 实例化系统数据库类
+
+		$DB=new Db;
+
+		// 查询数据
+
+		$data=$DB::table("user")->select();
+
+	2、使用sql语句
+
+		// 实例化系统数据库类
+
+		$DB=new Db;
+
+		// 使用sql语句
+
+		$data=$DB::query("select * from user");
+
+4、数据库的基本使用
+	
+	1、增加
+		# 返回值 影响行数
+		$data=Db::execute("insert into user value(null,'user1','123','18')");
+		$data=Db::execute("insert into user value(null,?,?,?)",['user2','456','20']);
+		$data=Db::execute("insert into user value(null,:name,:pass,:age)",['name'=>"user3","pass"=>'678','age'=>25]);
+
+	2、修改
+		#返回值 影响行数
+		$data=Db::execute("update user set age='20' where id=9");
+
+	3、删除
+		#返回值 影响行数
+		$data=Db::execute("delete from user where id=10");
+		$data=Db::execute("delete from user where id>?",[15]);
+		$data=Db::execute("delete from user where id>:id",["id"=>10]);
+
+	4、查看
+
+		$data=Db::query("select * from user");
+		$data=Db::query("select * from user where  id >=? and id<=?",[5,8]);
+
+	5、获取指定sql语句
+
+		Db::getLastSql();
+
+
+	6、用户模块
+
+		1、命令行 找到项目目录 新建控制器
+			php think make:controller app\index\controller\Users
+
+		2、写资源路由
+
+			[详见 代码]
+
+
+5、TP数据库处理
+	
+	1、查询操作
+
+		1、table方法查询数据
+
+			// 查询所有数据
+			// SELECT * FROM `user`
+			$data=Db::table("user")->select();
+
+			// 查询一条数据
+			// SELECT * FROM `user` LIMIT 1
+			$data=Db::table("user")->find();
+
+		2、name方法查询数据
+			// 与配置文件有关
+			// name 会自动添加配置文件中的表前缀
+			$data=Db::name("user")->select();
+			$data=Db::name("user")->find();
+
+		3、助手函数
+
+			# SELECT * FROM `user`
+			$data=db("user")->select();
+
+			# SELECT * FROM `user` LIMIT 1
+			$data=db("user")->find();
+
+		4、where条件匹配
+
+			// SELECT * FROM `user` WHERE `id` > 25
+			$data=Db::table("user")->where("id",">",25)->select();
+
+			// SELECT * FROM `user` WHERE ( `id` > 25 AND `id` < 28 )
+			$data=Db::table("user")->where("id",">",25)->where("id","<",28)->select();
+
+			// SELECT * FROM `user` WHERE `name` LIKE '%user1%'
+			$data=Db::table("user")->where("name","like","%user1%")->select();
+
+			// SELECT * FROM `user` WHERE `name` = 'user3' AND `pass` = 'qwe'
+			$data=Db::table("user")->where("name","user3")->where("pass",'qwe')->select();
+
+			// SELECT * FROM `user` WHERE ( id > 25 and id <28 )
+			$data=Db::table("user")->where("id > 25 and id <28")->select();
+
+			// SELECT * FROM `user` WHERE `id` > 25 AND `name` = 'user10'
+			$data=Db::table("user")->where(["id"=>[">",25],"name"=>'user10'])->select();
+
+			// SELECT * FROM `user` WHERE ( `id` > 25 AND `id` < 28 )
+			$data=Db::table("user")->where(["id"=>[">",25]])->where(['id'=>["<",28]])->select();
+
+		5、whereOr 或者匹配
+
+			// SELECT * FROM `user` WHERE `id` <= 23 OR `id` >= 28
+			$data=Db::table("user")->where("id","<=",23)->whereOr("id",">=",28)->select();
+			
+			// SELECT * FROM `user` WHERE `name` LIKE '%user1%' OR `name` LIKE '%user2%'
+			$data=Db::table("user")->where("name","like","%user1%")->whereOr("name","like","%user2%")->select();
+
+		6、limit 截取数据
+
+			// SELECT * FROM `user` LIMIT 5
+			$data=Db::table("user")->limit(5)->select();
+
+			// SELECT * FROM `user` LIMIT 5,5
+			$data=Db::table("user")->limit(5,5)->select();
+
+		7、Order 排序
+			// SELECT * FROM `user` ORDER BY `id`
+			$data=Db::table("user")->order("id")->select();
+
+			// SELECT * FROM `user` ORDER BY `id` desc
+			$data=Db::table("user")->order("id","desc")->select();
+
+		8、field 设置查询字段
+
+			// 设置查询字段
+			// SELECT `name`,`pass` FROM `user`
+			$data=Db::table("user")->field("name,pass")->select();
+			$data=Db::table("user")->field(['name','pass'])->select();
+
+			// 起别名
+			// SELECT name uname,`pass` FROM `user`
+			$data=Db::table("user")->field("name uname,pass")->select();
+			$data=Db::table("user")->field(['name'=>"uname",'pass'])->select();
+
+			// sql 的系统函数
+			// SELECT count(*) as tot FROM `user`
+			$data=Db::table("user")->field("count(*) as tot")->select();
+			$data=Db::table("user")->field(['count(*)'=>"tot"])->select();
+
+			// 排除字段
+			// SELECT `id`,`age` FROM `user`
+			$data=Db::table("user")->field("name,pass",true)->select();
+			$data=Db::table("user")->field(["name",'pass'],true)->select();
+
+		9、Page 实现分页效果
+
+			// SELECT * FROM `user` LIMIT 5,5
+			$data=Db::table("user")->page("1,5")->select();
+
+		10、Group分组聚合
+
+			// SELECT `pass`,count(*) tot FROM `user` GROUP BY pass
+
+			$data=Db::table("user")->field("pass,count(*) tot")->group("pass")->select();
+
+		11、having 过滤
+			// 只能结合分组使用
+			// SELECT `pass`,count(*) tot FROM `user` GROUP BY pass HAVING tot >=2
+
+			$data=Db::table("user")->field("pass,count(*) tot")->having("tot >=2")->group("pass")->select();
+
+
+		12、多表查询
+
+			// select goods.*,type.name tname from type,goods where goods.cid=type.id
+			$data=Db::query("select goods.*,type.name tname from type,goods where goods.cid=type.id");
+			
+			// 内联实现数据库链接
+			// SELECT `goods`.*,type.name tname FROM `goods` INNER JOIN `type` `type` ON `goods`.`cid`=`type`.`id`
+			$data=Db::table("goods")->field("goods.*,type.name tname")->join("type","goods.cid=type.id")->select();
+			
+			// 右链接
+			// SELECT `goods`.*,type.name tname FROM `goods` RIGHT JOIN `type` `type` ON `goods`.`cid`=`type`.`id`
+			$data=Db::table("goods")->field("goods.*,type.name tname")->join("type","goods.cid=type.id",'right')->select();
+
+			// 左链接
+			$data=Db::table("goods")->field("goods.*,type.name tname")->join("type","goods.cid=type.id",'left')->select();
+
+		13、别名使用-给表起别名
+
+			// SELECT `g`.*,t.name tname FROM `goods` `g` LEFT JOIN `type` `t` ON `g`.`cid`=`t`.`id`
+			$data=Db::table("goods")->alias("g")->field("g.*,t.name tname")->join("type t","g.cid=t.id",'left')->select();
+
+
+		14、union集合
+
+			// SELECT `name` FROM `user` UNION select name from goods
+			$data=Db::field("name")->table("user")->union("select name from goods")->select();
+
+		15、参数绑定(bind) 为了防止sql注入
+			
+			# DELETE FROM `user` WHERE `id` = 25
+			$id=input("id");
+			$data=Db::table("user")->where("id",":id")->bind(["id"=>[$id,\PDO::PARAM_INT]])->delete();
+
+		16、数据统计
+
+			// SELECT MAX(age) AS tp_max FROM `user` LIMIT 1
+			$data=Db::table("user")->max("age");
+
+			// SELECT MIN(age) AS tp_min FROM `user` LIMIT 1
+			$data=Db::table("user")->min("age");
+
+			// SELECT AVG(age) AS tp_avg FROM `user` LIMIT 1
+			$data=Db::table("user")->avg("age");
+
+			// SELECT SUM(age) AS tp_sum FROM `user` LIMIT 1
+			$data=Db::table("user")->sum("age");
+
+			// SELECT COUNT(age) AS tp_count FROM `user` LIMIT 1
+			$data=Db::table("user")->count("age");
+
+
+		17、视图查询
+
+
+			$data=Db::view("goods","id,name,price")
+					->view("type",'name tname',"type.id=goods.cid")
+					->select();
+			// SELECT `goods`.`id`,`goods`.`name`,`goods`.`price`,type.name tname FROM `goods` `goods` INNER JOIN `type` `type` ON `type`.`id`=`goods`.`cid`
+
+			$data=Db::view("goods","id,name,price")
+					->view("type",'name tname',"type.id=goods.cid","left")
+					->select();
+			// SELECT `goods`.`id`,`goods`.`name`,`goods`.`price`,type.name tname FROM `goods` `goods` LEFT JOIN `type` `type` ON `type`.`id`=`goods`.`cid`
+
+
+	2、增加操作
+
+
+		1、插入单条数据
+
+			// 数组中的字段名 必须和数据库中的字段名一致
+
+			$data=["name"=>"张三","pass"=>"123","age"=>18,];
+
+			$code=Db::table("user")->insert($data);
+
+			$code=db("user")->insert($data);
+			// INSERT INTO `user` (`name` , `pass` , `age`) VALUES ('张三' , '123' , 18)
+			// 返回值 影响行数
+
+		2、插入多条数据
+
+			$data=[
+				["name"=>"张三1","pass"=>"123","age"=>15,],
+				["name"=>"张三2","pass"=>"123","age"=>19,],
+			];
+
+			$code=Db::table("user")->insertAll($data);
+			$code=db("user")->insertAll($data);
+			// 返回值 影响行数
+
+		3、获取最后一次插入ID
+
+			$data=["name"=>"张三","pass"=>"123","age"=>18,];
+			$code=Db::table("user")->insertGetId($data);
+			$code=db("user")->inserGetId($data);
+
+			// 返回值最后插入的id
+
+	3、更新数据
+
+		1、修改数据
+
+			$code=Db::table("user")->where("id",">",'60')->update(["pass"=>"qwe","age"=>2]);
+			// UPDATE `user` SET `pass`='qwe',`age`=2 WHERE `id` > 60
+			// 返回值 影响行数 
+
+			$code=Db::table("user")->update(['age'=>52,"id"=>62]);
+			// UPDATE `user` SET `age`=52 WHERE `id` = 62
+
+			$code=Db::table("user")->where("id",73)->setField("pass",'abc');
+			// UPDATE `user` SET `pass`='abc' WHERE `id` = 73
+
+		2、设置自增
+
+			$code=Db::table("user")->where("id",63)->setInc("age");
+			// UPDATE `user` SET `age`=age+1 WHERE `id` = 63
+
+			$code=db("user")->where("id",66)->setInc("age");
+			// UPDATE `user` SET `age`=age+1 WHERE `id` = 66
+
+		3、设置自减
+			// UPDATE `user` SET `age`=age-1 WHERE `id` = 62
+			$code=Db::table("user")->where("id",62)->setDec("age");
+
+			$code=Db::table("user")->where("id",62)->setDec("age",3);
+			// UPDATE `user` SET `age`=age-3 WHERE `id` = 62
+
+			$code=db("user")->where("id",63)->setDec("age",3);
+			// UPDATE `user` SET `age`=age-3 WHERE `id` = 63
+
+	4、删除数据
+
+		1、删除一条数据
+
+			$code=Db::table("user")->where("id","71")->delete();
+
+			$code=Db::table("user")->delete(70);
+
+		2、删除多条数据
+
+			$code=Db::table("user")->where("id in(51,54,55)")->delete();
+
+			$code=Db::table("user")->delete([62,63,66]);
+
+		3、删除区间数据
+
+			$code=Db::table("user")->where("id>40 and id<45")->delete();
+			// DELETE FROM `user` WHERE ( id>40 and id<45 )
+
+
+
+6、事务机制
+	
+	1、事务
+
+		张三 银行卡 1000， 李四 银行卡 500, 张三给李四转账200
+
+		1) 银行 先扣除 张三的200
+
+		2) 银行 将200 给了李四
+
+
+	2、mysql事务
+
+		mysql事务 要求 数据库的引擎必须 InnoDB
+
+
+	3、使用
+
+		1、自动控制事务
+
+			Db::transaction(function(){
+
+				// 删除一条数据
+
+				Db::table("user")->delete(40);
+
+				// 删除数据
+
+				Db::table("user")->deletes();
+			});
+
+		2、手动控制事务 (***)
+
+			// 开启事务
+
+			Db::startTrans();
+
+			// 事务
+
+			try{
+				// 删除数据id 31
+				$a=Db::table("user")->delete(31);
+				// 判断是否删除成功
+				if (!$a) {
+					throw new \Exception("删除id 31 数据没有成功");
+				}
+				// 删除不存在的数据 id 32
+				$b=Db::table("user")->delete(32);
+				// 判断是否删除成功
+				if (!$b) {
+					throw new \Exception("删除id 32 数据没有成功");
+				}
+				// 执行提交操作
+				Db::commit();
+			}catch(\Exception $e){
+				// 回滚事务
+				Db::rollback();
+				// 获取提示信息
+				dump($e->getMessage());
+			}
+
+		// ==================================================================
+
+			// 开启事务
+			Db::startTrans();
+
+			// 删除数据 33
+			$a=Db::table("user")->delete(33);
+			// 删除数据 34
+			$b=Db::table("user")->delete(34);
+
+			// 判断条件
+			if ($a && $b) {
+				// 提交事务
+				Db::commit();
+			}else{
+				// 回滚事务
+				Db::rollback();
+			}
+
+
+
+

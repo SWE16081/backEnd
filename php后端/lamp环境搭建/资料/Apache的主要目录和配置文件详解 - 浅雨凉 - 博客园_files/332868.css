@@ -1,0 +1,90 @@
+#home {
+    margin: 0 auto;
+    width: 75%;
+    min-width: 950px;
+    background-color: #fff;
+    padding: 30px;
+    margin-top: 100px;
+    margin-bottom: 80px;
+    box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+}
+#blogTitle h1 {
+    font-size: 50px;
+}
+#navigator {
+    font-size: 18px;
+}
+
+#navList a:hover {
+    color: #4C9ED9;
+}
+#navList a {
+    padding-top: 15px;
+}
+#sideBar h3 {
+    font-size: 2.35em;
+    line-height: 2.0em
+    border-left: 10px soild #99CC33;
+}
+.catListTitle {
+    font-size: 2.35em;
+    margin-top: 21px;
+    margin-bottom: 10.5px 
+    padding: 10px 0 10px 14px;
+    background-color: #f7f7f7;
+    border-left: 10px solid #FF9933;
+}
+
+#mainContent {
+    min-height: 200px;
+    padding: 0px 0px 8px 0;
+    *padding-top: 10px;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    float: right;
+    margin-left: -50em;
+    width: 100%;
+}
+
+#sideBar {
+    width: 17%;
+    line-height: 1.8em;
+    float: left;
+}
+.postTitle {
+    border-left: 10px solid #4C9ED9;
+}
+
+#circle {
+    background-color: rgba(0,0,0,0);
+    border: 5px solid rgb(219, 14, 247);
+    opacity: .9;
+    border-right: 5px solid rgba(0,0,0,0);
+    border-left: 5px solid rgba(0,0,0,0);
+    border-radius: 50px;
+    box-shadow: 0 0 35px #808080;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    position: fixed;
+    right: 103px;
+    bottom: 100px;
+    -moz-animation: spinPulse 56s infinite linear;
+    -webkit-animation: spinPulse 56s infinite linear;
+    -o-animation: spinPulse 56s infinite linear;
+    -ms-animation: spinPulse 56s infinite linear;
+}
+#circletext {
+    width: 66px;
+    height: 30px;
+    line-height: 15px;
+    margin: 0 auto;
+    position: fixed;
+    right: 105px;
+    bottom: 124px;
+}
+
+#blog-sidecolumn h3, .newsItem h3 {
+    border-bottom: 1px solid #ddd;
+}

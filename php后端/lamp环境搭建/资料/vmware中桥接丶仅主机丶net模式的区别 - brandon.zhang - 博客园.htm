@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>vmware中桥接丶仅主机丶net模式的区别 - brandon.zhang - 博客园</title>
+<meta property="og:description" content="VMWare提供三种工作模式桥接（bridge）、NAT（网络地址转换）和host-only（主机模式）。 在桥接模式下，VMWare虚拟出来的操作系统就像是局域网中的一台独立的主机（主机和虚拟机处于">
+    <link type="text/css" rel="stylesheet" href="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-CodingLife.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-CodingLife-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/summer-fate/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/summer-fate/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/summer-fate/wlwmanifest.xml">
+    <script src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019040101.js"></script><script async="" src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script>var currentBlogId=364379;var currentBlogApp='summer-fate',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<link rel="preload" href="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019040101.js" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/summer-fate/"><img id="blogLogo" src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/summer-fate/">夏fate</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/summer-fate/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/brandon.zhang">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/summer-fate/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/summer-fate/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 51&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 1</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/summer-fate/p/7607176.html">vmware中桥接丶仅主机丶net模式的区别</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>VMWare提供三种工作模式桥接（bridge）、NAT（网络地址转换）和host-only（主机模式）。</p>
+<ol>
+<li>桥接模式</li>
+</ol>
+<p>　　在桥接模式下，VMWare虚拟出来的操作系统就像是局域网中的一台独立的主机（主机和虚拟机处于对等地位），它可以访问网内任何一台机器。在桥接模式下，我们往往需要为虚拟主机配置ＩＰ地址、子网掩码等（注意虚拟主机的ｉｐ地址要和主机ｉｐ地址在同一网段）。</p>
+<p>　　使用桥接模式的虚拟系统和主机的关系，就如同连接在一个集线器上的两台电脑；要让他们通讯就需要为虚拟系统配置ip地址和子网掩码。如果我们需要在局域网内建立一个虚拟服务器，并为局域网用户提供服务，那就要选择桥接模式。</p>
+<p>　　但对于想进行种种网络实验的朋友这种模式是不太适合的，因为你无法对虚拟机的网络进行控制，它直接出去了</p>
+<ol>
+<li>NAT模式　</li>
+</ol>
+<p>在NAT模式下，虚拟系统需要借助NAT(网络地址转换)功能，通过宿主机器所在的网络来访问公网。也就是说，使用NAT模式虚拟系统可把物理主机
+作为路由器访问互联网。NAT模式下的虚拟系统的TCP/IP配置信息是由VMnet8(NAT)虚拟网络的DHCP服务器提供的，无法进行手工修改，因
+此虚拟系统也就无法和本局域网中的其他真实主机进行通讯。采用NAT模式最大的优势是虚拟系统接入互联网非常简单，你不需要进行任何其他的配置，只需要宿
+主机器能访问互联网即可。</p>
+<p>　　这种方式也可以实现Host OS与Guest OS的双向访问。但网络内其他机器不能访问Guest OS，Guest OS可通过Host
+ 
+OS用NAT协议访问网络内其他机器。NAT方式的IP地址配置方法是由VMware的虚拟DHCP服务器中分配一个IP&nbsp;，在这个IP地址中
+已经设置好路由，就是指向192.168.138.1的。如果你想利用VMWare安装一个新的虚拟系统，在虚拟系统中不用进行任何手工配置就能直接访问
+互联网，建议你采用NAT模式。</p>
+<p>　　这种方式下host内部出现了一个虚拟的网卡vmnet8（默认情况下），如果你有过 做nat服务器的经验，这里的vmnet8就相当于连接到内网的网卡，而虚拟机本身则相当于运 行在内网上的机器，虚拟机内的网卡（eth0）则独立于vmnet8。</p>
+<p>　　你会发现在这种方式下，vmware自带的dhcp会默认地加载到vmnet8界面上，这样虚拟机就可以使用dhcp服务。更为重要的
+是，vmware自带了nat服务，提供了从vmnet8到外网的地址转 
+换，所以这种情况是一个实实在在的nat服务器在运行，只不过是供虚拟机用的。很显然，如果你只有一个外网地址，此种方式很合适。</p>
+<ol>
+<li>主机模式</li>
+</ol>
+<p>主机模式下，真实环境和虚拟环境是隔离开的；在这种模式下，所有的虚拟系统是可以相互通信的，但虚拟系统和真实的网络是被隔离开。（虚拟系统和宿主机器系统是可以相互通信的，相当于这两台机器通过双绞线互连。）</p>
+<p>　　这应该是最为灵活的方式，有兴趣的话可以进行各种网络实验。和nat唯一的不同的是，此种方式下，没有地址转换服务，因此，默认情况下，虚拟机只能到主机访问。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(7607176,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('1657c540-6a06-e711-845c-ac853d9f53ac');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/summer-fate/" target="_blank"><img src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20170623112158.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/summer-fate/">brandon.zhang</a><br>
+            <a href="http://home.cnblogs.com/u/summer-fate/followees">关注 - 3</a><br>
+            <a href="http://home.cnblogs.com/u/summer-fate/followers">粉丝 - 5</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('1657c540-6a06-e711-845c-ac853d9f53ac');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(7607176,'Digg')">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(7607176,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/summer-fate/p/7601143.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/summer-fate/p/7601143.html" title="发布于2017-09-27 12:36">vmware设置静态ip(复制)</a><br><a href="https://www.cnblogs.com/summer-fate/p/7693941.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/summer-fate/p/7693941.html" title="发布于2017-10-19 18:04">idea中maven项目放到包中的mapper的xml文件不发布的问题</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-09-28 16:12</span> <a href="https://www.cnblogs.com/summer-fate/">brandon.zhang</a> 阅读(<span id="post_view_count">128</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7607176" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(7607176);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=364379,cb_entryId=7607176,cb_blogApp=currentBlogApp,cb_blogUserGuid='1657c540-6a06-e711-845c-ac853d9f53ac',cb_entryCreatedDate='2017/9/28 16:12:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://cloud.baidu.com/campaign/purchase-2019/index.html?track=cp:dsp|pf:pc|pp:chui-bokeyuan-huodong-19caigouji-BCC-neiyeCH-190311|pu:neiyeCH-wenzilian|ci:2019cgj|kw:2105959" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-百度云')">【推荐】百度云“猪”你开年行大运，红包疯狂拿，低至1折</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-gitee')">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br><a href="https://www.bagevent.com/event/2468856" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-GAITC')">【活动】2019第四届全球人工技术大会解码“智能+时代”</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="vmware%E4%B8%AD%E6%A1%A5%E6%8E%A5%E4%B8%B6%E4%BB%85%E4%B8%BB%E6%9C%BA%E4%B8%B6net%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20brandon.zhang%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CMjzw8jJveECFYSclgodb9cOPw"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/luoshiyong/p/10272173.html" target="_blank" onclick="clickRecomItmem(10272173)">VMware中桥接模式，NAT,仅主机的区别</a><br>·  <a href="https://www.cnblogs.com/IceBlack-Tea-developer/p/5311587.html" target="_blank" onclick="clickRecomItmem(5311587)">代理丶通知丶KVO之间区别和各自优势</a><br>·  <a href="https://www.cnblogs.com/jiangu66/archive/2013/05/02/3055430.html" target="_blank" onclick="clickRecomItmem(3055430)">基类重载C++中的重载丶重写丶重定义丶重定向的区别</a><br>·  <a href="https://www.cnblogs.com/lptlpt/p/7524361.html" target="_blank" onclick="clickRecomItmem(7524361)">负载测试丶容量测试丶强度测试的区别 ？</a><br>·  <a href="https://www.cnblogs.com/520YAOER/p/9709571.html" target="_blank" onclick="clickRecomItmem(9709571)">C#封装丶继承丶多态</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CMnzw8jJveECFYSclgodb9cOPw"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/623382/" target="_blank">AWS杀死了云计算：云计算四十年历史化蝶成茧</a><br> ·  <a href="https://news.cnblogs.com/n/623378/" target="_blank">少吃肉，不仅能减肥，还对记忆有好处</a><br> ·  <a href="https://news.cnblogs.com/n/623376/" target="_blank">不要996！程序员创建955.WLB不加班公司名单，GitHub周榜第二</a><br> ·  <a href="https://news.cnblogs.com/n/623375/" target="_blank">电竞运营师等“新职业”好不好干？听听过来人怎么说</a><br> ·  <a href="https://news.cnblogs.com/n/623371/" target="_blank">韩国大众开始用5G手机网络：月资费超人民币300元</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/summer-fate/">brandon.zhang</a><br>园龄：<a href="https://home.cnblogs.com/u/summer-fate/" title="入园时间：2017-03-11">2年</a><br>粉丝：<a href="https://home.cnblogs.com/u/summer-fate/followers/">5</a><br>关注：<a href="https://home.cnblogs.com/u/summer-fate/followees/">3</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('1657c540-6a06-e711-845c-ac853d9f53ac')">+加关注</a></div><script>getFollowStatus('1657c540-6a06-e711-845c-ac853d9f53ac')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/03/01');return false;">&lt;</a></td><td align="center">2019年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/05/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalTodayDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/summer-fate/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/summer-fate/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/summer-fate/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/summer-fate/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/summer-fate/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/summer-fate/category/1215888.html">软件安装</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/summer-fate/archive/2018/06.html">2018年6月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/summer-fate/archive/2018/03.html">2018年3月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/summer-fate/archive/2018/02.html">2018年2月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/summer-fate/archive/2017/11.html">2017年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/summer-fate/archive/2017/10.html">2017年10月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/summer-fate/archive/2017/09.html">2017年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/summer-fate/archive/2017/08.html">2017年8月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/summer-fate/archive/2017/07.html">2017年7月 (17)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/summer-fate/archive/2017/06.html">2017年6月 (1)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/summer-fate/p/7458477.html#3778987">1. Re:破解navicat</a></li>
+        <li class="recent_comment_body">能下载吗</li>
+        <li class="recent_comment_author">--xuxu759100907</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/summer-fate/p/7258442.html">1. idea的快捷键(复制)(16084)</a></li><li><a href="https://www.cnblogs.com/summer-fate/p/7249744.html">2. jquery实现跨域请求(复制)(8229)</a></li><li><a href="https://www.cnblogs.com/summer-fate/p/7262994.html">3. idea中将项目与github关联(7389)</a></li><li><a href="https://www.cnblogs.com/summer-fate/p/7698284.html">4. 删除maven仓库中的lastUpdate文件(3682)</a></li><li><a href="https://www.cnblogs.com/summer-fate/p/7704070.html">5. vmware中三种网络连接方式(复制)(3676)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/summer-fate/p/7458477.html">1. 破解navicat(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/summer-fate/p/7607176.html">1. vmware中桥接丶仅主机丶net模式的区别(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 brandon.zhang
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

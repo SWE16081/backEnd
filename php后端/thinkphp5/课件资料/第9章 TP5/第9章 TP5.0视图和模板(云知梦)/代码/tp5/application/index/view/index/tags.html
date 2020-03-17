@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h1>输出字符串</h1>
+	<h2>{$str}</h2>
+	<h1>输出数组</h1>
+	<h2>{$data['name']}</h2>
+	<h2>{$data.age}</h2>
+	<h2>{$data.sex}</h2>
+	
+	{for start="1" end="10"}
+		{$i}
+	{/for}
+
+	<h2>{$pass|md5}</h2>
+	<!-- <h2><?php echo md5($pass); ?></h2> -->
+
+	<h2>{$time|date="Y-m-d H:i:s",###}</h2>
+	<!-- <?php echo date("Y-m-d H:i:s",$time);?> -->
+
+	<h2>{$pass|md5|strtoupper|substr=0,10}</h2>
+	<!-- <h2><?php echo substr(strtoupper(md5($pass)),0,10); ?></h2> -->
+
+	<h2>{:md5($pass)}</h2>
+	<h2>{:date('Y-m-d H:i:s',$time)}</h2>
+
+	<h2>{$name|default="小云"}</h2>
+	<!-- <h2><?php echo (isset($name) && ($name !== '')?$name:"小云"); ?></h2> -->
+
+	<h2>{$status>2?'正常':'错误'}</h2>
+	<!-- <h2><?php echo !empty($status) && $status>2?'正常':'错误'; ?></h2> -->
+
+	<h2>{$a}+{$b}={$a+$b}</h2>
+	<h2>{$a}-{$b}={$a-$b}</h2>
+	<h2>{$a}*{$b}={$a*$b}</h2>
+	<h2>{$a}/{$b}={$a/$b}</h2>
+	<h2>{$a}%{$b}={$a%$b}</h2>
+	<h2>{$a++}</h2>
+	<h2>{$b++}</h2>
+	{literal}
+	<h2>hello {$name}</h2>
+	{/literal}
+
+</body>
+</html>

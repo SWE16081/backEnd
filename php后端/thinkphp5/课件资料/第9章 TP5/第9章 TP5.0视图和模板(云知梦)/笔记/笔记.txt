@@ -1,0 +1,362 @@
+第9章 TP5.0视图和模板
+========================================================================
+今日学习
+1、视图
+	
+	a) 加载页面
+
+		1、继承系统控制器类
+
+			return $this->fetch(参数1,参数2,参数3,参数4);
+
+			参数1(字符串): 模板渲染
+			参数2(数组): 模板赋值
+			参数3(数组): 模板替换
+			参数4(数组):
+
+		2、使用助手函数
+
+			// return view();
+			# view的参数与fetch相同
+
+		3、使用view类 (不建议)
+
+			$view=new View();
+
+			return $view->fetch();
+
+	b) 模板赋值
+
+		1、控制器类中的assign方法
+
+    		// $this->assign('name',$name);
+    		// $this->assign('city',$city);
+
+			// 加载页面
+			// return view();
+
+		2、通过fetch方法
+
+			// return $this->fetch('',['name'=>$name,'city'=>$city]);
+
+		3、助手函数
+
+			// return view('',['name'=>$name,'city'=>'西安']);
+
+		4、对象赋值
+			$this->view->name="浩哥";
+			$this->view->city="临汾";
+
+			return view();
+
+	c) 模板替换	
+
+		1、配置文件更改(全局替换)
+
+			// 视图输出字符串内容替换
+			'view_replace_str'       => [
+
+			    '__HOMES__'=>'/static/home/public',
+			    '__ADMINS__'=>'/static/admin/public',
+
+			],
+
+		2、部分替换
+
+			1、fetch 方法
+				return $this->fetch('',[],['__HOMES__'=>'/static/home/public']);
+
+			2、view 函数
+				return view('',[],['__HOMES__'=>'/static/home/public']);
+
+	d) 模板渲染
+
+		1、默认加载当前模块 当前控制器 当前方法对应的页面
+			// return $this->fetch();
+
+		2、加载当前模块 当前控制器下的 用户定义页面
+			// return $this->fetch('jiazai');
+
+		3、加载当前模块 User控制器 jiazai页面
+			return $this->fetch('User/jiazai');
+
+2、模板
+	
+	1、模板标签
+
+		1、普通标签
+			// 模板引擎普通标签开始标记
+			'tpl_begin'    => '<{',
+			// 模板引擎普通标签结束标记
+			'tpl_end'      => '}>',
+
+			<h2>{$str}</h2>
+
+		2、标签库标签
+
+			// 标签库标签开始标记
+			'taglib_begin' => '{',
+			// 标签库标签结束标记
+			'taglib_end'   => '}',
+
+			{for start="1" end="10"}
+				{$i}
+			{/for}
+
+	2、输出变量
+
+		1、字符串
+    		$this->assign("str","TP5.0 非常简单非常适合初学者");
+
+			<h2>{$str}</h2>
+
+		2、数组
+			$data=[
+				'name'=>'张三',
+				'age'=>18,
+				'sex'=>'妖'
+			];
+			$this->assign("data",$data);
+			<h2>{$data['name']}</h2>
+			<h2>{$data.age}</h2>
+
+	3、使用函数
+
+		1、竖线
+			<h2>{$pass|md5}</h2>
+			<!-- <h2><?php echo md5($pass); ?></h2> -->
+
+			<h2>{$time|date="Y-m-d H:i:s",###}</h2>
+			<!-- <?php echo date("Y-m-d H:i:s",$time);?> -->
+
+			<h2>{$pass|md5|strtoupper|substr=0,10}</h2>
+			<!-- <h2><?php echo substr(strtoupper(md5($pass)),0,10); ?></h2> -->
+
+		2、冒号开始
+
+			<h2>{:md5($pass)}</h2>
+			<h2>{:date('Y-m-d H:i:s',$time)}</h2>
+
+	4、默认值
+
+		<h2>{$name|default="小云"}</h2>
+		<h2><?php echo (isset($name) && ($name !== '')?$name:"小云"); ?></h2>
+
+	5、三元运算符
+
+		<h2>{$status?'正常':'错误'}</h2>
+
+		<h2>{$status>2?'正常':'错误'}</h2>
+		<h2><?php echo !empty($status) && $status>2?'正常':'错误'; ?></h2>
+
+	6、运算符
+
+		<h2>{$a}+{$b}={$a+$b}</h2>
+		<h2>{$a}-{$b}={$a-$b}</h2>
+		<h2>{$a}*{$b}={$a*$b}</h2>
+		<h2>{$a}/{$b}={$a/$b}</h2>
+		<h2>{$a}%{$b}={$a%$b}</h2>
+		<h2>{$a++}</h2>
+		<h2>{$b--}</h2>
+
+	7、原样输出
+
+		{literal}
+			<h2>hello {$name}</h2>
+		{/literal}
+
+	8、系统变量
+
+		1、系统变量
+			支持输出  $_SERVER 、 $_ENV 、$_POST 、$_GET 、$_REQUEST 、 $_SESSION 和$_COOKIE变量。
+
+			<h1>{$_GET['id']}</h1>
+			<h1>{$Think.get.id}</h1>
+			<h1>{$_SERVER['HTTP_HOST']}</h1>
+			<h1>{$Think.SERVER.http_host}</h1>
+
+		2、常量输出
+			# 常量详见附录
+
+			<h1>{$Think.const.app_path}</h1>
+			<h1>{$Think.app_path}</h1>
+			<h1>{$Think.ds}</h1>
+			<h1>{$Think.think_path}</h1>
+			<h1>{$Think.IS_WIN}</h1>
+			<h1>{$Think.THINK_VERSION}</h1>
+
+		3、配置文件输出
+			# 常看配置文件
+
+			<h2>{$Think.config.app_namespace}</h2>
+			<h2>{$Think.config.default_lang}</h2>
+
+	9、模板注释
+
+		<h1>{//$_GET['id']}</h1>
+		<h1>{/*$Think.get.id*/}</h1>
+
+	10、包含文件
+
+		{include file="Public/header"}
+		{include file="Public/footer,Public/footer"}
+
+
+	11、模板布局
+
+		1、在视图目录下新建文件 layout.html
+			(C:\AppServ\www\tp5\application\admin\view)
+
+		2、在layout.html页面中
+
+			将所有的公共页面保留，非公共页面使用{__CONTENT__}替代
+
+			# {__CONTENT__} 只能存在一个
+
+		3、页面中如何书写
+			# 引入模板布局
+			{layout name="layout"/}
+			# 非公共区域内容
+			<!-- 内容 -->
+			<div class="col-md-10">
+				<div class="jumbotron">
+				 	<img src="__ADMINS__/img/4.jpg"height="310px" width="100%" alt="">
+				 	<h2>联想 后台管理系统</h2>
+				 	<p>开发者 ： 赵丰泰</p>
+				</div>
+			</div>
+
+	12、模板继承
+
+		1、在视图目录下新建base.html
+
+		2、在base.html中对页面进行分割
+
+			<div class="container">
+				{block name="nav"}{/block}
+
+				<div class="row body">
+
+					{block name="menu"}{/block}
+					{block name="main"}{/block}
+					
+				</div>
+			</div>
+
+		3、使用继承
+
+			{extend name="base" /}
+
+			{block name="nav"}
+				{include file="public/nav" /}
+			{/block}
+			{block name="main"}
+				<div class="jumbotron">
+				 	<h2>联想 后台管理系统</h2>
+				 	<p>开发者 ： 赵丰泰</p>
+				</div>
+			{/block}
+
+	13、内置标签
+
+		1、volist循环
+
+			name  		需要遍历的数据
+			id    		类似于foreach中 value
+			offset      截取数据起始位置
+			length      截取数据的个数
+			mod 		奇偶数
+			empty       数据为空的使用
+			key			编号
+
+
+		2、foreach循环
+
+			name  	需要遍历的数据
+			item	类似于foreach中的value
+			key		类似于foreach中的key
+
+			{foreach name="data" item="val" key="abc"}
+				<p> {$abc} {$val.id} {$val.name}</p>
+			{/foreach}
+
+
+		3、for循环
+
+			start     	开始值
+			end 		结束值
+			comparison  比较条件
+			step 		步数
+			name 		循环变量名 默认 i
+
+			{for start="0" end="10" comparison="elt" step="2" name="abc"}
+				<p>{$abc}</p>
+			{/for}
+
+			{for start="10" end="0" comparison="gt" step="-1"}
+				<p>{$i}</p>
+			{/for}
+
+
+
+		4、比较标签
+
+			{eq name="a" value="11"}正确{/eq}
+			{neq name="a" value="11"}正确{/neq}
+			{lt name="a" value="11"}正确{/lt}
+			{gt name="a" value="11"}正确{/gt}
+			{egt name="a" value="11"}正确{/egt}
+			{elt name="a" value="11"}正确{/elt}
+			{heq name="a" value="11"}正确{/heq}
+			{nheq name="a" value="11"}正确{/nheq}
+
+		5、if
+
+			{if condition="$a eq $b"}
+
+				<p>a和b数值相等</p>
+			{else /}
+
+				<p>a和b数值不相等</p>
+
+			{/if}
+
+
+		6、switch
+
+			{switch name="week"}
+				{case value='1'}周一{/case}
+				{case value='2'}周二{/case}
+				{default /} 周日
+			{/switch}
+
+		7、in 和notin比较类似
+
+			{in name="week" value="0,1,2,3,4,5,6"}
+				合法的数据
+			{else /}
+				不合法数据
+			{/in}
+
+		8、between 和 notbetween
+
+			{between name="week" value="0,6"}
+				合法数据
+			{else/}
+				非法数据
+			{/between}
+
+		9、原生PHP
+			{php}
+				echo "123";
+			{/php}
+
+			<?php 
+				echo "456";
+			 ?>
+		10、嵌套使用
+
+			
+
+
+

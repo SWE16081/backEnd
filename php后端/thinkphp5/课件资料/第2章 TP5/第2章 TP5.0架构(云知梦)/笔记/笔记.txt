@@ -1,0 +1,260 @@
+第2章 TP5.0架构
+==================================================
+上次复习
+1、如何安装TP
+	1、源代码包安装
+
+	2、Git安装
+
+	3、Composer安装
+
+2、MVC模式
+	
+	M model 数据模型
+		# 数据库相关的处理
+
+	V view 视图
+		# 页面
+
+	C controller 控制器
+		# 控制器就是这个网站的逻辑和流程
+
+3、目录结构
+
+
+==================================================
+今日学习
+
+1、TP架构的概述
+	
+	ThinkPHP 使用了MVC模式，它强制性的使应用程序的输入、处理和输出分开。使用MVC应用程序被分成三个核心部件：模型（M）、视图（V）、控制器（C），它们各自处理自己的任务。
+
+2、URL解析
+
+	http://   www.tp.com  /index.php    /Index   /Index    /index
+	协议		域名       入口文件      模块     控制器    方法
+
+3、入口文件
+	1、文件地址
+		C:\AppServ\www\tp5\public\index.php
+
+	2、作用：
+		负责整个TP的请求
+
+4、应用
+	
+	1、应用地址
+		C:\AppServ\www\tp5\application
+
+	2、作用:
+		一个应用代表一个网站
+
+5、模块(以前台为例)
+	1、模块地址
+		C:\AppServ\www\tp5\application\index
+
+	2、作用：
+		网站所有的前台相关都与其有关
+
+	3、新建后台模块
+
+		a、在应用目录下(C:\AppServ\www\tp5\application)新建admin目录
+
+
+		b、在admin目录下新建model、view和controller
+
+
+		c、在Controller目中新建Index控制器(Index.php)
+
+		d、在Index.php 中书写代码
+			// 声明命名空间
+			namespace app\admin\controller;
+			// 声明控制器
+			class Index{
+				public function index(){
+					return "我是后台的控制器";
+				}
+			}
+
+		e、通过地址栏访问
+			http://www.tp.com/index.php/Admin/Index/index
+
+
+6、控制器
+	1、控制器目录
+		C:\AppServ\www\tp5\application\index\controller
+
+	2、作用：
+		书写业务逻辑
+
+	3、新建控制器(以前台为例)
+
+		a、正前台控制器目录(C:\AppServ\www\tp5\application\index\controller) 下新建User.php
+
+		b、在控制器中能书写代码
+			<?php 
+			// 声明命名空间
+			namespace app\index\controller;
+			// 声明控制器
+			class User{
+				// index 方法
+				public function index(){
+					return "我是前台User控制器中的index方法";
+				}
+			}
+		c、地址栏访问	
+			http://www.tp.com/index.php/Index/user/index
+
+		d、注意：
+			1、控制器的文件名必须首字母大写
+
+			2、控制中必须声明命名空间
+
+			3、控制器中类名必须和文件名一致
+
+
+7、操作(方法)
+	1、操作地址
+		操作一般都在控制器的文件中
+
+	2、新建一个操作(以前台index控制器为例)
+
+		1、打开前台index控制器(C:\AppServ\www\tp5\application\index\controller\Index.php)
+
+		2、在控制器新建test方法
+			public function test(){
+
+				return "我是用户自己创建的方法";
+			}
+
+		3、地址栏访问
+			http://www.tp.com/index.php/Index/Index/test
+
+8、模型(数据模型)
+	
+	1、数据模型地址
+		C:\AppServ\www\tp5\application\index\model
+
+	2、作用:
+		负责数据库相关的处理
+
+9、视图(页面)
+	
+	1、视图地址
+		C:\AppServ\www\tp5\application\index\view
+
+	2、作用:
+		其实就是网站页面
+
+10、命名空间
+	与目录有关(以前台index控制器命名空间为例)
+		
+	C:\AppServ\www\tp5\application\index\controller
+
+	namespace app\index\controller;
+
+11、跨控制器调用
+	
+	1、使用命名空间
+
+    	$model=new \app\admin\controller\Index;
+
+    	echo $model->index();
+
+
+    2、使用use
+
+    	use \app\admin\controller\Index as AdminIndex;
+    	$model=new AdminIndex();
+
+    	echo $model->index();
+
+    3、系统方法
+    	# 系统方法一般在(C:\AppServ\www\tp5\thinkphp\helper.php)
+
+    	$model=controller('admin/Index');
+
+    	echo $model->index();
+
+12、调用方法
+	1、调用当前控制器的test方法
+
+		1、使用面向对象的技术
+			echo $this->test();
+			echo self::test();
+			echo Index::test();
+
+		2、使用系统方法
+			echo action('test');
+
+	2、调用User控制器下的index方法
+		1、命名空间
+			$model=new \app\index\controller\User;
+
+			echo $model->index();
+
+		2、使用系统方法
+			echo action('User/index');
+
+	3、调用后台模块下Index控制器index方法
+		1、命名空间
+			$model=new \app\admin\controller\Index;
+			echo $model->index();
+
+		2、使用系统方法
+			echo action('admin/Index/index');
+
+13、主要分析TP执行流程
+	1、入口文件(C:\AppServ\www\tp5\public\index.php)
+		作用: 
+			1)定义目录常量
+
+			2)加载框架引导目录
+	2、加载框架的引导文件(C:\AppServ\www\tp5\thinkphp\start.php)
+		作用:
+			1) 引导基础文件
+
+			2) 对应用进行运转
+
+	3、加载框架的基础引导文件(C:\AppServ\www\tp5\thinkphp\base.php);
+		作用:
+			1) 加载系统常量
+
+			2) 引入loader类 (C:\AppServ\www\tp5\thinkphp\library\think\loader.php)
+
+
+			3) 引入环境变量
+
+			4) 注册自动记载机制
+
+			5) 注册异常处理机制(C:\AppServ\www\tp5\thinkphp\library\think\Error.php)
+
+			6) 记载惯例配置(C:\AppServ\www\tp5\thinkphp\convention.php)
+
+	4、运行应用(C:\AppServ\www\tp5\thinkphp\library\think\App.php) 下的run方法;
+		
+		1、第一步: 加载当前控制器中 initCommon() 方法
+
+
+		2、第二步: 加载当前控制器中 init() 方法
+			1、加载各种配置文件
+			2、加载公共文件
+			3、加载语言包
+
+		3、第三步: 设置时区
+
+		4、第四步: 加载当前控制器 routeCheck() 方法 路由检测
+
+		5、第五步: 调用控制器中exec方法
+			根据用户请求进行分发处理
+
+		6、第六步: 根据不同请求类型记载对应文件 module方法
+
+			加载到对应的控制器和对应方法
+
+	5、响应输出
+		用户看到的所有界面就加载出来了
+
+
+
+

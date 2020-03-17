@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<form action="{:url('insert1')}" method="post">
+		<p>
+			username:
+			<input type="text" name="username" id="">
+		</p>
+		<p>
+			password:
+			<input type="password" name="password" id="">
+		</p>
+		<p>
+			repassword:
+			<input type="password" name="repassword" id="">
+		</p>
+		<p>
+			status:
+			<input type="radio" name="status" checked id="" value="0"> 正常
+			<input type="radio" name="status" id="" value="1"> 禁用
+		</p>
+		<p>
+			<input type="submit" value="提交">
+			<input type="reset" value="重置">
+		</p>
+	</form>
+	
+</body>
+</html>

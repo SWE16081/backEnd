@@ -1,0 +1,32 @@
+第10章 TP5.0验证器
+=======================================
+今日学习
+
+1、验证器
+	
+	1) 控制器中使用验证器
+
+	    	// 实例化验证器类
+
+	    	$validate=new Validate(
+	    		[
+		    		"username"=>"require|length:6,12",
+		    		"password"=>"require|confirm:repassword"
+	    		],
+	    		[
+		    		"username.require"=>'用户名不存在',
+		    		"username.length"=>'用户名长度不满足',
+		    		"password.require"=>'密码不存在',
+		    		"password.confirm"=>'两次密码不一致',
+	    		]
+			);
+
+	    	// 接收用户提交的数据
+	    	$data=input("post.");
+
+	    	// 进行验证
+	    	if ($validate->check($data)) {
+		    	
+	    	}else{
+	    		dump($validate->getError());
+	    	}

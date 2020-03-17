@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)https://phpartisan.cn/news/94.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网</title>
+    <meta name="keywords" content="CentOS7部署laravel,CentOS7搭建LAMP环境,Laravel学习网">
+    <meta name="description" content="今天我们总结在CentOS 7.x运行LAMP环境，上安装运行PHP 7，以及配置多站点访问，开启mysql远程访问，最终运行phplaravel项目
+
+-[[配置教程]在ubuntu16.04中部署LNMP环境(php7+maridb且开启maridb远程以及n">
+    <meta name="360-site-verification" content="8ecbce7e3155bd2925eb4d302822fd61">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/index.css">
+    <link rel="stylesheet" href="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/font-awesome.min.css">
+    <link rel="stylesheet" href="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/iconfont.css">
+    <script src="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/push.js.下载"></script><script src="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/jquery-1.11.1.min.js.下载"></script>
+    <script src="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/bootstrap.js.下载"></script>
+    <script src="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/common.js.下载"></script>
+    <script src="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/highlight.min.js.下载"></script>
+    <link rel="stylesheet" href="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    </head>
+<body>
+<div class="main-header">
+    <div class="main-header-top-line">
+        <a href="https://phpartisan.cn/"><img src="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/logo2.png"></a>
+        <span class="fa fa-align-center" onclick="navigation();"></span>
+        <ul>
+                        <li><a href="https://phpartisan.cn/specials/1">关于我们</a></li>
+                        <li><a href="https://phpartisan.cn/submission">投稿/提问</a></li>
+                        <li><a href="https://phpartisan.cn/specials/3">开源项目</a></li>
+                        <li><a href="https://phpartisan.cn/specials/2">Laravel拓展</a></li>
+                    </ul>
+    </div>
+    <div class="main-header-content">
+        <div class="main-header-content-header text-center">Laravel Artisan<small>Laravel学习网，为WEB艺术家创造的PHP框架。</small></div>
+        <div class="main-header-content-form">
+            <form action="https://phpartisan.cn/">
+                <input type="text" placeholder="请输入你要搜索的内容,多关键字用空格隔开" name="keyword">
+                <button class="iconfont icon-sousuo"></button>
+            </form>
+        </div>
+        
+    </div>
+</div>
+<div class="main-navigation">
+    <div class="main-navigation-content">
+        <span class="main-navigation-content-menu fa fa-align-center" onclick="mainmenu();" style="font-size: 18px;line-height: 60px;"></span>
+        <ul>
+                        <li role="presentation"><a href="https://phpartisan.cn/" title="首页" target="_blank">首页</a></li>
+                        <li role="presentation"><a href="https://phpartisan.cn/docs/5.5/" title="Laravel中文文档" target="_blank">Laravel中文文档</a></li>
+                        <li role="presentation"><a href="https://phpartisan.cn/docs/2/" title="Lumen中文文档" target="_blank">Lumen中文文档</a></li>
+                        <li role="presentation"><a href="https://phpartisan.cn/specials/4" title="APP下载" target="_blank">APP下载</a></li>
+                    </ul>
+    </div>
+</div>
+<div class="main-content">
+    <div class="main-content-article">
+    <content>
+        <h1>CentOS7.x 搭建LAMP环境部署laravel项目</h1>
+        <div class="article-editor"><a href="https://phpartisan.cn/news/94.html#">Song</a> • 524 次浏览 • 0 个回复 • 2018年04月24日</div>
+                <img width="100%" src="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/2018042423033564759.png">
+                <div class="main-content-article-msg">
+            <p>今天我们总结在<code>CentOS&nbsp;7.x</code>运行<code>LAMP</code>环境，上安装运行<code>PHP&nbsp;7</code>，以及配置多站点访问，开启<code>mysql</code>远程访问，最终运行<code>php laravel</code>项目</p>
+<ul>
+<li><a href="https://phpartisan.cn/news/1.html">[ 配置教程 ] 在ubuntu16.04中部署LNMP环境(php7+maridb且开启maridb远程以及nginx多域名访问 )并配置laravel环境</a>，</li>
+<li><a href="https://phpartisan.cn/news/33.html">Ubuntu 14.04下部署LAMP( 开启mysql远程以及多域名访问 )并配置laravel项目</a>&nbsp;</li>
+</ul>
+<h3>一、安装仓库</h3>
+<p>为了可以使用&nbsp;CentOS&nbsp;系统的包管理工具去安装更多的东西，我们需要单独安装一些额外的软件仓库。</p>
+<p><strong>EPEL</strong></p>
+<pre><code class="hljs sql">sudo yum <span class="hljs-operator"><span class="hljs-keyword">install</span> epel-<span class="hljs-keyword">release</span> -y</span></code></pre>
+<p><strong>IUS</strong></p>
+<pre><code class="hljs sql">sudo yum <span class="hljs-operator"><span class="hljs-keyword">install</span> https://centos7.iuscommunity.org/ius-<span class="hljs-keyword">release</span>.rpm</span></code></pre>
+<p><code>IUS</code>仓库里面有我们需要的一些新的软件包，比如<code>PHP 7</code>。注意我们安装的是为<code>CentOS &nbsp;7</code>这个系统准备的<code>IUS</code>仓库，如果你的系统是<code>CentOS 6</code>，你需要到<code>IUS</code>网站上去查找适合的仓库的下载地址。</p>
+<h3>二、安装 Appach</h3>
+<p><code>Appach</code>这个软件包已经包装在<code>EPEL</code>仓库里了，之前我们已经安装了这个仓库，所以可以直接使用包管理工具去安装<code>Appach</code>。</p>
+<pre><code class="hljs bash">sudo yum -y install httpd             <span class="hljs-comment">#安装appach</span>
+sudo systemctl start httpd.service            <span class="hljs-comment">#启动appach</span>
+sudo systemctl <span class="hljs-built_in">enable</span> httpd.service           <span class="hljs-comment">#自启动</span></code></pre>
+<p>服务启动以后，你就可以在浏览器上使用服务器的<code>IP</code>地址，或者指向这个地址的域名访问服务器指定的目录了。你会看到如图所示。<img src="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/201612160016162655.png" alt="屏幕快照 2016-12-16 上午12" data-action="zoom" style="max-width:100%"></p>
+<h3>四、安装PHP7</h3>
+<p>要让<code>Appach</code>能够执行<code>php</code>文件，需要去安装一下<code>php-fpm</code>，我要安装的是比较新的<code>PHP&nbsp;7</code>，这个软件包可以在<code>IUS</code>仓库里找到，所以刚才让你先安装了<code>IUS</code>仓库。</p>
+<h4>1、删除之前的 php 版本,如果没有跳过：&nbsp;</h4>
+<pre><code class="hljs nginx"><span class="hljs-title">yum</span> remove php* php-common </code></pre>
+<h4>2、rpm 安装 Php7 相应的 yum源：</h4>
+<pre><code class="hljs nginx"><span class="hljs-title">rpm</span> -Uvh <span class="hljs-url">https://mirror.webtatic.com/yum/el7/webtatic-release.rpm</span>     </code></pre>
+<h4>3、&nbsp;直接yum安装php7：</h4>
+<pre><code class="hljs nginx"><span class="hljs-title">yum</span> install php70w    </code></pre>
+<h4>4、重启apache，让它加载php7：</h4>
+<pre><code class="hljs nginx"><span class="hljs-title">service</span> httpd restart</code></pre>
+<h4>5、检查 php 版本：</h4>
+<p>输入<code>php</code>命令查看<code>php</code>版本</p>
+<pre><code class="hljs nginx"><span class="hljs-title">php</span> -v</code></pre>
+<h4>6、安装php扩展：</h4>
+<pre><code class="hljs sql">sudo yum <span class="hljs-operator"><span class="hljs-keyword">install</span> php70u-gd  php70u-mysqlnd php70u-pdo php70u-mcrypt php70u-mbstring php70u-json php70u-opcache php70u-<span class="hljs-keyword">xml</span> -y</span></code></pre>
+<p>我们可以重启一下<code>php</code>让安装有效</p>
+<pre><code class="hljs nginx"><span class="hljs-title">sudo</span> systemctl reload php-fpm</code></pre>
+<h3>三、配置apache虚拟主机</h3>
+<p>安装完<code>apache</code>以后，第一件想到的事应该就是去创建虚拟主机，虚拟主机允许我们在同一台服务器上运行多个网站，我们可以为不同的域名绑定不同的目录，访问这个域名的时候，会打开对应目录里面的东西。达到服务器多站点访问的效果</p>
+<h4>1、开启重写路由</h4>
+<pre><code class="hljs nginx"><span class="hljs-title">vim</span> /etc/httpd/conf/httpd.conf</code></pre>
+<p>找到<code>&lt;Directory /&gt;</code>代码块，它长这样</p>
+<pre><code class="hljs apache"><span class="hljs-tag">&lt;Directory /&gt;</span>
+    <span class="hljs-keyword">AllowOverride</span> none
+    <span class="hljs-keyword">Require</span> <span class="hljs-literal">all</span> denied
+<span class="hljs-tag">&lt;/Directory&gt;</span></code></pre>
+<p>把它替换成如下代码，很多同学说网站只能进首页，其他网页都是404就是重写路由没有开启</p>
+<pre><code class="hljs apache"><span class="hljs-tag">&lt;Directory /&gt;</span>
+    <span class="hljs-keyword"><span class="hljs-common">Options</span></span> FollowSymLinks
+    <span class="hljs-keyword">AllowOverride</span> <span class="hljs-literal">All</span>
+    <span class="hljs-keyword"><span class="hljs-common">Order</span></span> deny,allow
+    <span class="hljs-keyword"><span class="hljs-common">Allow</span></span> from <span class="hljs-literal">All</span>
+<span class="hljs-tag">&lt;/Directory&gt;</span></code></pre>
+<p>重启 apache 或者重新加载&nbsp;<strong><strong>apache</strong></strong>&nbsp;可以让配置文件生效。</p>
+<h4>2、配置多站点访问</h4>
+<pre><code class="hljs nginx"><span class="hljs-title">vim</span> /etc/httpd/conf.d/vhost.conf</code></pre>
+<p>然后粘贴如下配置</p>
+<pre><code class="hljs apache"><span class="hljs-tag">&lt;VirtualHost *:80&gt;</span>
+<span class="hljs-keyword"><span class="hljs-common">DocumentRoot</span></span> /var/www/laravel/public
+<span class="hljs-keyword"><span class="hljs-common">ServerName</span></span> test.earnp.com
+<span class="hljs-tag">&lt;/VirtualHost&gt;</span>
+
+<span class="hljs-tag">&lt;VirtualHost *:80&gt;</span>
+<span class="hljs-keyword"><span class="hljs-common">DocumentRoot</span></span> /var/www/test
+<span class="hljs-keyword"><span class="hljs-common">ServerName</span></span> test.com
+<span class="hljs-tag">&lt;/VirtualHost&gt;</span></code></pre>
+<p>上面的代码就是配置不同的域名访问不同的网站目录，实现多站点，然后我们重启一下<code>apache</code></p>
+<pre><code class="hljs nginx"><span class="hljs-title">sudo</span> systemctl restart httpd.service</code></pre>
+<h3>五、安装MySQL/MariaDB</h3>
+<p><code>MySQL</code>与<code>MariaDB</code>是相互兼容的，现在社区推荐使用<code>MariaDB</code>，所以我们安装<code>MariaDB</code>代替<code>MySQL</code>。</p>
+<h4>1、安装MariaDB</h4>
+<pre><code class="hljs sql">sudo yum <span class="hljs-operator"><span class="hljs-keyword">install</span> mariadb101u-<span class="hljs-keyword">server</span> -y</span></code></pre>
+<p>如果出现冲突的提示，是因为系统本身自带<code>MariaDB</code>，我们需要先删除掉系统本身带的，才能正常安装比较新的。一般可以这样来删除(不报错跳过)：</p>
+<pre><code class="hljs nginx"><span class="hljs-title">sudo</span> yum remove mariadb-libs -y</code></pre>
+<p>重启<code>mysql/mariadb</code></p>
+<pre><code class="hljs nginx"><span class="hljs-title">sudo</span> systemctl start mariadb</code></pre>
+<p>设置开机启动</p>
+<pre><code class="hljs bash">sudo systemctl <span class="hljs-built_in">enable</span> mariadb</code></pre>
+<p>然后我们需要简单配置一下<code>mysql</code>，默认安装以后<code>mysql</code>的<code>root</code>用户是没有密码的，所以我们来设置一下</p>
+<pre><code class="hljs">mysql_secure_installation</code></pre>
+<pre><code class="hljs ruby">_Enter current password <span class="hljs-keyword">for</span> root (enter <span class="hljs-keyword">for</span> none)<span class="hljs-symbol">:_</span>
+<span class="hljs-comment"># 输入当前 root 用户密码，默认为空，直接回车。</span>
+_Set root password? [<span class="hljs-constant">Y</span>/n] &nbsp;y<span class="hljs-number">_</span>
+<span class="hljs-comment"># 要设置 root 密码吗？输入 y 表示愿意。</span>
+_Remove anonymous users? [<span class="hljs-constant">Y</span>/n] &nbsp;y<span class="hljs-number">_</span>
+<span class="hljs-comment"># 要移除掉匿名用户吗？输入 y 表示愿意。</span>
+_Disallow root login remotely? [<span class="hljs-constant">Y</span>/n] &nbsp;y<span class="hljs-number">_</span>
+<span class="hljs-comment"># 不想让 root 远程登陆吗？输入n 表示允许远程登录。</span>
+_Remove test database <span class="hljs-keyword">and</span> access to it? [<span class="hljs-constant">Y</span>/n] &nbsp;y<span class="hljs-number">_</span>
+<span class="hljs-comment"># 要去掉 test 数据库吗？输入 y 表示愿意。</span>
+_Reload privilege tables now? [<span class="hljs-constant">Y</span>/n] &nbsp;y<span class="hljs-number">_</span>
+<span class="hljs-comment"># 想要重新加载权限吗？输入 y 表示愿意。</span></code></pre>
+<h4>2、开启<code>mysql</code>远程访问，让本地客户端能链接<code>mysql</code></h4>
+<pre><code class="hljs sql">mysql -u root -p;
+<span class="hljs-operator"><span class="hljs-keyword">use</span> mysql;</span>
+<span class="hljs-operator"><span class="hljs-keyword">grant</span> <span class="hljs-keyword">all</span> <span class="hljs-keyword">privileges</span> <span class="hljs-keyword">on</span> *.* <span class="hljs-keyword">to</span> root@<span class="hljs-string">"%"</span> <span class="hljs-keyword">identified</span> <span class="hljs-keyword">by</span> <span class="hljs-string">"password"</span> <span class="hljs-keyword">with</span> <span class="hljs-keyword">grant</span> <span class="hljs-keyword">option</span>;</span>
+<span class="hljs-operator"><span class="hljs-keyword">flush</span> <span class="hljs-keyword">privileges</span>;</span></code></pre>
+<h3>六、部署laravel</h3>
+<p>代码上传我们可以使用<code>GIT</code>或者<code>FTP</code>上传代码，具体不解释了。</p>
+<p><code>Linux</code>需要添加文件执行权限，否则出<code>500</code>错误,</p>
+<pre><code class="hljs coffeescript">cd /<span class="hljs-reserved">var</span>/www
+chmod -R <span class="hljs-number">777</span> vendor/ storage/ bootstrap<span class="hljs-regexp">/cache/</span></code></pre>
+<p>然后我们访问域名即可查看我们的项目。</p>
+            <br>
+            原创文章，转载请注明 ：<a href="https://phpartisan.cn/news/94.html" target="_blank">CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网</a><br>
+            原文出处：   https://phpartisan.cn/news/94.html<br>
+            问题交流群 ：168117787
+        </div>
+    </content>
+    <div class="main-content-article-edit-comment">
+        <header><em>提交评论</em></header>
+                <span>要回复文章请先<a target="_blank" href="https://phpartisan.cn/login">登录</a>或<a target="_blank" href="https://phpartisan.cn/register">注册</a></span>
+            </div>
+    <div class="main-content-article-comment">
+        <header><em>用户评论</em></header>
+        <ul class="lists">
+                        <li id="widthoutcomment">
+                没有评论
+            </li>
+                    </ul>
+        <div class="pages">
+            
+        </div>
+    </div>
+    <div class="main-content-article-more">
+                <a href="https://phpartisan.cn/news/1.html"><i class="fa fa-angle-left"></i> [ 配置教程 ] 在ubuntu16.04中部署LNMP环境(php7+maridb且开启maridb远程以及nginx多域名访问 )并配置laravel环境</a>
+                        <a href="https://phpartisan.cn/news/95.html">CentOS7.x搭建lnmp7.0环境并且部署laravel项目 <i class="fa fa-angle-right"></i></a>
+            </div>
+</div>
+        
+    <div class="main-content-right">
+        <ul class="gonggao">
+        <header><h5>公告</h5></header>
+                    <span>本站主要用于学习交流Laravel技术，分享Laravel优秀案例；同时非常欢迎大家投稿哦！如果有招聘信息也可以联系我我帮忙发布哦！</span>
+            </ul>
+        <ul class="notice">
+        <header><h5>社区</h5></header>
+                                <li>QQ交流群：562864481</li>
+                        <li>准备开源中，请稍等～</li>
+                        </ul>
+        <ul class="advertisement">
+        <header><h5>关注我们</h5></header>
+                                <li><a href="https://jq.qq.com/?_wv=1027&amp;k=5GkGBsB" target="_blank"><img src="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/201709101420291030.jpg"></a>扫码加入QQ群</li>
+                        <li style="border: none;"><a href="https://phpartisan.cn/" target="_blank"><img src="./CentOS7.x 搭建LAMP环境部署laravel项目 - Laravel学习网_files/201709101422532951.jpg"></a>手机浏览本站</li>
+                        </ul>
+    </div>
+    </div>
+<div class="main-footer">
+    <div class="main-footer-content">
+        <ul class="left">
+            <header><h5>最新文章</h5></header>
+                        <li><a href="https://phpartisan.cn/news/121.html">Linux服务器所以Frp实现内网穿透(阿里云Ubuntu)</a><span>2019年03月19日</span></li>
+                        <li><a href="https://phpartisan.cn/news/120.html">阿里云Linux系统购买并挂载磁盘实际例子(ubuntu系统)</a><span>2019年01月26日</span></li>
+                        <li><a href="https://phpartisan.cn/news/119.html">mongodb的数据的导入导出方法</a><span>2019年01月26日</span></li>
+                    </ul>
+        <ul class="center">
+            <header><h5>标签云</h5></header>
+                        <li><a target="_blank" href="https://phpartisan.cn/news/16.html">https</a></li>
+                        <li><a target="_blank" href="https://phpartisan.cn/news/1.html">ubuntu搭建laravel环境</a></li>
+                        <li><a target="_blank" href="https://phpartisan.cn/?keyword=%E6%8B%93%E5%B1%95">拓展包</a></li>
+                        <li><a target="_blank" href="https://phpartisan.cn/news/2.html">artisan开发</a></li>
+                        <li><a target="_blank" href="https://phpartisan.cn/news/8.html">拓展包开发教程</a></li>
+                    </ul>
+        <ul class="right">
+            <header><h5>友链</h5></header>
+                        <li>
+                        <a target="_blank" href="https://ptorch.com/">pytorch中文网</a>
+                        <a target="_blank" href="http://bbs.earnp.com/">一沙社区</a>
+                        <a target="_blank" href="https://ession.cn/">意行</a>
+                        </li>
+                        <li style="border:none;">
+                        <a target="_blank" href="https://www.aliyun.com/">阿里云</a>
+                        <a target="_blank" href="https://www.qcloud.com/">腾讯云</a>
+                        <a target="_blank" href="http://pytorch.org/">pytorch</a>
+                        </li>
+                    </ul>
+    </div>
+    <div class="main-footer-footer">
+        Copyright © <a>Laravel学习网 </a>| 京ICP备17031240号-2 | erarpls技术支持
+        <script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+    </div>
+</div>
+
+</body></html>

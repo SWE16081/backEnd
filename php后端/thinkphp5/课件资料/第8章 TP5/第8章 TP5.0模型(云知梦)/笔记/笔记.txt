@@ -1,0 +1,490 @@
+第8章 TP5.0 模型
+=================================================
+今日学习
+
+1、模型(model)
+	
+	数据模型
+
+2、新建数据模型
+	
+	1) 手动新建
+
+		a、打开前台模块(C:\AppServ\www\tp5\application\index)
+
+			新建model目录
+
+		b、在model目录下 新建 User.php
+
+			// 声明命名空间
+			namespace app\index\model;
+
+			// 导入系统的数据模型
+
+			use think\Model;
+
+			// 声明user模型
+
+			class User extends Model{
+				
+			}
+
+	2) 命令新建
+
+		1) 切换到项目目录
+
+			php think make:model app\index\model\Users
+
+
+	3) 注意
+
+		1、数据模型的名字 建议大家跟数据库名一致
+
+		2、如果数据库名字和模型名不一致 可以设置表名
+
+			protected $table="";
+
+		3、如果表名(yzm_user),数据模型名 (YzmUser)
+
+3、模型的实例化
+	
+	1、调用静态方法
+
+		$res=User::get(1);
+		dump($res->toArray());
+
+	2、实例化数据模型
+
+		$user=new User();
+		$res=$user::get(2);
+		dump($res->toArray());
+
+	3、使用loader
+
+		$user=Loader::model("user");
+		$res=$user::get(3);
+		dump($res->toArray());
+
+	4、使用助手函数
+
+		$user=model("user");
+		$res=$user::get(4);
+		dump($res->toArray());
+
+
+4、查询操作
+	
+	1、单条数据
+
+    	// get方法
+	    	// 使用数字
+	    	$res=User::get(1); // 默认主键
+	    	// 使用数组
+	    	$res=User::get(["name"=>'yzmedu3']);  // 默认查找用户名
+
+	    	// 使用闭包函数
+	    	$res=User::get(function($query){
+	    		$query->where("id",15);
+	    	});
+	    // find方法
+
+	    	$res=User::where("id",13)->find();
+	
+	2、查询多条数据
+
+    	// all
+    		// 所有数据
+    		$res=User::all();
+
+    		// 字符串
+    		$res=User::all("1,2,3");
+
+    		// 数组
+    		$res=User::all([5,6,7]);
+
+    		// 数组
+
+    		$res=User::all(['pass'=>'123']);
+
+    		// 闭包
+
+    		$res=User::all(function($query){
+    			$query->where("pass","123")
+    				->whereOr("pass","456")
+    				->order("id","desc");
+    		});
+
+    	// select 和 all 基本类似
+
+			$res=User::select();
+			$res=User::limit(2)->select();
+
+	3、获取某个字段和某列值
+
+		// 获取某个值
+		$res=User::where("id",5)->value("name");
+
+		// 获取某列值
+
+		$res=User::column("name","id");
+
+	4、动态查询
+		// 查询出匹配到的第一条数据
+		// getBy字段名
+		$res=User::getByAge('44');
+		dump($res->toArray());
+
+5、增加操作
+	
+	    		
+	1、设置属性
+		$user=new User();
+    	$user->name="yzmedu21";
+    	$user->pass="abc";
+    	$user->age=18;
+    	// 返回影响行数
+    	$user->save();
+
+    2、通过data方法
+		$user=new User();
+
+		$user->data([
+			"name"=>"yzmedu22",
+			"age"=>"22",
+			"pass"=>"qwe",
+			]);
+
+    	// 返回影响行数
+    	$user->save();
+	
+	3、实例化时
+
+		$user=new User([
+			"name"=>"yzmedu23",
+			"pass"=>'zxc',
+			"age"=>20
+			]);
+		// 返回影响行数
+		$user->save();
+		// allowField 屏蔽掉数据库中不存在的字段
+    	$user->allowField(true)->save();
+    	// 指定插入数据库的字段
+    	$user->allowField(['name','age'])->save();
+
+    4、获取自增的ID
+    	// 获取插入数据ID
+    	echo $user->id;
+
+    5、增加多条数据
+
+    	$user=new User();
+
+    	$list=[
+    		['name'=>"yzmedu33","age"=>33],
+    		['name'=>"yzmedu34","age"=>34]
+
+    	];
+
+    	$user->saveAll($list);
+
+    6、create方法
+    	$user=User::create([
+    		"name"=>"yzmedu35",
+    		"age"=>35
+    		]);
+
+
+6、删除操作
+
+	// $user=User::get(1);
+	// 返回影响行数
+	// dump($user->delete());
+
+	// 删除主键2
+	$user=User::destroy(2);
+
+	// 删除主键3,4,5
+	$user=User::destroy("3,4,5");
+	$user=User::destroy([6,7,8]);
+
+	// 删除name
+
+	$user=User::destroy(['name'=>"yzmedu23"]);
+
+	// 删除多个条件
+
+	$user=User::destroy(['name'=>'yzmedu33','age'=>33]);
+
+	// 使用闭包
+
+	$user=User::destroy(function($query){
+
+	    $query->where("id","<","15");
+	});
+
+	// 删除数据
+
+	$user=User::where("id",">","19")->delete();
+
+	dump($user);
+
+7、修改操作
+	
+	// 设置字段更新数据
+
+	   	$user=User::get(15);
+
+	   	$user->age=19;
+
+	   	$res=$user->save();
+
+	// 直接数组修改
+
+	    $user=new User;
+
+	    $res=$user->save(
+	        [
+	            "pass"=>"qweasd",
+	            "age"=>16,
+	            
+	        ],["id"=>16]);
+
+	// 修改数据
+
+	    $_POST['name']="yzmedu55";
+	    $_POST['pass']="pass55";
+	    $_POST['age']="55";
+	    $_POST['sex']="nan";
+	    $_POST['id']=17;
+
+	    $user=new User;
+
+	    $res=$user->allowField(['name','pass','age'])->save($_POST,['id'=>17]);
+
+	// 批量更新
+
+
+	    $data=[
+	        ['id'=>15,'name'=>"abc",'pass'=>456],
+	        ['id'=>17,'name'=>"abc",'pass'=>456],
+	    ];
+
+	    $user=new User;
+
+	    $res=$user->saveAll($data);
+
+	    echo User::getLastSql();
+
+	// 更新操作
+
+	    $user=new User;
+
+	    $res=$user->where("id",'>','17')->update(['age'=>18]);
+
+	    $res=User::where("id","<","18")->update(['pass'=>'zxc']);
+
+	// 闭包更新数据
+
+	    $user=new User;
+
+	    $res=$user->save(['name'=>'yunzhimeng'],function($query){
+	        $query->where("id","15");
+	    });
+
+8、聚合
+	
+	// 统计数据条数
+	$tot=User::count();
+
+	dump($tot);
+
+	// 条件判断
+	$tot=User::where("age",">",18)->count();
+	dump($tot);
+
+	// 统计最大值
+
+	$max=User::max('age');
+
+	dump($max);
+
+	// 统计最小值
+
+	$min=User::min("age");
+
+	dump($min);
+
+	// 平均值
+	$avg=User::avg('age');
+
+	dump($avg);
+
+	// 求和
+	$sum=User::sum('age');
+	dump($sum);
+
+
+9、获取器
+	
+	1、数据模型
+
+		// sex 的获取器
+		public function getSexAttr($val){
+			switch ($val) {
+				case '0':
+					return "未知";
+					break;
+				case "1":
+					return "男";
+					break;
+				case "2":
+					return "女";
+					break;
+			}
+		}
+
+
+	2、控制器
+
+		// 获取ID为15 的数据
+		$user=User::get(17);
+
+		// 经过获取器的操作
+		dump($user->toArray()); 
+		dump($user->sex);
+
+		// 不经过获取器处理
+		dump($user->getData());
+
+
+	3、注意
+
+		1、如果字段 user_status 修改器名字getUserStatusAttr
+		2、如果字段 status 修改器名字getStatusAttr
+
+
+10、修改器
+	1、数据模型
+
+		// 用户密码的修改器
+
+		public function setPassAttr($val){
+
+			return md5($val);
+		}
+
+
+	2、控制器
+
+		// 修改 ID 为15 的密码
+
+		$user=new User();
+
+		// 密码会实现自动加密
+		$res=$user->save(['pass'=>'456'],['id'=>15]);
+
+		dump($res);
+
+
+	3、注意
+
+		1、修改器的触发条件是 save方法
+
+
+11、自动完成
+	
+	1、修改器和自动完成区别
+
+        修改器:数据赋值的时候自动进行转换处理
+        自动完成:没有手动赋值的情况下进行手动处理
+
+    2、自动完成
+
+    	// 增加和修改操作都会执行
+    	protected $auto=[];
+    	// 创建数据执行
+    	protected $insert=['create_time'];
+    	// 修改数据执行
+    	protected $update=['update_time'];
+
+12、时间戳
+	
+	1、系统支持自动写入创建和更新的时间戳字段
+		1) 在配置文件中设置
+			// 自动写入时间戳字段
+			'auto_timestamp'  => true,
+
+		2) 在数据模型中设置
+
+			// 设置自动写入时间戳
+			protected $autoWriteTimestamp=true;
+
+	2、可以设置字段默认值
+
+		// 增加时间的字段
+		protected $createTime='create_times';
+		// 更新时间的字段
+		protected $updateTime='update_times';
+
+	3、取消更新时间戳设置
+
+		protected $updateTime=false;
+
+14、软删除
+	
+	1、作用：
+
+		实现假删除，可以进行恢复
+
+	2、实现
+
+		<?php 
+			// 声明命名空间
+			namespace app\index\model;
+			// 导入系统的数据模型
+			use think\Model;
+			// 配合软删除
+			use traits\model\SoftDelete;
+			// 声明user模型
+			class User extends Model{
+				// 使用软删除
+				use SoftDelete;
+				// 设置删除的时间戳
+				protected $deleteTime="delete_times";
+
+			}
+
+	3、控制器	
+
+
+		1、删除数据
+
+			$res=User::destroy(15);
+
+		2、获取数据
+
+			$res=User::get(15);
+			// 软删除 数据库数据存在，但是get获取不到
+
+		3、直接删除数据
+
+       		$res=User::destroy(14,true);
+
+       		$user=new User();
+
+       		$res=$user->where("id",'5')->delete();
+
+       	4、读取所有数据包含软删除数据
+
+	        $res=User::withTrashed()->find(15);
+	        $res=User::withTrashed()->select();
+
+	    5、仅仅读取软删除数据
+
+	        $res=User::onlyTrashed()->select();
+	        $res=User::onlyTrashed()->find(1);
+
+
+
+
+			

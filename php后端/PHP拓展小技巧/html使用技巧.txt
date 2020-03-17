@@ -1,0 +1,1 @@
+1.使用HTML5的Placeholder属性实现input输入框背景文字提示效果

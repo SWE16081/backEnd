@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>CentOS、Ubuntu、Debian三个linux比较异同 - 心向蓝天 - 博客园</title>
+<meta property="og:description" content="Linux有非常多的发行版本，从性质上划分，大体分为由商业公司维护的商业版本与由开源社区维护的免费发行版本。 商业版本以Redhat为代表，开源社区版本则以debian为代表。这些版本各有不同的特点，">
+    <link type="text/css" rel="stylesheet" href="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-BlackLowKey.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-BlackLowKey-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/cnsong/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/cnsong/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/cnsong/wlwmanifest.xml">
+    <script src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019040101.js"></script><script async="" src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script>var currentBlogId=349018;var currentBlogApp='cnsong',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<link rel="preload" href="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019040101.js" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/cnsong/"><img id="blogLogo" src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/cnsong/">心向蓝天</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/cnsong/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/cnsong/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/cnsong/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 10&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 1</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/cnsong/p/6719635.html">CentOS、Ubuntu、Debian三个linux比较异同</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>Linux有非常多的发行版本，从性质上划分，大体分为由商业公司维护的商业版本与由开源社区维护的免费发行版本。</p>
+<p>商业版本以Redhat为代表，开源社区版本则以debian为代表。这些版本各有不同的特点，在不同的应用领域发挥着不同的作用，不能一概而论。而绝大多数VPS上只提供开源社区维护的发行版本。下面就这些不同的Linux发行版进行简单的分析。</p>
+<p>&nbsp;</p>
+<p>Ubuntu</p>
+<p>Ubuntu近些年的粉丝越来越多，Ubuntu有着漂亮的用户界面，完善的包管理系统，强大的软件源支持，丰富的技术社区，Ubuntu还对大多
+数硬件有着良好的兼容性，包括最新的图形显卡等等。这一切让Ubuntu越来越向大众化方向发展。但别忘了：你所需要的只是一个简约、稳定、易用的服务器
+系统而已！</p>
+<p>Ubuntu的图形界面固然漂亮，但这也决定了它最佳的应用领域是桌面操作系统而非服务器操作系统。如何你希望在学习Linux的过程中有个沉浸式
+的环境，那么Ubuntu的确不错：仅仅安装在自己的电脑中而非服务器中。从这一点来讲，Ubuntu并没有在VPS安装的操作系统选择之列，相信你也不
+会为了那数百M的驱动与宝贵的内存买单。</p>
+<p>CentOS</p>
+<p>你会发现非常多的商业公司部署在生产环境上的服务器都是使用的CentOS系统，CentOS是从RHEL源代码编译的社区重新发布版。
+CentOS简约，命令行下的人性化做得比较好，稳定，有着强大的英文文档与开发社区的支持。与Redhat有着相同的渊源。虽然不单独提供商业支持，但
+往往可以从Redhat中找到一丝线索。相对debian来说，CentOS略显体积大一点。是一个非常成熟的Linux发行版。</p>
+<p>Debian</p>
+<p>一般来说Debian作为适合于服务器的操作系统，它比Ubuntu要稳定得多。可以说稳定得无与伦比了。debian整个系统，只要应用层面不出
+现逻辑缺陷，基本上固若金汤，是个常年不需要重启的系统（当然，这是夸张了点，但并没有夸大其稳定性）。debian整个系统基础核心非常小，不仅稳定，
+而且占用硬盘空间小，占用内存小。128M的VPS即可以流畅运行Debian，而CentOS则会略显吃力。但是由于Debian的发展路线，使它的帮
+助文档相对于CentOS略少，技术资料也少一些。</p>
+<p>由于其优秀的表现与稳定性，Debian非常受VPS用户的欢迎。</p>
+<p>此外还有Arch Linxu、Gentoo、Slackware等一系列的Linux和FreeBSD、Unix等系统，由于其涉及领域更加专业，很少在VPS中出现，因此不作介绍。</p>
+<p>对于初学者，我们建议采用CentOS或Debian，这两种系统都能在配置较低的VPS上流畅运行。但是如果VPS配置太低（OPENVZ内存在
+128M以下，或者XEN架构内存在192M以下），建议采用Debian；否则建议采用CentOS，以获取更多的在线帮助与支持，让自己入门更轻松。</p>
+<p>&nbsp;</p>
+<p>CentOS、Ubuntu、Debian三个linux都是非常优秀的系统，开源的系统，也分付费的商业版和free免费版本，下面简单比较这三种系统。</p>
+<p>CentOS系统</p>
+<p>很多网站站长一般都选择centOS系统，CentOS是从redhat源代码编译重新发布版。CentOS去除很多与服务器功能无关的应用，系统简单但非常稳定，命令行操作可以方便管理系统和应用，并且有帮助文档和社区的支持。</p>
+<p>Ubuntu系统</p>
+<p>&nbsp;</p>
+<p>Ubuntu有亮丽的用户界面，完善的包管理系统，强大的软件源支持，丰富的技术社区，并且Ubuntu对计算机硬件的支持好于centos和
+debian，兼容性强，Ubuntu应用非常多，但对于服务器系统来说，个人感觉并不需要太多的各种应用程序，需要的是稳定，操作方便，维护简单的系
+统。如果你需要在服务器端使用图形界面，ubuntu是一个不错的选择，你需要注意的是，图形界面占用的内存非常大，而内存越大的vps价格也越高。</p>
+<p>&nbsp;</p>
+<p>Debian系统</p>
+<p>Debian也非常适合做服务器操作系统，与Ubuntu比较，它没有太多的花哨，稳定压倒一切，对于服务器系统来说是一条不变的真
+理，debian这个linux系统，底层非常稳定，内核和内存的占用都非常小，在小内存的VPS就可以流畅运行Debian，比如128m的内存，但
+debian的帮助文档和技术资料比较少。对于小内存，首选debian，对于非常熟悉linux系统的vps高手，首选debian。</p>
+<p>&nbsp;</p>
+<p>在系统的选择上，属于新手，首选CentOS，并不是centos比Debian和ubuntu好，而是centos是初学者安装vps的首选，它
+既稳定，占用资源又少，在网络上能方便搜索到安装配置的文档，自身的帮助文档也非常强大；如果你是linux高手，高手的境界一般都选择debian，因
+为高手能在低配的vps上稳定运行系统；而ubuntu，系统虽然免费，但它适合有钱人玩，它占用的资源是比前面两种系统更高，而vps基本就是卖内存，
+内存越高，价格越贵。</p>
+<p>&nbsp;</p>
+<p>身为运营人员，我们对可靠性和稳定性非常重视，是我们的第一要务。为此，我们只使用Linux来支撑顾客的系统。但是，我们应该使用哪一个Linux的发行版？答案是，CentOS。 为什么呢？</p>
+<p>作为一个庞大的系统运营商，在很长的一段时间里，我们需要在多种大型系统中找到一个可靠的，可预测的系统，我们需要从世界上最强大的软件供应商和开源项目中获得强有力的支持。对于那些最常用的系统，我们需要文档，工具和全球性资源。</p>
+<p>正因如此，RedHat / CentOS系列发行版正是我们的选择。他们能够满足以上所有需求，而且问题相对较少、长期稳定，这使得我们能够为成千上万的运行了不同配置、服务和应用的系统提供世界级的维护。</p>
+<p>RedHat Enterprise Linux 
+(RHEL)是黄金标准的企业发行版。它每五年左右更新一次，在系统的稳定性，前瞻性和安全性上有着极大的优势。每当新的主版本发行后，比如 
+5.x亦或最近的6.x，所有版本和代码都将保留不变，只有安全问题或是主要的bug，例如后门，端口之类的问题，会通过发布新的子版本来修复。</p>
+<p>CentOS是RHEL发行版对应的开源版本，通常在RedHat的发布后就会很快发行。我们使用CentOS的原因在于RHEL发行版的标准支持服务费用非常高，大约每台服务器800美元左右，对于我们很多拥有数十台甚至上百台服务器的用户来说，这是必须要控制的成本。</p>
+<p>RHEL/CentOS系统有两个潜在的问题。</p>
+<p>首先，一旦确定了主版本，,除了安全问题和严重故障会被修复以外，其他内容将不会做任何改变。这虽然对稳定性有好处，但是对许多服务不利。比如
+MySQL和PHP服务，它们在这五年的CentOS/RHEL主版本发布周期中会进行繁重的开发和大量的修改。例如，MySQL5.0 
+是当前RHEL/CentOS主版本所默认使用的版本，但是当前MySQL已经更新到5.1和5.5版本了。</p>
+<p>幸运的是，这个问题被Yum软件包管理器轻易地解决了。如此以来，那些主要的软件，例如当前RHEL/CentOS中实际的组件，包括内核和所有工
+具等仍然来自发行版， 但是那些附加的软件，例如Nginx，Apache，PHP，Java和MySQL等等来自更新的软件源例如Fedora； 
+或者直接从开发商获取更新的版本例如MySQL。 在我们这里，我们有自己专用的安装镜像来全自动的处理所有这些事情。</p>
+<p>其次，CentOS的发行会滞后于RedHat的发行，包括关键的补丁和修复。这在RHEL 6.x的发行周期中尤为显著。但是根据我们的经验，这没什么好担心的，对我们来说永远不会成为问题。</p>
+<p>很多人询问我们为什么不用基于Debian的系统，例如Debian或者Ubuntu服务器。如果在别无选择的情况下，我们的确会支持这个建议，但是根据我们的经验来看，这些系统并不如RHEL/CentOS来的稳定和可靠。</p>
+<p>我们认为，这在某种程度上是由于他们过快的发展和各个版本、组合之间较少的测试且不成熟所导致的。然而尽管他们非常流行，但是主要的服务商和项目都
+仍然首选RHEL/CentOS系统，因为这样他们就可以为企业顾客提供服务，（对Oracle和MySQL更是如此）。除此之外，基于Debian的系
+统有许多内核和稳定性问题，尤其是在我们的云计算服务中。</p>
+<p>对我们而言，唯一使用Debian/Ubuntu的原因是：</p>
+<p>“它们能够为一个系统提供必要的特殊服务时，尤其是当一些驱动程序或者一些IO 子系统需要一种新的内核的时候”。例如，ext4 文件系统或在最近的内核中日志的改变等；现在，所有这一切都包含在了RHEL/CentOS6.x中。</p>
+<p>当然，多数Linux开发者都使用的是Ubuntu的桌面版，而且可以理解的是，他们更倾向在开发生产时使用相同的系统，并且还能使用很多有趣的工
+具。但总体上来说，我们依然认为RHEL/CentOS是一个更优越的部署平台，并且已经有十多个客户成功地转向使用CentOS 
+作为生产环境并且没有任何问题，但这仍然是艰巨的任务。</p>
+<p>总的来说，你将更乐于看到一个良好管理的CentOS 系统。我们有成千上万台服务器使用CentOS平台，而每年平均只有一台服务器崩溃。我们也很难想象它竟如此罕见，所以，挑一个优秀、迅捷、可靠的平台吧！</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/cnsong/category/985412.html" target="_blank">Liunux系统</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6719635,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('6778a506-8b22-e711-9fc1-ac853d9f53cc');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/cnsong/" target="_blank"><img src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/cnsong/">心向蓝天</a><br>
+            <a href="http://home.cnblogs.com/u/cnsong/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/cnsong/followers">粉丝 - 3</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('6778a506-8b22-e711-9fc1-ac853d9f53cc');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6719635,'Digg')">
+        <span class="diggnum" id="digg_count">6</span>
+    </div>
+    <div class="buryit" onclick="votePost(6719635,'Bury')">
+        <span class="burynum" id="bury_count">1</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/cnsong/p/6723449.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/cnsong/p/6723449.html" title="发布于2017-04-17 16:14">Centos下nginx+php7+mysql的Web服务器搭建</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-04-16 19:26</span> <a href="https://www.cnblogs.com/cnsong/">心向蓝天</a> 阅读(<span id="post_view_count">60929</span>) 评论(<span id="post_comment_count">1</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6719635" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(6719635);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=349018,cb_entryId=6719635,cb_blogApp=currentBlogApp,cb_blogUserGuid='6778a506-8b22-e711-9fc1-ac853d9f53cc',cb_entryCreatedDate='2017/4/16 19:26:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#4212738" class="layer">#1楼</a><a name="4212738" id="comment_anchor_4212738"></a><span id="comment-maxId" style="display:none;">4212738</span><span id="comment-maxDate" style="display:none;">2019/3/25 15:19:59</span>  <span class="comment_date">2019-03-25 15:19</span> <a id="a_comment_author_4212738" href="https://www.cnblogs.com/wenhainan/" target="_blank">闻海南</a> <a href="http://msg.cnblogs.com/send/%E9%97%BB%E6%B5%B7%E5%8D%97" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4212738" class="blog_comment_body">呵呵哒,debian不稳定.真的是信口开河</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4212738,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4212738,'Bury',this)">反对(0)</a></div><span id="comment_4212738_avatar" style="display:none;">http://pic.cnblogs.com/face/925020/20170727145950.png</span>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://cloud.baidu.com/campaign/purchase-2019/index.html?track=cp:dsp|pf:pc|pp:chui-bokeyuan-huodong-19caigouji-BCC-neiyeCH-190311|pu:neiyeCH-wenzilian|ci:2019cgj|kw:2105959" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-百度云')">【推荐】百度云“猪”你开年行大运，红包疯狂拿，低至1折</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-gitee')">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br><a href="https://www.bagevent.com/event/2468856" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-GAITC')">【活动】2019第四届全球人工技术大会解码“智能+时代”</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="CentOS%E3%80%81Ubuntu%E3%80%81Debian%E4%B8%89%E4%B8%AAlinux%E6%AF%94%E8%BE%83%E5%BC%82%E5%90%8C%20-%20%E5%BF%83%E5%90%91%E8%93%9D%E5%A4%A9%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CNyO_qWSvuECFdogKgodQocDnQ"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/ctypyb2002/p/9792890.html" target="_blank" onclick="clickRecomItmem(9792890)">转：Linux版本CentOS、Ubuntu和Debian的异同</a><br>·  <a href="https://www.cnblogs.com/sjwudhwhhw/p/10151219.html" target="_blank" onclick="clickRecomItmem(10151219)">CentOSUbuntuDebian三个linux比较异同</a><br>·  <a href="https://www.cnblogs.com/prettyshuang/p/5552434.html" target="_blank" onclick="clickRecomItmem(5552434)">Linux（Ubuntu/Debian/CentOS/RedHat）下交叉编译boost库</a><br>·  <a href="https://www.cnblogs.com/jinhengyu/p/7669826.html" target="_blank" onclick="clickRecomItmem(7669826)">服务器操作系统应该选择Debian/Ubuntu还是CentOS？</a><br>·  <a href="https://www.cnblogs.com/xwupiaomiao/p/8027142.html" target="_blank" onclick="clickRecomItmem(8027142)">Zabbix安装(debian，centos)</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CN2O_qWSvuECFdogKgodQocDnQ"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/623392/" target="_blank">京东取消快递员底薪：下调公积金比例 揽收加入绩效</a><br> ·  <a href="https://news.cnblogs.com/n/623390/" target="_blank">自主研发大数据专用芯片，达博科技完成A轮融资，估值5亿美元</a><br> ·  <a href="https://news.cnblogs.com/n/623388/" target="_blank">SpaceX去年一箭发射64颗卫星 19颗已经失踪了</a><br> ·  <a href="https://news.cnblogs.com/n/623384/" target="_blank">职业金字塔的程序员，被996打回原形</a><br> ·  <a href="https://news.cnblogs.com/n/623381/" target="_blank">中国网红15年</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/cnsong/">心向蓝天</a><br>园龄：<a href="https://home.cnblogs.com/u/cnsong/" title="入园时间：2017-04-16">1年11个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/cnsong/followers/">3</a><br>关注：<a href="https://home.cnblogs.com/u/cnsong/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('6778a506-8b22-e711-9fc1-ac853d9f53cc')">+加关注</a></div><script>getFollowStatus('6778a506-8b22-e711-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/03/01');return false;">&lt;</a></td><td align="center">2019年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/05/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalTodayDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/cnsong/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/cnsong/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/cnsong/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/cnsong/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/cnsong/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/cnsong/tag/nginx%20%E5%9B%BE%E7%89%87%E8%A3%81%E5%89%AA%20centos/">nginx 图片裁剪 centos</a>(1)</li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/cnsong/category/985414.html">Cache与缓存</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/cnsong/category/985412.html">Liunux系统(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/cnsong/category/985421.html">Mysql数据库(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/cnsong/category/985415.html">Web服务器(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/cnsong/category/985426.html">编程语言</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/cnsong/archive/2018/07.html">2018年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/cnsong/archive/2018/06.html">2018年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/cnsong/archive/2018/05.html">2018年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/cnsong/archive/2017/10.html">2017年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/cnsong/archive/2017/06.html">2017年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/cnsong/archive/2017/05.html">2017年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/cnsong/archive/2017/04.html">2017年4月 (3)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/cnsong/p/6719635.html#4212738">1. Re:CentOS、Ubuntu、Debian三个linux比较异同</a></li>
+        <li class="recent_comment_body">呵呵哒,debian不稳定.真的是信口开河</li>
+        <li class="recent_comment_author">--闻海南</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/cnsong/p/6719635.html">1. CentOS、Ubuntu、Debian三个linux比较异同(60924)</a></li><li><a href="https://www.cnblogs.com/cnsong/p/7058000.html">2. Linux CentOS 7.X 如何修改内核启动默认顺序(13614)</a></li><li><a href="https://www.cnblogs.com/cnsong/p/6723449.html">3. Centos下nginx+php7+mysql的Web服务器搭建(415)</a></li><li><a href="https://www.cnblogs.com/cnsong/p/7656027.html">4. ubuntu下安装基于Apache的SVN服务器(75)</a></li><li><a href="https://www.cnblogs.com/cnsong/p/8994654.html">5. mysql5.7配置文件（仅供参考）(63)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/cnsong/p/6719635.html">1. CentOS、Ubuntu、Debian三个linux比较异同(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/cnsong/p/6719635.html">1. CentOS、Ubuntu、Debian三个linux比较异同(6)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 心向蓝天
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>
