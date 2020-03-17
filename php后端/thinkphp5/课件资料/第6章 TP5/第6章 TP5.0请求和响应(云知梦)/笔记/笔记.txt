@@ -1,0 +1,290 @@
+第6章 TP5.0 请求和响应
+=====================================
+上次复习
+
+1、新建控制器
+
+
+2、如何加载页面
+	
+	1、系统函数
+		return view();
+
+	2、系统view类
+		$view=new View();
+
+		return $view->fetch();
+
+	3、通过Controller类
+		// 需要控制器继承系统类	
+
+		return $this->fetch();
+
+3、页面跳转
+	0、使用
+		必须继承系统控制器类
+	1、成功
+		$this->success();
+	2、失败
+		$this->error();
+	3、重定向
+		$this->redirect();
+
+4、空控制器和空方法
+	
+=====================================
+今日学习
+
+1、系统类(C:\AppServ\www\tp5\thinkphp\library\think)
+	
+	Config
+	Controller
+	Env
+	Route
+	Url
+	View
+	Request 
+
+2、系统方法(C:\AppServ\www\tp5\thinkphp\helper.php)
+	
+	dump();  格式化输出
+	controller(); 调用控制器
+	action(); 调用方法
+	config(); 读取和设置配置文件
+	url(); 生成URL地址
+	view(); 加载页面
+	request(); 实例化 Request类
+
+3、如何获取请求类
+	1、系统函数
+
+    	$request=request();
+
+	2、系统Request类
+
+		use think\Request;
+		// 因为Request类属于单例模式 所以 不能直接new
+    	$request=Request::instance();
+
+    3、系统Request类
+		use think\Request;
+		// 方法的书写
+    	public function index(Request $request)
+    	{
+    		dump($request);
+    	}
+
+
+4、获取用户请求信息
+	
+	1、获取域名
+		dump($request->domain());
+	2、获取URL地址 除域名以外
+		dump($request->url());
+	3、 获取入口文件
+		dump($request->baseFile());
+	4、获取PathInfo路径
+		dump($request->pathinfo());
+	5、获取PATHINFO路径 无后缀
+		dump($request->path());
+	6、url地址伪静态后缀
+		dump($request->ext());
+
+	7、伪静态
+		就是将路径伪装成静态页面，让搜索引擎更好收录网站，防止别人知道网站真实开发语言
+
+
+5、获取请求模块\控制器\方法
+	
+	1、控制器
+
+		$request->controller();
+
+	2、方法
+		$request->action();
+
+	3、模块
+
+		$request->module();
+
+
+6、获取请求相关类型
+	1、请求类型
+
+		$request->method();
+
+	2、请求资源类型
+
+		$request->type();
+
+	3、访问地址
+
+		$request->ip();
+
+	4、是否ajax请求
+
+		$request->isAjax();
+
+
+	5、获取所有地址栏参数
+		$request->param();
+
+	6、获取特定字段
+
+		$request->only(['name','id']);
+
+	7、剔除字段
+
+		$request->except(['name','id']);
+
+7、获取变量
+	1、判断是否存在
+		dump($request->has('id','get'));
+
+		dump(input('?get.id'));
+
+	2、读取变量
+		dump($request->get('id'));
+		dump(input('get.id'));
+
+		dump($request->get());
+		dump(input('get.'));
+
+	3、可以读取数据类型
+		get、post、delete、put、session、cookie、server 等
+
+
+		$request->get();
+		$request->post();
+		$request->put();
+		$request->server();
+		$request->request();
+		$request->session();
+		$request->cookie();
+
+8、变量的过滤
+	1、作用	
+		防止恶意输入、防止sql注入
+
+	2、使用
+		1、全部的数据进行过滤
+			// 单个方法过滤
+			$request->filter("htmlspecialchars");
+			// 多种方法过滤
+			$request->filter(["htmlspecialchars","strip_tags"]);
+
+		2、针对变量过滤
+    		$request->get('name','','htmlspecialchars');
+
+    	3、密码过滤之后加密
+    		dump($request->get('pass','','htmlspecialchars,md5'));
+
+9、变量的排除和获取
+	1、获取
+
+		$request->only('name');
+		$request->only('name',get);
+		$request->only(['name','pass'],get);
+	2、排除
+
+		$request->except(['name','pass'],get);
+		$request->except(['name','pass']);
+		$request->except('name');
+10、变量修饰符
+	
+	1、修饰变量的类型
+		s 字符串
+		d 整形
+		f 浮点型
+		a 数组
+		b 布尔型
+
+	2、使用
+		dump(input('get.id/d')); // 强制转换整形
+
+		dump($request->get('id/d'));
+
+11、更改变量
+	// 地址栏访问 http://www.tp.com/index.php/Index/Index/xiugai?id=10
+	dump($request->get('id'));  // 10
+	dump($request->get(['id'=>20]));  //数组
+
+	dump($request->get('id'));  // 20
+
+
+12、请求类型判断
+	1、系统类
+
+		// 判断是否是get请求
+		dump($request->isGet());
+		// 判断是否是手机端
+		dump($request->isMobile());
+
+	2、系统函数
+		dump(request()->isGet());
+		dump(request()->isMobile());
+
+
+13、模拟put、delete请求
+	1、使用
+
+		<form action="{:url('type')}" method="post">
+			<p>
+				User:
+				<input type="text" name="name" id="">
+				<input type="hidden" name="_method" value="PUT">
+			</p>
+			<p>
+				Pass:
+				<input type="password" name="pass" id="">
+			</p>
+			<p>
+				<input type="submit" value="提交">
+			</p>
+		</form>
+
+	2、注意
+		1、表单的请求类型必须是post
+
+		2、需要设置隐藏域传递模拟请求类型
+
+14、模拟ajax请求和PJAX请求
+	1、模拟ajax请求
+		http://www.tp.com/index.php/index/index/type?_ajax=10
+
+	2、模拟pjax请求
+		http://www.tp.com/index.php/index/index/type?_pjax=10
+
+
+15、伪静态
+	1、作用
+		1) URL伪静态通常是为了满足更好的SEO效果
+		2) 为了网站的安全
+
+	2、修改伪静态
+		在配置文件中进行修改
+
+		'url_html_suffix'        => 'shtml',
+
+	3、获取当前的伪静态后缀
+		$request->ext();
+
+
+16、参数绑定
+	1、使用
+		public function banding($id,$name="admin"){
+
+
+		    dump($id);
+		    dump($name);
+		}
+
+		http://www.tp.com/index.php/index/index/banding/id/1/name/user
+
+	2、注意
+		1、参数绑定的个数，少于地址栏参数的个数
+
+		2、参数绑定的名字，必须和地址栏参数名字一一对应
+
+		3、参数绑定可以设置默认值
+		

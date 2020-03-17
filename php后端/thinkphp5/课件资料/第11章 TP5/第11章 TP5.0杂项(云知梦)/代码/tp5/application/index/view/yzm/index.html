@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<form action="{:url('check')}" method="post">
+		<p>
+			验证码:
+			<!-- {:captcha_img()} -->
+			<img src="{:captcha_src()}" alt="">
+		</p>
+		<p>
+			请输入验证码:
+			<input type="text" name="code" id="">
+		</p>
+		<p>
+			<input type="submit" value="提交">
+		</p>
+	</form>
+</body>
+</html>

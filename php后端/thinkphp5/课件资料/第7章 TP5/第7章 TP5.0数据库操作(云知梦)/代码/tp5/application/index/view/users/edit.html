@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="__STATIC__/bs/css/bootstrap.min.css">
+	<script src="__STATIC__/bs/js/jquery.min.js"></script>
+	<script src="__STATIC__/bs/js/bootstrap.min.js"></script>
+</head>
+<body>
+	
+	<div class="container">
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<button class="btn btn-success">修改用户页面</button>
+				<a href="/user" class="btn btn-danger">查看用户</a>
+			</div>
+			<div class="panel-body">
+				<form action="/user/{$data.id}" method="post">
+					
+					<div class="form-group">
+						<input type="hidden" name="_method" value="PUT">
+						<label for="">User</label>
+						<input placeholder="请输入用户名" type="text" name="name" class="form-control"  value="{$data.name}"id="">
+					</div>	
+
+					<div class="form-group">
+						<label for="">Pass</label>
+						<input placeholder="请输入密码" type="password" name="pass" class="form-control" value="{$data.pass}" id="">
+					</div>			
+
+					<div class="form-group">
+						<label for="">Age</label>
+						<input placeholder="请输入年龄" type="number" name="age" class="form-control" value="{$data.age}" id="">
+					</div>		
+
+					<div class="form-group">
+						<input type="submit" value="提交" class="btn btn-success">
+						<input type="reset" value="重置" class="btn btn-danger">
+					</div>		
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

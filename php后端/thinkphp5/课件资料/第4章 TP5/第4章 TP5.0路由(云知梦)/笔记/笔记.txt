@@ -1,0 +1,359 @@
+﻿第4章 TP5.0 路由
+==================================================
+上次复习
+
+1、配置文件
+	1、惯例配置
+
+	2、应用配置
+	
+	3、扩展配置
+
+	4、场景配置
+
+	5、模块配置
+
+	6、动态配置
+
+2、获取配置
+	1、Config类
+		config::get();
+
+	2、config方法
+		config();
+
+3、配置文件加载顺序
+
+	惯例配置>应用配置>扩展配置>场景配置>模块配置>动态配置
+
+4、环境配置
+	1、配置到根目录.env文件
+
+	2、读取
+		Env::get('名字','默认值');
+
+==================================================
+今日学习
+
+1、路由作用:	
+	1、简化URL地址，方便大家记忆
+
+	2、有利于搜索引擎优化
+
+2、入口文件:
+	
+	1、前后台分离
+
+		a、在网站public目录下(C:\AppServ\www\tp5\public) 新建admin.php
+
+		b、打开admin.php
+			<?php
+			// 定义应用目录
+			define('APP_PATH', __DIR__ . '/../application/');
+			// 加载框架引导文件
+			require __DIR__ . '/../thinkphp/start.php';
+
+	2、绑定模块
+		1、实现功能
+			index.php 这个入口文件 只能去前台模块
+			admin.php 这个入口文件 只能去后台模块 #建议后台的入口文件稍微复杂一些
+
+		2、如何实现
+			在入口文件中
+
+			define("BIND_MODULE",'index'); # 绑定前台模块
+			define("BIND_MODULE",'admin'); # 绑定后台模块
+
+		3、URL地址发生改变
+			1、入口绑定之前
+				http://www.tp.com/admin.php/模块/控制器/方法
+			2、入口绑定之后
+				http://www.tp.com/admin.php/控制器/方法
+
+	3、隐藏入口文件
+		1、开启apache的重写(C:\AppServ\Apache24\conf\httpd.conf)
+			# 把注释开启
+			LoadModule rewrite_module modules/mod_rewrite.so
+
+		2、设置访问权限 (C:\AppServ\Apache24\conf\extra\httpd-vhosts.conf)
+
+			<VirtualHost *:80>
+			    DocumentRoot "C:\AppServ\www\tp5\public"
+			    ServerName www.tp5.com
+				<Directory "C:\AppServ\www\tp5\public">
+				   
+				    Options Indexes FollowSymLinks
+				    
+				    AllowOverride All
+
+				    Require all granted
+				</Directory>
+			</VirtualHost>
+
+		3、入口文件,在网站public目录下新建. 文件
+			<IfModule mod_rewrite.c>
+			  Options +FollowSymlinks -Multiviews
+			  RewriteEngine On
+
+			  RewriteCond %{REQUEST_FILENAME} !-d
+			  RewriteCond %{REQUEST_FILENAME} !-f
+			  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+			</IfModule>
+
+		4、重启服务
+
+		5、url地址变化
+			1、隐藏之前
+				http://www.tp.com/index.php/Index/test
+			2、隐藏之后
+				http://www.tp.com/Index/test
+
+3、Tp5.0路由学习注意:
+	1、支持三种方式的URL解析规则
+	2、路由只针对应用，不针对模块，因此路由的设置也是针对应用下面的所有模块。
+	3、关闭后台模块,在后台入口文件(C:\AppServ\www\tp5\public)
+
+		// 定义应用目录
+		define('APP_PATH', __DIR__ . '/../application/');
+		// 绑定后台
+		define('BIND_MODULE','admin');
+		// 加载框架引导文件
+		require __DIR__ . '/../thinkphp/start.php';
+		// 关闭admin模块的路由
+		// 必须写到 加载框架引导文件 之后否则报错
+		\think\App::route(false);
+
+4、路由模式
+
+	1、普通模式
+		a、定义
+			关闭路由，完全使用默认的 PATH_INFO 方式URL：
+
+		b、形式
+			http://www.tp.com/admin.php/index/index
+
+		c、如何设置
+			// 是否开启路由
+			'url_route_on'           => false,
+			// 是否强制使用路由
+			'url_route_must'         => false,
+
+	2、混合模式
+		a、定义:
+			开启路由，并使用路由定义+默认 PATH_INFO 方式的混合
+
+		b、如何设置
+			// 是否开启路由
+			'url_route_on'           => true,
+			// 是否强制使用路由
+			'url_route_must'         => false,
+	
+	3、强制模式
+		1、定义:
+			开启路由，并设置必须定义路由才能访问
+
+		2、如何设置
+			// 是否开启路由
+			'url_route_on'           => true,
+			// 是否强制使用路由
+			'url_route_must'         => true,
+
+
+5、设置路由-动态单个注册
+	0、设置路由格式
+		Route::rule('路由表达式','路由地址','请求类型','路由参数（数组）','变量规则（数组）')
+	1、设置路由文件
+		C:\AppServ\www\tp5\application\route.php
+
+	2、如何设置
+
+		// 引入系统类
+		use think\Route;
+		// 定义路由规则
+		// 设置路由之后，就不能使用pathinfo访问了
+		// 注册路由 访问到Index模块index控制器index方法
+		Route::rule('/','index/index/index');
+		// 注册路由test 访问到Index模块index控制器test方法
+		Route::rule('test','index/index/test');
+
+	3、路由的形式
+		1、静态地址路由
+			// 注册路由test 访问到Index模块index控制器test方法
+			Route::rule('test','index/index/test');
+
+		2、路由带参数
+			// 注册带参数路由
+			// http://www.tp.com/couser/1
+			// http://www.tp.com/index/index/index/id/1
+			Route::rule('course/:id','index/index/course');
+			// 如果路由设置两个参数，不许带两个参数
+			Route::rule('time/:year/:month','index/index/shijian');
+
+		3、可选参数路由
+			// http://www.tp.com/time/2017
+			// http://www.tp.com/time/2017/8
+			Route::rule('time/:year/[:month]','index/index/shijian');
+
+		4、全动态路由(不建议大家使用)
+			Route::rule(':a/:b','index/index/dongtai');
+
+		5、完全匹配路由
+			// http://www.tp.com/test1 #可以成功访问
+			// http://www.tp.com/test1/1 #不能访问
+			Route::rule('test1$','Index/index/test1');
+
+		6、路由额外带参数
+			Route::rule('test2','Index/index/test2?id=10&name=zhangsan');
+
+	4、设置请求类型
+		1、TP中请求类型
+			get、post、put、delete
+
+		2、Route::rule() 默认支持所有请求类型
+
+		3、设置各种请求
+			// 支持get请求
+				Route::rule('type','Index/index/type','get');
+				// Route::get('type','Index/index/type');
+
+			// 支持post请求
+				// Route::rule('type','Index/index/type','post');
+				// Route::post('type','Index/index/type');
+
+			// 同时支持get和post
+				// Route::rule('type','Index/index/type','get|post');
+
+			// 支持所有路由
+				// Route::rule('type','Index/index/type','*');
+				// Route::any('type','Index/index/type');
+
+			// 支持put请求
+				Route::rule('type','Index/index/type','put');
+				Route::put('type','Index/index/type');
+
+			// 支持delete请求
+				Route::rule('type','Index/index/type','delete');
+				Route::delete('type','Index/index/type');
+
+		4、如何模拟put和delete请求
+			<form action="type" method="post">**
+				<p>
+					<input type="hidden" name="_method" value="PUT">**
+					<input type="text" name="name" id="">
+				</p>
+				<p>
+					<input type="submit" value="提交">
+				</p>
+			</form>
+
+
+6、设置路由-动态批量注册
+	1、基本格式
+		Route::rule([
+		'路由规则1'=>'路由地址和参数',
+		'路由规则2'=>['路由地址和参数','匹配参数（数组）','变量规则（数组）']
+		],'','请求类型','匹配参数（数组）','变量规则');
+
+	2、使用
+		Route::rule([
+			"test"=>"index/index/test",
+			"course/:id"=>"index/index/course"
+		],'','get');
+
+		Route::get([
+			"test"=>"index/index/test",
+			"course/:id"=>"index/index/course"
+		]);
+
+
+7、设置路由-配置文件批量注册
+	return [
+		"test"=>"index/index/test",
+		"course/:id"=>"index/index/course"
+	];
+
+8、变量规则
+	// Route::rule('路由表达式','路由地址','请求类型','路由参数（数组）','变量规则（数组）');
+
+	// 设置路由参数id必须是数字，必须1-3位
+	Route::rule("course/:id","index/index/course",'get',[],['id'=>'\d{1,3}']);
+
+
+9、路由参数
+	// Route::rule('路由表达式','路由地址','请求类型','路由参数（数组）','变量规则（数组）');
+	Route::rule("course/:id","index/index/course",'get',['method'=>'get','ext'=>'html'],['id'=>'\d{1,3}']);
+	// 路由参数method 请求方式必须是get
+	// 路由参数ext 主要设置路由的后缀
+
+
+10、资源路由
+	1、声明
+		Route::resource('blog','index/blog');
+
+	2、会自动注册七个路由规则
+		get 	blog  	   		 index   # 后台展示
+		get     blog/create      create  # 添加页面
+		post    blog  	    	 save    # 增加操作
+		get     blog/:id    	 read    
+		get     blog/:id/edit    edit    # 修改页面
+		put     blog/:id    	 update  # 更新操作
+		delete  blog/:id    	 delete  # 删除操作
+
+11、设置快捷路由
+	
+	1、声明
+		Route::Controller('blog','index/blog');
+
+
+	2、控制器中
+		namespace app\index\controller;
+
+		class Blog{
+			public function  getindex(){
+				echo "我是bolg控制器index方法";
+			}
+
+			public function geta(){
+				echo "AAAAAAAA";
+			}
+		}
+
+	3、URL访问
+		http://www.tp.com/blog/a
+		http://www.tp.com/blog/index
+
+12、生成url地址
+	1、系统类
+
+		dump(Url::build('index/index/index'));
+
+	2、系统方法
+
+		dump(url('index/index/index'));
+
+	3、使用
+		// 普通url地址
+			dump(Url::build('index/index/index'));
+			dump(url('index/index/index'));
+
+		// 带参数url
+			dump(url('index/index/abc',['id'=>10,'name'=>"张三"]));
+			dump(url('index/index/abc','id=10&name=100'));
+			// string(45) "/index/abc/id/10/name/%E5%BC%A0%E4%B8%89.html"
+			// string(30) "/index/abc/id/10/name/100.html"
+
+		// 带锚点
+			dump(url('index/index/abc#name',['id'=>10,'name'=>"100"]));
+			// string(35) "/index/abc/id/10/name/100.html#name"
+
+		// 带域名
+			dump(url('index/index/abc#name@blog',['id'=>10,'name'=>"100"]));
+			// string(53) "http://blog.tp.com/index/abc/id/10/name/100.html#name"
+
+		// 加入口文件
+			Url::root('/index.php');
+			dump(url('index/index/abc#name@blog',['id'=>10,'name'=>"100"]));
+			// string(63) "http://blog.tp.com/index.php/index/abc/id/10/name/100.html#name"
+
+
+

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>Apache的主要目录和配置文件详解 - 浅雨凉 - 博客园</title>
+<meta property="og:description" content="一、Apache 主要配置文件注释Apache的主配置文件：/etc/httpd/conf/httpd.conf默认站点主目录：/var/www/html/Apache服务器的配置信息全部存储在主配置">
+    <link type="text/css" rel="stylesheet" href="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-SimpleMemory.css">
+<link type="text/css" rel="stylesheet" href="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/332868.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-SimpleMemory-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/qianyuliang/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/qianyuliang/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/qianyuliang/wlwmanifest.xml">
+    <script src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019040101.js"></script><script async="" src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script>var currentBlogId=332868;var currentBlogApp='qianyuliang',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<link rel="preload" href="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019040101.js" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/qianyuliang/"><img id="blogLogo" src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/qianyuliang/">浅雨凉</a></h1>
+<h2>业精于勤荒于嬉      
+
+行成于思毁于随</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/qianyuliang/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li></li>
+<li>
+<!----></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 139&nbsp; </span>
+<span id="stats_article_count">文章 - 2&nbsp; </span>
+<span id="stats-comment_count">评论 - 17</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/qianyuliang/p/6831942.html">Apache的主要目录和配置文件详解</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>一、Apache 主要配置文件注释<br>Apache的主配置文件：/etc/httpd/conf/httpd.conf<br>默认站点主目录：/var/www/html/<br>Apache服务器的配置信息全部存储在主配置文件/etc/httpd/conf/httpd.conf中，这个文件中的内容非常多，用wc命令统计一共有1009行，其中大部分是以#开头的注释行。<br><br>ServerTokens OS<br>在出现错误页的时候是否显示服务器操作系统的名称，ServerTokens Prod为不显示<br><br>ServerRoot "/etc/httpd"<br>用于指定Apache的运行目录，服务启动之后自动将目录改变为当前目录，在后面使用到的所有相对路径都是想对这个目录下<br><br>User daemon &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# apache的用户，默认为daemon<br>Group daemon &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # apache的用户，默认为daemon<br><br>PidFile run/httpd.pid<br>记录httpd守护进程的pid号码，这是系统识别一个进程的方法，系统中httpd进程可以有多个，但这个PID对应的进程是其他的父进程<br><br>Timeout 60<br>服务器与客户端断开的时间<br><br>KeepAlive Off<br>是否持续连接（因为每次连接都得三次握手，如果是访问量不大，建议打开此项，如果网站访问量比较大关闭此项比较好），修改为：KeepAlive On 表示允许程序性联机<br><br>MaxKeepAliveRequests 100<br>表示一个连接的最大请求数<br><br>KeepAliveTimeout 15<br>断开连接前的时间<br><br>&lt;IfModule prefork.c&gt; <br>StartServers&nbsp; &nbsp; &nbsp;&nbsp; 8 <br>MinSpareServers&nbsp; &nbsp; 5 <br>MaxSpareServers&nbsp;&nbsp; 20 <br>ServerLimit&nbsp; &nbsp; &nbsp; 256 <br>MaxClients&nbsp; &nbsp; &nbsp;&nbsp; 256 <br>MaxRequestsPerChild&nbsp; 4000 <br>&lt;/IfModule&gt;<br>系统默认的模块，表示为每个访问启动一个进程（即当有多个连接公用一个进程的时候，在同一时刻只能有一个获得服务）。<br>StartServer开始服务时启动8个进程，最小空闲5个进程，最多空闲20个进程。<br>MaxClient限制同一时刻客户端的最大连接请求数量超过的要进入等候队列。<br>MaxRequestsPerChild每个进程生存期内允许服务的最大请求数量，0表示永不结束<br><br>&lt;IfModule worker.c&gt; <br>StartServers&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 4 <br>MaxClients&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 300 <br>MinSpareThreads&nbsp; &nbsp;&nbsp; 25 <br>MaxSpareThreads&nbsp; &nbsp;&nbsp; 75 <br>ThreadsPerChild&nbsp; &nbsp;&nbsp; 25 <br>MaxRequestsPerChild&nbsp; 0 <br>&lt;/IfModule&gt;<br>为Apache配置线程访问，即每对WEB服务访问启动一个线程，这样对内存占用率比较小。<br>ServerLimit服务器允许配置进程数的上限。<br>ThreadLimit每个子进程可能配置的线程上限<br>StartServers启动两个httpd进程，<br>MaxClients同时最多能发起250个访问，超过的要进入队列等待，其大小有ServerLimit和ThreadsPerChild的乘积决定<br>ThreadsPerChild每个子进程生存期间常驻执行线程数，子线程建立之后将不再增加<br>MaxRequestsPerChild每个进程启动的最大线程数，如达到限制数时进程将结束，如置为0则子线程永不结束<br><br>Listen 80<br>监听的端口，如有多块网卡，默认监听所有网卡<br><br>LoadModule auth_basic_module modules/mod_auth_basic.so <br>...... <br>LoadModule version_module modules/mod_version.so<br>启动时加载的模块<br><br>Include conf.d/*.conf<br>加载的配置文件<br><br>启动服务后转换的身份，在启动服务时通常以root身份，然后转换身份，这样增加系统安全<br><br>ServerAdmin root@localhost&nbsp;&nbsp;&nbsp; #管理员的邮箱，如果出现问题，会在首页显示<br><br>#ServerName www.example.com:80<br>默
+认是不需要指定的，服务器通过名字解析过程来获得自己的名字，但如果解析有问题（如反向解析不正确），或者没有DNS名字，也可以在这里指定IP地址，当
+这项不正确的时候服务器不能正常启动。前面启动Apache时候提示正在启动&nbsp; httpd：httpd: 
+apr_sockaddr_info_get() failed forjustin httpd: Could not&nbsp; reliably
+ determine the server's fully qualified domain name, using&nbsp; 
+127.0.0.1forServerName，解决方法就是启动该项把www.example.com:80修改为自己的域名或者直接修改为
+localhost<br><br>UseCanonicalName Off<br>如果客户端提供了主机名和端口，Apache将会使用客户端提供的这些信息来构建自引用URL。这些值与用于实现基于域名的虚拟主机的值相同，并且对于同样的客户端可用。CGI变量SERVER_NAME和SERVER_PORT也会由客户端提供的值来构建<br><br>DocumentRoot "/var/www/html"&nbsp;&nbsp;&nbsp; # apache的默认web站点目录路径，结尾不要添加斜线<br><br>&lt;Directory /&gt;&nbsp;&nbsp;&nbsp;&nbsp; #行为对根目录的限制<br>&nbsp;&nbsp;&nbsp; Options FollowSymLinks&nbsp;&nbsp; # followsymlinks表示允许使用符号链接，默认为禁用<br>&nbsp;&nbsp;&nbsp; AllowOverride None&nbsp;&nbsp;&nbsp;&nbsp; # 表示禁止用户对目录配置文件(.htaccess进行修改)重载，普通站点不建议开启<br>&lt;/Directory&gt;<br><br>&lt;Directory "/var/www/html"&gt; <br>&nbsp;&nbsp;&nbsp; Options Indexes FollowSymLinks <br>&nbsp;&nbsp;&nbsp; AllowOverride None <br>&nbsp;&nbsp;&nbsp; Order allow,deny <br>&nbsp;&nbsp;&nbsp; Allow from all <br>&lt;/Directory&gt;<br>对
+/var/www/html目录的一个权限的设置，options中Indexes表示当网页不存在的时候允许索引显示目录中的文
+件，FollowSymLinks是否允许访问符号链接文件。有的选项有ExecCGI表是否使用CGI，如Options&nbsp; 
+Includes ExecCGI&nbsp; 
+FollowSymLinks表示允许服务器执行CGI及SSI，禁止列出目录。SymLinksOwnerMatch表示当符号链接的文件和目标文件为
+同一用户拥有时才允许访问。AllowOverrideNone表示不允许这个目录下的访问控制文件来改变这里的配置，这也意味着不用查看这个目录下的访
+问控制文件，修改为：AllowOverride&nbsp; All&nbsp; 
+表示允许.htaccess。Order对页面的访问控制顺序后面的一项是默认选项，如allow，deny则默认是deny，Allowfromall
+表示允许所有的用户，通过和上一项结合可以控制对网站的访问控制<br><br>&lt;IfModule mod_userdir.c&gt; <br>&nbsp;&nbsp;&nbsp; UserDir disabled <br>&lt;/IfModule&gt;<br>是否允许用户访问其家目录，默认是不允许<br><br>#&lt;Directory /home/*/public_html&gt; <br>#&nbsp; &nbsp; AllowOverride FileInfo AuthConfig Limit <br>#&nbsp; &nbsp; Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec <br>#&nbsp; &nbsp; &lt;Limit GET POST OPTIONS&gt; <br>#&nbsp; &nbsp; &nbsp; &nbsp; Order allow,deny <br>#&nbsp; &nbsp; &nbsp; &nbsp; Allow from all <br>#&nbsp; &nbsp; &lt;/Limit&gt; <br>#&nbsp; &nbsp; &lt;LimitExcept GET POST OPTIONS&gt; <br>#&nbsp; &nbsp; &nbsp; &nbsp; Order deny,allow <br>#&nbsp; &nbsp; &nbsp; &nbsp; Deny from all <br>#&nbsp; &nbsp; &lt;/LimitExcept&gt; <br>#&lt;/Directory&gt;<br>如果允许访问用户的家目录中的网页文件，则取消以上注释，并对其中进行修改<br><br>DirectoryIndex index.html index.html.var&nbsp;&nbsp;&nbsp; #指定所要访问的主页的默认主页名字，默认首页文件名为index.html<br><br>AccessFileName .htaccess&nbsp;&nbsp;&nbsp;&nbsp; #定义每个目录下的访问控制文件名，缺省为.htaccess<br><br>&lt;Files ~ "^\.ht"&gt; <br>&nbsp;&nbsp;&nbsp; Order allow,deny <br>&nbsp;&nbsp;&nbsp; Deny from all <br>&nbsp;&nbsp;&nbsp; Satisfy All <br>&lt;/Files&gt;<br>控制不让web上的用户来查看.htpasswd和.htaccess这两个文件<br><br>TypesConfig /etc/mime.types&nbsp;&nbsp;&nbsp;&nbsp; #用于设置保存有不同MIME类型数据的文件名<br><br>DefaultType text/plain&nbsp;&nbsp; #默认的网页的类型<br><br>&lt;IfModule mod_mime_magic.c&gt; <br>#&nbsp;&nbsp; MIMEMagicFile /usr/share/magic.mime <br>&nbsp;&nbsp;&nbsp;&nbsp; MIMEMagicFile conf/magic<br>&lt;/IfModule&gt;<br>指定判断文件真实MIME类型功能的模块<br><br>HostnameLookups Off&nbsp;&nbsp; #当打开此项功能时，在记录日志的时候同时记录主机名，这需要服务器来反向解析域名，增加了服务器的负载，通常不建议开启<br><br>#EnableMMAP off<br>是
+否允许内存映射：如果httpd在传送过程中需要读取一个文件的内容，它是否可以使用内存映射。如果为on表示如果操作系统支持的话，将使用内存映射。在
+一些多核处理器的系统上，这可能会降低性能，如果在挂载了NFS的DocumentRoot上如果开启此项功能，可能造成因为分段而造成httpd崩溃<br><br>#EnableSendfile off<br>这
+个指令控制httpd是否可以使用操作系统内核的sendfile支持来将文件发送到客户端。默认情况下，当处理一个请求并不需要访问文件内部的数据时
+(比如发送一个静态的文件内容)，如果操作系统支持，Apache将使用sendfile将文件内容直接发送到客户端而并不读取文件<br><br>ErrorLog logs/error_log&nbsp;&nbsp; #错误日志存放的位置<br>LogLevel warn&nbsp;&nbsp;&nbsp; #Apache日志的级别<br><br>LogFormat "%h %l %u %t \"%r\" %&gt;s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined <br>LogFormat "%h %l %u %t \"%r\" %&gt;s %b" common <br>LogFormat "%{Referer}i -&gt; %U" referer <br>LogFormat "%{User-agent}i" agent<br>定义了日志的格式，并用不同的代号表示<br><br>#CustomLog logs/access_log common <br>CustomLog logs/access_log combined<br>说明日志记录的位置，这里面使用了相对路径，所以ServerRoot需要指出，日志位置就存放在/etc/httpd/logs<br><br>ServerSignature On&nbsp;&nbsp;&nbsp; #定义当客户请求的网页不存在，或者错误的时候是否提示apache的版本的一些信息<br><br>Alias /icons/ "/var/www/icons/"&nbsp;&nbsp; #定义一些不在DocumentRoot下的文件，而可以将其映射到网页根目录中，这也是访问其他目录的一种方法，但在声明的时候切记目录后面加”/”<br><br>&lt;Directory "/var/www/icons"&gt; <br>&nbsp;&nbsp;&nbsp; Options Indexes MultiViews FollowSymLinks <br>&nbsp;&nbsp;&nbsp; AllowOverride None <br>&nbsp;&nbsp;&nbsp; Order allow,deny <br>&nbsp;&nbsp;&nbsp; Allow from all <br>&lt;/Directory&gt;<br>定义对/var/www/icons/的权限，修改为 Options MultiViews FollowSymLinks表示不在浏览器上显示树状目录结构<br><br>&lt;IfModule mod_dav_fs.c&gt; <br>&nbsp; &nbsp;&nbsp; # Location of the WebDAV lock database. <br>&nbsp; &nbsp;&nbsp; DAVLockDB /var/lib/dav/lockdb<br>&lt;/IfModule&gt;<br>对mod_dav_fs.c模块儿的管理<br><br>ScriptAlias /cgi-bin/ "/var/www/cgi-bin/"&nbsp;&nbsp; #对CGI模块儿的的别名，与Alias相似<br><br>&lt;Directory "/var/www/cgi-bin"&gt; <br>&nbsp;&nbsp;&nbsp; AllowOverride None <br>&nbsp;&nbsp;&nbsp; Options None <br>&nbsp;&nbsp;&nbsp; Order allow,deny <br>&nbsp;&nbsp;&nbsp; Allow from all <br>&lt;/Directory&gt;<br>对/var/www/cgi-bin文件夹的管理，方法同上<br><br># Redirect old-URI new-URL<br>Redirect参数是用来重写URL的，当浏览器访问服务器上的一个已经不存在的资源的时候，服务器返回给浏览器新的URL，告诉浏览器从该URL中获取资源。这主要用于原来存在于服务器上的文档改变位置之后，又需要能够使用老URL能访问到原网页<br><br>IndexOptions FancyIndexing VersionSort NameWidth=* HTMLTable Charset=UTF-8 <br>AddIconByEncoding (CMP,/icons/compressed.gif) x-compress x-gzip<br>... <br>IndexIgnore .??* *~ *# HEADER* README* RCS CVS *,v *,t<br>当
+一个HTTP请求的URL为一个目录的时候，服务器返回这个目录中的索引文件，如果目录中不存在索引文件，并且服务器有许可显示目录文件列表的时候，就会
+显示这个目录中的文件列表，为了使得这个文件列表能具有可理解性，而不仅仅是一个简单的列表，就需要前这些参数。如果使用了
+IndexOptionsFancyIndexing选项，可以让服务器针对不同的文件引用不同的图标。如果没有就使用DefaultIcon定义缺省图
+标。同样，使用AddDescription可以为不同类型的文档介入描述<br><br>AddLanguage ca .ca <br>...... <br>AddLanguage zh-TW .zh-tw<br>添加语言<br><br>LanguagePriority en ca cs da de el eo es et fr he hr it ja ko ltz nl nn no pl pt pt-BR ru sv zh-CN zh-TW<br>Apache支持的语言<br><br>AddDefaultCharset UTF-8&nbsp; #默认支持的语言<br><br>#AddType application/x-tar .tgz&nbsp;&nbsp; #支持的应用如果想支持对php的解析添加这样一行<br><br>#AddEncoding x-compress .Z <br>#AddEncoding x-gzip .gz .tgz<br>支持对以.Z和.gz.tgz结尾的文件<br><br>AddType application/x-compress .Z <br>AddType application/x-gzip .gz .tgz<br>添加对上述两种文件的应用<br><br>#AddHandler cgi-script .cgi&nbsp;&nbsp; #修改为：AddHandler cgi-script .cgi .pl 表示允许扩展名为.pl的CGI脚本运行<br>AddType text/html .shtml <br>AddOutputFilter INCLUDES .shtml<br>添加动态处理类型为server-parsed由服务器预先分析网页内的标记，将标记改为正确的HTML标识<br><br>#ErrorDocument 404 /missing.html&nbsp;&nbsp; #当服务器出现404错误的时候，返回missing.html页面<br>Alias /error/ "/var/www/error/"&nbsp;&nbsp; #赋值别名<br><br>&lt;IfModule mod_negotiation.c&gt; <br>&lt;IfModule mod_include.c&gt; <br>&nbsp;&nbsp;&nbsp; &lt;Directory "/var/www/error"&gt; <br>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; AllowOverride None <br>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; Options IncludesNoExec <br>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; AddOutputFilter Includes html <br>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; AddHandler type-map var <br>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; Order allow,deny <br>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; Allow from all <br>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; LanguagePriority en es de fr <br>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; ForceLanguagePriority Prefer Fallback <br>&nbsp;&nbsp;&nbsp; &lt;/Directory&gt;<br>对/var/www/error网页的权限及操作<br><br>BrowserMatch "Mozilla/2" nokeepalive <br>BrowserMatch "MSIE 4\.0b2;" nokeepalive downgrade-1.0 force-response-1.0 <br>BrowserMatch "RealPlayer 4\.0" force-response-1.0 <br>BrowserMatch "Java/1\.0" force-response-1.0 <br>BrowserMatch "JDK/1\.0" force-response-1.0 <br>.....<br>设置特殊的参数，以保证对老版本浏览器的兼容，并支持新浏览器的特性<br><br>#NameVirtualHost *:80&nbsp;&nbsp; #如果启用虚拟主机的话，必须将前面的注释去掉，而且，第二部分的内容都可以出现在每个虚拟主机部分。<br># VirtualHost example: <br>#&lt;VirtualHost *:80&gt; <br>#&nbsp; &nbsp; ServerAdmin webmaster@www.linuxidc.com <br>#&nbsp; &nbsp; DocumentRoot /www/docs/www.linuxidc.com <br>#&nbsp; &nbsp; ServerName www.linuxidc.com <br>#&nbsp; &nbsp; ErrorLog logs/www.linuxidc.com-error_log <br>#&nbsp; &nbsp; CustomLog logs/www.linuxidc.com-access_log common <br>#&lt;/VirtualHost&gt;<br>www.linuxidc.com替换为你的网址<br><br>二、Apache扩展的配置文件<br>$APACHE_HOME/conf/extra &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# apache扩展的配置文件<br>[root@extra]# ll<br>total 56<br>-rw-r--r-- 1 root root &nbsp;2859 Jan 10 01:49 httpd-autoindex.conf<br>-rw-r--r-- 1 root root &nbsp;1753 Jan 10 01:49 httpd-dav.conf<br>-rw-r--r-- 1 root root &nbsp;2344 Jan 10 01:49 httpd-default.conf<br>-rw-r--r-- 1 root root &nbsp;1103 Jan 10 01:49 httpd-info.conf<br>-rw-r--r-- 1 root root &nbsp;5078 Jan 10 01:49 httpd-languages.conf<br>-rw-r--r-- 1 root root &nbsp; 932 Jan 10 01:49 httpd-manual.conf<br>-rw-r--r-- 1 root root &nbsp;3789 Jan 10 01:49 httpd-mpm.conf<br>-rw-r--r-- 1 root root &nbsp;2207 Jan 10 01:49 httpd-multilang-errordoc.conf<br>-rw-r--r-- 1 root root 11185 Jan 10 01:49 httpd-ssl.conf<br>-rw-r--r-- 1 root root &nbsp; 817 Jan 10 01:49 httpd-userdir.conf<br>-rw-r--r-- 1 root root &nbsp;1507 Jan 10 01:49 httpd-vhosts.conf # 虚拟主机配置文件<br><br><br>三、httpd-vhosts.conf虚拟主机配置文件注释<br>[root@extra]# egrep -v "^.*#|^$" httpd-vhosts.conf |nl<br>&nbsp;&nbsp;
+ &nbsp; 1 &nbsp;NameVirtualHost *:80 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp;# 基于名称的虚拟主机配置（ *:80表示监听本机所有ip）<br>&nbsp;&nbsp; &nbsp; 2 
+&nbsp;&lt;VirtualHost *:80&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp;# 定义一个虚拟主机<br>&nbsp;&nbsp; &nbsp; 3 &nbsp; &nbsp; &nbsp;ServerAdmin webmaster@dummy-host.example.com &nbsp; &nbsp;# 配置管理员邮箱<br>&nbsp;&nbsp; &nbsp; 4 &nbsp; &nbsp; &nbsp;DocumentRoot "/application/apache2.2.22/docs/dummy-host.example.com" &nbsp;# 程序的站点目录<br>&nbsp;&nbsp;
+ &nbsp; 5 &nbsp; &nbsp; &nbsp;ServerName dummy-host.example.com &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 域名服务，需要apache mode_alias模块支持<br>&nbsp;&nbsp; &nbsp; 6 &nbsp; &nbsp; &nbsp;ServerAlias www.dummy-host.example.com &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 虚拟主机别名<br>&nbsp;&nbsp; &nbsp; 7 &nbsp; &nbsp; &nbsp;ErrorLog "logs/dummy-host.example.com-error_log"# 错误的日志路径<br>&nbsp;&nbsp;
+ &nbsp; 8 &nbsp; &nbsp; &nbsp;CustomLog 
+"logs/dummy-host.example.com-access_log" common 
+&nbsp;#访问日志配置（生产环境我们用combined格式代替common格式）<br>&nbsp;&nbsp; &nbsp; 9 &nbsp;&lt;/VirtualHost&gt;<br>&nbsp;&nbsp; &nbsp;10 &nbsp;&lt;VirtualHost *:80&gt;<br>&nbsp;&nbsp; &nbsp;11 &nbsp; &nbsp; &nbsp;ServerAdmin webmaster@dummy-host2.example.com<br>&nbsp;&nbsp; &nbsp;12 &nbsp; &nbsp; &nbsp;DocumentRoot "/application/apache2.2.22/docs/dummy-host2.example.com"<br>&nbsp;&nbsp; &nbsp;13 &nbsp; &nbsp; &nbsp;ServerName dummy-host2.example.com<br>&nbsp;&nbsp; &nbsp;14 &nbsp; &nbsp; &nbsp;ErrorLog "logs/dummy-host2.example.com-error_log"<br>&nbsp;&nbsp; &nbsp;15 &nbsp; &nbsp; &nbsp;CustomLog "logs/dummy-host2.example.com-access_log" common<br>&nbsp;&nbsp; &nbsp;16 &nbsp;&lt;/VirtualHost&gt;<br><br><br>四、Apache服务存放站点的目录<br>$APACHE_HOME/apache/htdocs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 默认存放网页的路径，输入IP 到此目录 能够见到it's wroks! 就是此目录<br>[root@htdocs]# less &nbsp;index.html <br>&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;<br><br><br><br><br>五、Apache服务目录结构说明<br>[root@htdocs]# ls ../<br>&nbsp;bin
+ &nbsp;build &nbsp;cgi-bin &nbsp;conf &nbsp;error &nbsp;htdocs 
+&nbsp;icons &nbsp;include &nbsp;lib &nbsp;logs &nbsp;man &nbsp;manual 
+&nbsp;modules<br>bin启动文件目录说明<br>|-- bin &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# apache服务的命令目录<br>| &nbsp; |-- ab &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # http服务性能测试工具<br>| &nbsp; |-- apachectl &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# apache启动命令<br>| &nbsp; |-- apr-1-config &nbsp; &nbsp; &nbsp; <br>| &nbsp; |-- apu-1-config<br>| &nbsp; |-- apxs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # http服务编译和安装扩展模块使用工具，在DSO方式模块编译时用到<br>| &nbsp; |-- checkgid<br>| &nbsp; |-- dbmmanage<br>| &nbsp; |-- envvars<br>| &nbsp; |-- envvars-std<br>| &nbsp; |-- htcacheclean &nbsp; &nbsp; &nbsp; # 清理磁盘缓冲区的控制命令<br>| &nbsp; |-- htdbm<br>| &nbsp; |-- htdigest<br>| &nbsp; |-- htpasswd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 建立和更新基本认证文件<br>| &nbsp; |-- httpd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# httpd为apache的控制命令程序<br>| &nbsp; |-- httxt2dbm<br>| &nbsp; |-- logresolve<br>| &nbsp; &nbsp;-- rotatelogs &nbsp; &nbsp; &nbsp; &nbsp; # apache自带的日子轮询命令（cronolog生产环境使用比较多）。<br><br><br>conf配置文件目录<br>[root@htdocs]# ls ../conf/<br>extra &nbsp;httpd.conf &nbsp;magic &nbsp;mime.types &nbsp;original<br>/application/apache/conf/ &nbsp; &nbsp; &nbsp; &nbsp; # apache配置所有的配置文件目录<br>|--
+ extra &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; # 额外的apache配置文件目录 如：httpd-vhost.conf<br>| &nbsp; |-- httpd-autoindex.conf &nbsp; &nbsp; &nbsp;<br>| &nbsp; |-- httpd-dav.conf<br>| &nbsp; |-- httpd-default.conf<br>| &nbsp; |-- httpd-info.conf<br>| &nbsp; |-- httpd-languages.conf<br>| &nbsp; |-- httpd-manual.conf<br>| &nbsp; |-- httpd-mpm.conf<br>| &nbsp; |-- httpd-multilang-errordoc.conf<br>| &nbsp; |-- httpd-ssl.conf<br>| &nbsp; |-- httpd-userdir.conf<br>| &nbsp; |-- httpd-vhosts.conf<br>|-- httpd.conf &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # apache主配置文件<br>|-- magic<br>|-- mime.types<br>|-- original<br>| &nbsp; |-- extra<br>| &nbsp; | &nbsp; |-- httpd-autoindex.conf<br>| &nbsp; | &nbsp; |-- httpd-dav.conf &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # dav支持配置<br>| &nbsp; | &nbsp; |-- httpd-default.conf &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 这个文件里配置的是apache的相关服务参数：超时时间、保持链接<br>| &nbsp; | &nbsp; |-- httpd-info.conf<br>| &nbsp; | &nbsp; |-- httpd-languages.conf &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 语言支持<br>| &nbsp; | &nbsp; |-- httpd-manual.conf<br>| &nbsp; | &nbsp; |-- httpd-mpm.conf # 服务器池管理，也是优化apache的一个配置文件（apache的模式以及配置链接数，常用模式为worker模式和profork模式，默认porfork）<br>| &nbsp; | &nbsp; |-- httpd-multilang-errordoc.conf <br>| &nbsp; | &nbsp; |-- httpd-ssl.conf &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 提供apache ssl支持配置文件<br>| &nbsp; | &nbsp; |-- httpd-userdir.conf<br>| &nbsp; | &nbsp; |-- httpd-vhosts.conf &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 虚拟机的配置文件<br>| &nbsp; |-- httpd.conf<br><br><br>站点存放目录<br>[root@apache]# ls -l htdocs/ &nbsp; &nbsp;# 默认的首页文件都放在此目录当中。<br>total 4<br>-rw-r--r-- 1 root root 44 Nov 21 &nbsp;2004 index.html<br><br><br>日志存放目录<br>[root@es apache]# tree logs<br>logs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # apache服务默认的日志路径，包括错误日志和访问日志<br>|-- access_log &nbsp; &nbsp; &nbsp; # apache服务访问日志 tail -f命令可以查看网页用户访问的信息<br>|-- cgisock.16406 &nbsp; &nbsp;<br>|-- error_log &nbsp; &nbsp; &nbsp; &nbsp;# apache服务的错误日志。如：apache服务启动故障<br>|-- httpd.pid &nbsp; &nbsp; &nbsp; &nbsp;# httpd的pid文件，http进程启动后，会把所有进程的id号写到此文件<br><br><br>模块目录<br>[root@apache]# ls -l manual/ &nbsp; &nbsp; # apache的模块目录 如php mencache<br>total 2984<br>-rw-r--r-- 1 root root &nbsp; 543 May &nbsp;6 &nbsp;2008 bind.html<br>-rw-r--r-- 1 root root 11422 Jan &nbsp;3 &nbsp;2012 bind.html.de<br><br><br></p></div><div id="MySignature" style="display: block;">每天记录一点，就能多学一点,充实一点</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/qianyuliang/category/956763.html" target="_blank">Linux</a></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/qianyuliang/tag/Linux/">Linux</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6831942,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('1cce276c-22f4-e611-845c-ac853d9f53ac');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/qianyuliang/" target="_blank"><img src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20170718142718.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/qianyuliang/">浅雨凉</a><br>
+            <a href="http://home.cnblogs.com/u/qianyuliang/followees">关注 - 3</a><br>
+            <a href="http://home.cnblogs.com/u/qianyuliang/followers">粉丝 - 51</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('1cce276c-22f4-e611-845c-ac853d9f53ac');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6831942,'Digg')">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(6831942,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/qianyuliang/p/6814376.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/qianyuliang/p/6814376.html" title="发布于2017-05-05 18:12">Django 简单教程（入门级）</a><br><a href="https://www.cnblogs.com/qianyuliang/p/6841881.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/qianyuliang/p/6841881.html" title="发布于2017-05-11 17:27">oracle decode函数和 sign函数</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-05-09 18:05</span> <a href="https://www.cnblogs.com/qianyuliang/">浅雨凉</a> 阅读(<span id="post_view_count">28333</span>) 评论(<span id="post_comment_count">1</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6831942" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(6831942);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=332868,cb_entryId=6831942,cb_blogApp=currentBlogApp,cb_blogUserGuid='1cce276c-22f4-e611-845c-ac853d9f53ac',cb_entryCreatedDate='2017/5/9 18:05:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#4166038" class="layer">#1楼</a><a name="4166038" id="comment_anchor_4166038"></a><span id="comment-maxId" style="display:none;">4166038</span><span id="comment-maxDate" style="display:none;">2019/1/18 16:15:27</span>  <span class="comment_date">2019-01-18 16:15</span> <a id="a_comment_author_4166038" href="https://www.cnblogs.com/yanghailin888/" target="_blank">顶松</a> <a href="http://msg.cnblogs.com/send/%E9%A1%B6%E6%9D%BE" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4166038" class="blog_comment_body">大佬</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4166038,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4166038,'Bury',this)">反对(0)</a></div><span id="comment_4166038_avatar" style="display:none;">http://pic.cnblogs.com/face/1590112/20190118135327.png</span>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-gitee')">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br><a href="https://www.bagevent.com/event/2468856" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-GAITC')">【活动】2019第四届全球人工技术大会解码“智能+时代”</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="Apache%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E5%BD%95%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3%20-%20%E6%B5%85%E9%9B%A8%E5%87%89%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="COvC6Z71weECFUVuvQodh9UFhQ"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/eastson/archive/2012/11/30/2796326.html" target="_blank" onclick="clickRecomItmem(2796326)">APACHE缓存目录权限</a><br>·  <a href="https://www.cnblogs.com/carbon3/p/5635543.html" target="_blank" onclick="clickRecomItmem(5635543)">yum方式安装的Apache目录详解和配置说明</a><br>·  <a href="https://www.cnblogs.com/bourneli/archive/2012/11/13/2767522.html" target="_blank" onclick="clickRecomItmem(2767522)">Apache alias目录配置</a><br>·  <a href="https://www.cnblogs.com/CyLee/p/5544119.html" target="_blank" onclick="clickRecomItmem(5544119)">apache 虚拟目录</a><br>·  <a href="https://www.cnblogs.com/geniusxjq/p/4107602.html" target="_blank" onclick="clickRecomItmem(4107602)">apache去掉目录浏览</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="COzC6Z71weECFUVuvQodh9UFhQ"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/623474/" target="_blank">因为春天来了，所以共享单车就涨价了？</a><br> ·  <a href="https://news.cnblogs.com/n/623477/" target="_blank">微软：Windows 10用户可以快速移除U盘</a><br> ·  <a href="https://news.cnblogs.com/n/623480/" target="_blank">老板眼中的996</a><br> ·  <a href="https://news.cnblogs.com/n/623479/" target="_blank">Serverless增长趋于疲软</a><br> ·  <a href="https://news.cnblogs.com/n/623478/" target="_blank">小米去年赚134亿雷军年薪百亿 获发B股作薪酬</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><!-- 背景动画 -->
+<canvas id="c_n9" width="1920" height="990" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;"></canvas>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['7']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['8']();</script><script>window['__document_write_ajax_callbacks__']['1']();</script>
+<canvas id="c_n7" width="1089" height="938" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;"></canvas>
+
+<!-- 标签云相关库 -->
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['9']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['10']();</script><script>window['__document_write_ajax_callbacks__']['2']();</script>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['11']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['12']();</script><script type="text/javascript" charset="utf-8">window['__document_write_ajax_callbacks__']['3']();</script>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['13']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['14']();</script><script type="text/javascript" charset="utf-8">window['__document_write_ajax_callbacks__']['4']();</script>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['15']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['16']();</script><script type="text/javascript" charset="utf-8">window['__document_write_ajax_callbacks__']['5']();</script>
+
+<!-- 页面圈圈设置 -->
+<div id="floatMenu">
+<div id="circle"></div>
+<div id="circletext"><strong style="color: blue"> <a href="#top">浅雨凉</a></strong></div>
+<a href="#recent_comments_wrap"><div id="circle1"></div></a>
+</div><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/qianyuliang/">浅雨凉</a><br>园龄：<a href="https://home.cnblogs.com/u/qianyuliang/" title="入园时间：2017-02-16">2年1个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/qianyuliang/followers/">51</a><br>关注：<a href="https://home.cnblogs.com/u/qianyuliang/followees/">3</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('1cce276c-22f4-e611-845c-ac853d9f53ac')">+加关注</a></div><script type="text/javascript">window['__document_write_ajax_callbacks__']['17']();</script><script>window['__document_write_ajax_callbacks__']['6']();</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/03/01');return false;">&lt;</a></td><td align="center">2019年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/05/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td class="CalTodayDay" align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_recentposts" class="sidebar-block">
+<div class="catListEssay">
+<h3 class="catListTitle">最新随笔</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/qianyuliang/p/10542886.html">1. Prometheus Node_exporter 详解</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/10542767.html">2. Prometheus Node_exporter 之  Node Exporter</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/10542757.html">3. Prometheus Node_exporter 之  Network Netstat ICMP</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/10542747.html">4. Prometheus Node_exporter 之 Network Netstat UDP</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/10542720.html">5. Prometheus Node_exporter 之  Network Netstat TCP Linux MIPs</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/10542713.html">6. Prometheus Node_exporter 之  Network Netstat TCP</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/10542711.html">7. Prometheus Node_exporter 之 Network Netstat</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/10542699.html">8. Prometheus Node_exporter 之  Network Sockstat</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/10542691.html">9. Prometheus Node_exporter 之  Network Traffic Detail</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/10542676.html">10. Prometheus Node_exporter 之 FileSystem Detail</a></li>
+</ul>
+</div>
+</div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/qianyuliang/category/1011020.html">django框架(10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/qianyuliang/category/1029171.html">Eclipse(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/qianyuliang/category/1350998.html">Git(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/qianyuliang/category/1367802.html">http(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/qianyuliang/category/1380499.html">Java集锦(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/qianyuliang/category/956763.html">Linux(32)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/qianyuliang/category/1367540.html">Linux 监控工具(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/qianyuliang/category/1039740.html">Mysql(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/qianyuliang/category/951228.html">Oracle(19)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/qianyuliang/category/1199894.html">Oralce 错误集锦(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/qianyuliang/category/1412099.html">Prometheus(20)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/qianyuliang/category/949231.html">python 基础(36)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/qianyuliang/category/976300.html">Python 爬虫(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/qianyuliang/category/979757.html">Web知识(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="https://www.cnblogs.com/qianyuliang/category/949218.html">windows(8)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_articlecategory" class="catListArticleCategory sidebar-block">
+<h3 class="catListTitle">文章分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/qianyuliang/category/949789.html">Python(2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/qianyuliang/category/949217.html">windows</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_imagecategory" class="catListImageCategory sidebar-block">
+<h3 class="catListTitle">相册</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_2_Link_0" href="https://www.cnblogs.com/qianyuliang/gallery/1132950.html" rel="nofollow">Dns(3)</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_1" href="https://www.cnblogs.com/qianyuliang/gallery/1381244.html" rel="nofollow">IO请求处理流程(1)</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_2" href="https://www.cnblogs.com/qianyuliang/gallery/1381368.html" rel="nofollow">Java(1)</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_3" href="https://www.cnblogs.com/qianyuliang/gallery/1187233.html" rel="nofollow">Mysql(1)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_links966859" class="catList sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_3_Link_0" href="https://www.cnblogs.com/qianyuliang/articles/6410310.html" rel="nofollow">博客文章</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	59790
+	</li>
+	<li class="liRank">
+		排名 -	8743
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/qianyuliang/p/6649983.html#4214820">1. Re:Oracle wm_concat（）函数</a></li>
+        <li class="recent_comment_body">写得很详细 能看出博主很用心</li>
+        <li class="recent_comment_author">--毅坚</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/qianyuliang/p/7234217.html#4173648">2. Re:Python logger模块</a></li>
+        <li class="recent_comment_body">谢谢，学习了</li>
+        <li class="recent_comment_author">--Whaleunderwater</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/qianyuliang/p/8855944.html#4172877">3. Re:ORA-12505: TNS: 监听程序当前无法识别连接描述符中所给出的SID等错误解决方法</a></li>
+        <li class="recent_comment_body">(DESCRIPTION =(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=10.190.121.95)(PORT=1521))(LOAD_BALANCE=yes......</li>
+        <li class="recent_comment_author">--测试账号00</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/qianyuliang/p/6831942.html#4166038">4. Re:Apache的主要目录和配置文件详解</a></li>
+        <li class="recent_comment_body">大佬</li>
+        <li class="recent_comment_author">--顶松</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/qianyuliang/p/6676089.html#4150063">5. Re:Python javascript操作DOM</a></li>
+        <li class="recent_comment_body">服了</li>
+        <li class="recent_comment_author">--月痕影</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/qianyuliang/p/6649983.html">1. Oracle wm_concat（）函数(62471)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/6831942.html">2. Apache的主要目录和配置文件详解(28329)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/6520515.html">3. listener.ora/sqlnet.ora/tnsnames.ora配置文件详解(17541)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/7234217.html">4. Python logger模块(15014)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/6433250.html">5. python paramiko模块简介(9372)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/qianyuliang/p/6700435.html">1. oracle  inner join、left join、right join 、+左边或者右边的区别(2)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/6676089.html">2. Python javascript操作DOM(2)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/9155196.html">3. 平均负载（Load  average）(2)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/7234217.html">4. Python logger模块(2)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/6841881.html">5. oracle decode函数和 sign函数(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/qianyuliang/p/7234217.html">1. Python logger模块(7)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/6649983.html">2. Oracle wm_concat（）函数(4)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/6524732.html">3. CMD命令大全(2)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/7921462.html">4. linux下部署redis(2)</a></li><li><a href="https://www.cnblogs.com/qianyuliang/p/6841881.html">5. oracle decode函数和 sign函数(2)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 浅雨凉
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+<canvas id="c_n21" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;" width="1184" height="561"></canvas><script type="text/javascript">getFollowStatus('1cce276c-22f4-e611-845c-ac853d9f53ac')</script></body></html>

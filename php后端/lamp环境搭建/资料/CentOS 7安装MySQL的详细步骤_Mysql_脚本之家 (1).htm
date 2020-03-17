@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta http-equiv="content-type" content="text/html; charset=GBK">
+<meta charset="gb2312">
+<meta name="applicable-device" content="pc">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform">
+<title>CentOS 7安装MySQL的详细步骤_Mysql_脚本之家</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+<meta name="keywords" content="CentOS,7,MySQL">
+<meta name="description" content="这篇文章主要为大家介绍了CentOS 7安装MySQL的详细步骤，具有一定的参考价值，感兴趣的小伙伴们可以参考一下">
+<link rel="alternate" media="only screen and(max-width: 640px)" href="https://m.jb51.net/article/146298.htm">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://m.jb51.net/article/146298.htm">
+<meta http-equiv="mobile-agent" content="format=xhtml; url=https://m.jb51.net/article/146298.htm">
+<script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/osd.js"></script><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/ca-pub-6384567588307613.js"></script><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/show_ads_impl.js" id="google_shimpl"></script><script type="text/javascript" async="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/auto_dup"></script><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/hm.js"></script><script type="text/javascript" async="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/fzdhidk.js"></script><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/push.js"></script><script type="text/javascript" async="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/dynamicFloat.js"></script><script type="text/javascript">
+var tougao="lijiao",lmname="Mysql",suoyin="no";
+(function(){var reWriteUrl=function(url){if(url){var Splits=url.split("/"),siteName=window.location.pathname;if(typeof siteName!=="undefined"){return "https://m.jb51.net"+siteName}}};if(/Android|webOS|iPhone|iPad|Windows Phone|iPod|BlackBerry|SymbianOS|Nokia|Mobile/i.test(navigator.userAgent)){var url=window.location.href;var pathname=window.location.pathname;if(url.indexOf("?pc")<0){try{window.location.href=reWriteUrl(url)}catch(e){}}}})();
+</script>
+<meta name="referrer" content="always">
+<link type="text/css" href="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/base.css" rel="stylesheet">
+<link type="text/css" href="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/common.css" rel="stylesheet">
+<script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/jquery.js"></script>
+<script type="text/javascript">
+    if (typeof jQuery == 'undefined') {
+        document.write(unescape("%3Cscript src='/skin/js/jquery.js' type='text/javascript'%3E%3C/script%3E"));
+    }
+</script>
+<script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/function.js"></script> 
+<link rel="preload" href="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/integrator.js" as="script"><script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/integrator.js"></script><link rel="preload" href="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/show_ads_impl.js" as="script"></head>
+<body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/o.htm" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div>
+<!--topTools Start -->
+<div class="topTools">
+    <div class="wrap clear_fix">
+		<div class="topToolsLeft">
+			<a href="https://www.jb51.net/" target="_blank">脚本之家</a>
+			<a href="http://s.jb51.net/" target="_blank" rel="nofollow">服务器常用软件</a>
+		<a href="https://www.yuanshichang.com/" target="_blank" style="color:red">源码商城</a><a href="http://idc.jb51.net/" target="_blank" style="color:red">脚本云</a><a href="http://ke.jb51.net/" target="_blank" style="color:red">脚本云课堂</a></div>
+		<div class="right">
+			<ul>
+				<li><i class="sprite md left"></i><a target="_blank" href="https://m.jb51.net/" rel="nofollow">手机版</a></li>
+				<li><i class="sprite tg left"></i><a href="http://tougao.jb51.net/" rel="nofollow" target="_blank">投稿中心</a></li>
+				<li id="wxHide"><i class="sprite wx left"></i><a href="javascript:void(0)" target="_blank">关注微信</a>
+					<div id="wxShow" class="wxHide_box"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/erwm.jpg" alt="扫一扫" hight="84" data-baiduimageplus-ignore="" width="84"></div>
+				</li>
+			</ul>
+			<!--快捷导航 开始 -->
+			<div class="text_d right" id="navHide">
+        <a rel="nofollow" href="javascript:void(0);">快捷导航 <i id="icon" class="sprite arrowRight"></i></a>
+        <div id="navBox" class="nwebNav" style="display: none;">
+                <div class="ndealList clear_fix">
+                        <div class="navTitle left">
+                                <h4>
+                                        <a rel="nofollow" href="https://www.jb51.net/softs/" target="_blank">软件下载</a></h4>
+                        </div>
+                        <dl class="right">
+                                <dd>
+                                        <a rel="nofollow" href="https://www.jb51.net/softs/android.html" target="_blank">android</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/softs/mac.html" target="_blank">MAC</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/qudong/" target="_blank">驱动下载</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/fonts/" target="_blank">字体下载</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/dll/" target="_blank">DLL</a></dd>
+                        </dl>
+                </div>
+                <div class="ndealList clear_fix">
+                        <div class="navTitle left">
+                                <h4>
+                                        <a rel="nofollow" href="https://www.jb51.net/codes/" target="_blank">源码下载</a></h4>
+                        </div>
+                        <dl class="right">
+                                <dd>
+                                        <a rel="nofollow" href="https://www.jb51.net/codes/php.html" target="_blank">PHP</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/codes/aspnet.html" target="_blank">ASP.NET</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/codes/asp.html" target="_blank">ASP</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/codes/jsp.html" target="_blank">JSP</a></dd>
+                        </dl>
+                </div>
+                <div class="ndealList clear_fix">
+                        <div class="navTitle left">
+                                <h4><a rel="nofollow" href="https://www.jb51.net/list/index_84.htm" target="_blank">软件编程</a></h4>
+                        </div>
+                        <dl class="right">
+                                <dd>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_85_1.htm" target="_blank">C#</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_134_1.htm" target="_blank">JAVA</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_159_1.htm" target="_blank">C 语言</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_206_1.htm" target="_blank">Delphi</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_233_1.htm" target="_blank">Android</a></dd>
+                        </dl>
+                </div>
+                <div class="ndealList clear_fix">
+                        <div class="navTitle left">
+                                <h4><a rel="nofollow" href="https://www.jb51.net/list/index_1.htm" target="_blank">网络编程</a></h4>
+                        </div>
+                        <dl class="right">
+                                <dd>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_15_1.htm" target="_blank">PHP</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_21_1.htm" target="_blank">ASP.NET</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_2_1.htm" target="_blank">ASP</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_3_1.htm" target="_blank">JavaScript</a></dd>
+                        </dl>
+                </div>
+                <div class="ndealList clear_fix">
+                        <div class="navTitle left">
+                                <h4><a rel="nofollow" href="http://tools.jb51.net/" target="_blank">在线工具</a></h4>
+                        </div>
+                        <dl class="right">
+                                <dd>
+                                        <a rel="nofollow" href="https://www.jb51.net/tools/cssyasuo.shtml" target="_blank">CSS格式化</a>
+                                        <a rel="nofollow" href="http://tools.jb51.net/tools/js_geshihua.asp" target="_blank">JS格式化</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/tools/html-js.htm" target="_blank">Html转化为Js</a></dd>
+                        </dl>
+                </div>
+                <div class="ndealList clear_fix">
+                        <div class="navTitle left">
+                                <h4><a rel="nofollow" href="https://www.jb51.net/list/index_104.htm" target="_blank">数据库</a></h4>
+                        </div>
+                        <dl class="right">
+                                <dd>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_112_1.htm" target="_blank">MYSQL</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_113_1.htm" target="_blank">MSSQL</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_154_1.htm" target="_blank">oracle</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_155_1.htm" target="_blank">DB2</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/list/list_252_1.htm" target="_blank">MARIADB</a></dd>
+                        </dl>
+                </div>
+                <div class="ndealList clear_fix">
+                        <div class="navTitle left">
+                                <h4><a rel="nofollow" href="https://www.jb51.net/cms/" target="_blank">CMS</a></h4>
+                        </div>
+                        <dl class="right">
+                                <dd>
+                                        <a rel="nofollow" href="https://www.jb51.net/cms/list411_1.html" target="_blank">PHPCMS</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/cms/list408_1.html" target="_blank">DEDECMS</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/cms/list578_1.html" target="_blank">帝国CMS</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/cms/list419_1.html" target="_blank">WordPress</a>
+                                </dd>
+                        </dl>
+                </div>
+                <div class="ndealList clear_fix">
+                        <div class="navTitle left">
+                                <h4><a rel="nofollow" href="javascript:0;" target="_blank">常用工具</a></h4>
+                        </div>
+                        <dl class="right">
+                                <dd>
+                                        <a rel="nofollow" href="https://www.jb51.net/zt/phphuanjing.html" target="_blank">PHP开发工具</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/zt/python.html" target="_blank">python</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/zt/photoshopxz.html" target="_blank">Photoshop</a>
+                                        <a rel="nofollow" href="https://www.jb51.net/bibei/win/index.html" target="_blank">必备软件</a></dd>
+                        </dl>
+                </div>
+        </div>
+</div>
+			<!--快捷导航 结束 -->
+		</div>
+    </div>
+</div>
+<!--topTools end -->
+
+<div class="header">
+	<!-- Logo start -->
+	<div class="wrap">
+		<div class="mtb10 clearfix">
+		  <div class="logo"><a href="https://www.jb51.net/"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/logo.gif" title="脚本之家" alt="脚本之家"></a></div>
+		  <div class="logom fl"><a href="http://www.tscszm.com/" target="_blank"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/spcj.gif" width="370" height="60"></a>
+</div>
+		  <div class="logor fr"><a href="http://ke.jb51.net/" target="_blank"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/ke_370.gif" width="370" height="60"></a>
+</div>
+		</div>
+	</div>
+	<!--Logo end -->
+	
+	<!-- 导航开始 -->
+	<div class="nav_top clearfix">
+		<ul>
+			<li><a href="https://www.jb51.net/">网站首页</a></li>
+			<li><a href="https://www.jb51.net/web/">网页制作</a></li>
+			<li><a href="https://www.jb51.net/list/index_1.htm">网络编程</a></li>
+			<li><a href="https://www.jb51.net/list/index_96.htm">脚本专栏</a></li>
+			<li><a href="https://www.jb51.net/jiaoben/">脚本下载</a></li>
+			<li><a href="https://www.jb51.net/list/index_104.htm">数据库</a></li>
+			<li><a href="https://www.jb51.net/list/list_82_1.htm">服务器</a></li>
+			<li><a href="https://www.jb51.net/books/">电子书籍</a></li>
+			<li><a href="https://www.jb51.net/os/">操作系统</a></li>
+			<li><a href="https://www.jb51.net/yunying/">网站运营</a></li>
+			<li><p><i>其它</i><span>
+				<a href="https://www.jb51.net/pingmian/">平面设计</a>
+				<a href="https://www.jb51.net/media/">媒体动画</a>
+				<a href="https://www.jb51.net/diannaojichu/">电脑基础</a>
+				<a href="https://www.jb51.net/hardware/">硬件教程</a>
+				<a href="https://www.jb51.net/hack/">网络安全</a>	
+			</span></p></li>
+		</ul>
+	</div>
+	<!--导航结束-->
+</div>
+
+<!-- 二级菜单开始 -->
+<div class="wrap">
+	<div class="subnav clearfix">
+<ul><li><a href="https://www.jb51.net/list/list_113_1.htm" title="MsSql">MsSql</a></li>
+<li><a href="https://www.jb51.net/list/list_112_1.htm" title="Mysql">Mysql</a></li>
+<li><a href="https://www.jb51.net/list/list_252_1.htm" title="mariadb">mariadb</a></li>
+<li><a href="https://www.jb51.net/list/list_154_1.htm" title="oracle">oracle</a></li>
+<li><a href="https://www.jb51.net/list/list_155_1.htm" title="DB2">DB2</a></li>
+<li><a href="https://www.jb51.net/list/list_236_1.htm" title="mssql2008">mssql2008</a></li>
+<li><a href="https://www.jb51.net/list/list_210_1.htm" title="mssql2005">mssql2005</a></li>
+<li><a href="https://www.jb51.net/list/list_215_1.htm" title="SQLite">SQLite</a></li>
+<li><a href="https://www.jb51.net/list/list_224_1.htm" title="PostgreSQL">PostgreSQL</a></li>
+<li><a href="https://www.jb51.net/list/list_239_1.htm" title="MongoDB">MongoDB</a></li>
+<li><a href="https://www.jb51.net/list/list_242_1.htm" title="Redis">Redis</a></li>
+<li><a href="https://www.jb51.net/list/list_105_1.htm" title="Access">Access</a></li>
+<li><a href="https://www.jb51.net/list/list_132_1.htm" title="数据库文摘">数据库文摘</a></li>
+<li><a href="https://www.jb51.net/list/list_133_1.htm" title="数据库其它">数据库其它</a></li>
+</ul>
+	</div>
+</div>
+<!-- 二级菜单结束 -->	
+
+<div class="main mb10 clearfix">
+	<div class="clearfix"><div class="mainlr"><a href="https://www.jb51.net/s/idc/" target="_blank"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bgp_jb51.gif" alt="" width="1080" height="50"></a></div><div class="blank5"></div><div id="txtlink"><ul><li><a href="http://t.cn/Evui3ph" target="_blank"><span style="color: red;">【10元钱】500G学习资源/python/php/java</span></a></li><li><a href="http://www.uujs.cc/" target="_blank"><span style="color: red;">免费网站全球加速和防御[优优加速]</span></a></li><li><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=10915801&amp;site=qq&amp;menu=yes" target="_blank"><span style="color: red;">●●●高价租收权重2以上正规站●●●</span></a></li><li><a href="https://www.xiaziyu.com/" target="_blank"><span style="color: red;">openstack架构云服务器</span></a></li><li><a href="http://www.zoneidc.com/" target="_blank"><span style="color: blue;">1G香港/美国/韩国等十五国云9.9元/月</span></a></li><li><a href="https://www.95idc.com/" target="_blank"><span style="color: blue;">95IDC█香港沙田CN2服务器 599/月</span></a></li><li><a href="https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=rlwiqy5f" target="_blank"><span style="color: blue;">█阿里云 ￥1888元云产品通用代金券█</span></a></li><li><a href="http://www.pppoevps.com/" target="_blank"><span style="color: blue;">█动态拨号IP云主机，电信ADSL独享20M█ </span></a></li><li><a href="https://www.guowaidiaocha.com/" target="_blank"><span style="color: red;">★国外网赚月入两万，一对一教学带你★</span></a></li><li><a href="http://www.hkcn2.com/51.htm" target="_blank"><span style="color: red;">**香港高防10m大带宽独服，低至999元**</span></a></li><li><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=6883741&amp;site=qq&amp;menu=yes" target="_blank"><span style="color: red;">高价收【网赚粉】等各类活粉Q6883741</span></a></li><li><a href="http://ke.jb51.net/" target="_blank"><span style="color: red;">脚本之家云课堂</span></a></li><li><a href="http://www.7yc.com/rent.html" target="_blank"><span style="color: blue;">██云彩网络██100G防服务器450元</span></a></li><li><a href="https://www.50vm.com/" target="_blank"><span style="color: blue;">宿迁100G高防VPS大带宽300元/月|创梦网络</span></a></li><li><a href="http://www.gwidc.com/rent/home/index.html" target="_blank"><span style="color: blue;">港湾网络-徐州百独800/G口独享6500~</span></a></li><li><a href="https://ok.okzyw.com/" target="_blank"><span style="color: blue;">OK资源采集简单易懂做站好去处</span></a></li><li><a href="http://www.ushk.net/server.html" target="_blank"><span style="color: red;">██美港数据██高端香港服务器租用</span></a></li><li><a href="http://vps.zzidc.com/tongji/jb51w.html" target="_blank"><span style="color: red;">★☆云服务器5折，天天抽红包抵扣☆★</span></a></li><li><a href="http://www.enkj.com/idc/zuyong/6" target="_blank"><span style="color: red;">【亿恩】DELL品牌服务器，月付599元起</span></a></li><li><a href="http://www.xiaozhiyun.com/2016/" target="_blank"><span style="color: red;">韩国香港美国站群服务器 巨牛网络</span></a></li><li><a href="https://www.wsisp.net/clientcenter/shownews_852.html?indexjb" target="_blank"><span style="color: blue;">█▇▆5M独享云主机599/年▆▇█</span></a></li><li><a href="http://www.qy.com.cn/" target="_blank"><span style="color: blue;">群英云服务器送10M带宽30G防御,49元起</span></a></li><li><a href="http://www.tuidc.com/" target="_blank"><span style="color: blue;">服务器租用/托管-域名空间/认准腾佑科技</span></a></li><li><a href="http://www.jjidc.com/" target="_blank"><span style="color: blue;">九九数据 — 工信部认可正规资质IDC接入商</span></a></li><li><a href="http://www.ssf.cc/" target="_blank"><span style="color: red;">免备vps20/百独799/双线350/45互联</span></a></li><li><a href="http://www.zitian.cn/" target="_blank"><span style="color: red;">中原地区核心数据中心，月付299元起</span></a></li><li><a href="http://www.qy.cn/gfhd.html" target="_blank"><span style="color: red;">██群英网络██◆◆◆300G高防仅需599元◆◆◆</span></a></li><li><a href="http://www.pdidc.com/" target="_blank"><span style="color: red;">浦东数据中心上海电信4星云主机30元/月起</span></a></li><li><a href="http://www.139w.com/" target="_blank"><span style="color: blue;">鼎点网络百兆独享服务器仅需999元</span></a></li><li><a href="http://www.360jq.com/hkshuang.htm" target="_blank"><span style="color: blue;">[香港双高防]无视CC★DDOS/堪比广东！</span></a></li><li><a href="http://www.cyidc.cc/" target="_blank"><span style="color: blue;">畅游网络 百独服务器 包跑满 998元</span></a></li><li><a href="http://www.wdw6.com/" target="_blank"><span style="color: blue;">bgp多线机房、大带宽</span></a></li></ul><div class="clearfix"></div></div><div class="blank5"></div><div class="topimg"><ul><li><a href="http://www.ruixunidc.net/" target="_blank"><img alt="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/ruixun.gif" width="210" height="50"></a></li><li><a href="https://www.guowaidiaocha.com/" target="_blank"><img alt="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/wenjuan51.png" width="210" height="50"></a></li><li><a href="http://www.jb51.cn/" target="_blank"><img alt="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/jb51cn.gif" width="210" height="50"></a></li><li><a href="http://www.7e.hk/vps" target="_blank"><img alt="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/7ehk.gif" width="210" height="50"></a></li><li><a href="https://jieidc.taobao.com/" target="_blank"><img alt="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/jieidc_237.gif" width="210" height="50"></a></li></ul></div><div class="blank5"></div>
+</div>
+</div>
+<div class="main clearfix">
+	<div class="NavBar clearfix ptb10">
+		<div class="fl w690">
+			<div class="box mb15 mt10"><i class="icon"></i>您的位置：<a href="https://www.jb51.net/">首页</a> → <a href="https://www.jb51.net/list/index_104.htm" title="数据库">数据库</a> → <a href="https://www.jb51.net/list/list_112_1.htm" title="Mysql">Mysql</a> → 正文内容 CentOS 7安装MySQL</div>
+		</div>
+		<div class="fr w300"><div class="search">
+		<form action="/do/search.php" target="_blank">
+			<input name="s" value="10520733385329581432" type="hidden">
+			<input name="ie" value="gbk" type="hidden">
+			<input name="q" class="key_input" placeholder="请输入关键词" type="text">
+			<input value=" " class="c_btn" type="submit">
+		</form></div>
+		</div>
+	</div>
+</div>
+<!--content Star -->
+<div id="contents">
+ <!--share start-->
+ <div id="right-share" style="display: none;">
+	<div class="right-share jb-share" id="jb-share">
+		<a class="rshare-weixin" title="">微信</a>
+        <a rel="nofollow" class="rshare-qzone" target="_blank" href="https://tougao.jb51.net/" title="投稿">投稿</a>
+		<a rel="nofollow" class="rshare-sqq" target="_blank" href="http://shequ.jb51.net/" title="交流社区">交流社区</a>
+		<a rel="nofollow" class="rshare-tsina" target="_blank" href="http://tools.jb51.net/" title="在线工具">在线工具</a>
+	</div>
+	<a class="rshare-top" onclick="javascript:;"></a>
+			
+	<div id="weixin-code" class="hide">
+	<div class="popup_weixin_head"><p>关注微信公众号</p> 
+	<div id="code"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/erwm.jpg" alt="扫一扫" hight="100" width="100"></div>
+	</div>
+	</div>	
+ </div>
+<!--share end-->
+
+ <div class="main clearfix bgf">
+      <div class="w750 fl">
+      <div class="article-content border">
+      <div class="title">
+            <h1 class="YaHei">CentOS 7安装MySQL的详细步骤</h1>
+            <p> &nbsp;更新时间：2018年08月26日 16:56:56 &nbsp; 作者：这块显卡有点冷  &nbsp; <a href="#comments"> <img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/text-message.png" width="15" height="15"> 我要评论</a> </p>
+        </div>
+        <div class="lbd clearfix"><div id="_dfle2zncjam"><iframe scrolling="no" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/s.htm" width="700" height="60" frameborder="0"></iframe></div><script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/uphlhyovv.js"></script>
+</div>
+        <div class="art_desc mt10"><div id="art_demo">这篇文章主要为大家介绍了CentOS 7安装MySQL的详细步骤，具有一定的参考价值，感兴趣的小伙伴们可以参考一下</div></div>
+        <div class="lbd clearfix"><a href="http://www.php.cn/course.html?ad51" target="_blank"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/phpcn.gif" width="690" height="99"></a>
+</div>
+        <div id="content">
+            <p>在 CentOS7 中我们在安装 MySQL 的话会默认安装的是 MariaDB。它是一个在 MySQL 被收购之后，作者推出的应一个开源版本。但是，我们可能还是会想安装更纯正的 MySQL&#8203;</p>
+<p><strong>下载并安装MySQL官方的 Yum Repository</strong></p>
+<p>在 MySQl 的官网上我们可以 Yum Repository 的下载链接。&#8203;</p>
+<div class="jb51code">
+<div><div id="highlighter_351037" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">wget -i -c https:</code><code class="bash plain">//dev</code><code class="bash plain">.mysql.com</code><code class="bash plain">/get/mysql80-community-release-el7-1</code><code class="bash plain">.noarch.rpm&#8203;</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>使用上边的命令我们就下载到了 Yum Repository，之后我们就可以使用 yum 来进行安装了。&#8203;</p>
+<div class="jb51code">
+<div><div id="highlighter_530063" class="syntaxhighlighter  sql"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql plain">yum -y install mysql80-community-release-el7-1.noarch.rpm</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>&#8203;接下来我们就是要开始安装 MySQL&#8203;</p>
+<div class="jb51code">
+<div><div id="highlighter_522003" class="syntaxhighlighter  sql"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql plain">yum -y install mysql-community-server&#8203;</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p><strong>MySQL 设置</strong></p>
+<p>启动 MySQL</p>
+<div class="jb51code">
+<div><div id="highlighter_22917" class="syntaxhighlighter  sql"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql plain">systemctl start mysqld.service</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>查看运行状态</p>
+<div class="jb51code">
+<div><div id="highlighter_596195" class="syntaxhighlighter  sql"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql plain">systemctl status mysqld.service</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>此时，我们的数据库已经运行起来了，不过我们要进入我们的数据库的话还需要在日志中找到我们的 root 用户的密码。在新的版本中，默认生成了 root 用户密码。</p>
+<div class="jb51code">
+<div><div id="highlighter_588190" class="syntaxhighlighter  sql"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql plain">grep </code><code class="sql string">"passsword"</code> <code class="sql plain">/var/log/mysqld.log&#8203;</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>通过上边的命令我们可以查看到我们的 root 用户的密码。</p>
+<p><span style="color: #800000">mysql -uroot -p</span> 输入密码进入数据库。&#8203;</p>
+<p>输入初始密码，此时不能做任何事情，因为MySQL默认必须修改密码之后才能操作数据库：</p>
+<div class="jb51code">
+<div><div id="highlighter_643550" class="syntaxhighlighter  sql"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql plain">mysql&gt; </code><code class="sql keyword">ALTER</code> <code class="sql color2">USER</code> <code class="sql string">'root'</code><code class="sql plain">@</code><code class="sql string">'localhost'</code> <code class="sql plain">IDENTIFIED </code><code class="sql keyword">BY</code> <code class="sql string">'new password'</code><code class="sql plain">;</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>这里密码要有一定的复杂度。</p>
+<p>修改完密码之后我们就可以进行正常的操作了。</p>
+<p>但此时还有一个问题，就是因为安装了Yum Repository，以后每次yum操作都会自动更新，需要把这个卸载掉：</p>
+<div class="jb51code">
+<div><div id="highlighter_699918" class="syntaxhighlighter  sql"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql plain">yum -y remove mysql80-community-release-el7-1.noarch</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p><strong>开机启动</strong></p>
+<div class="jb51code">
+<div><div id="highlighter_474461" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">shell&gt; systemctl </code><code class="bash functions">enable</code> <code class="bash plain">mysqld</code></div><div class="line number2 index1 alt1"><code class="bash plain">shell&gt; systemctl daemon-reload</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p><strong>添加远程登录用户</strong></p>
+<p>默认只允许root帐户在本地登录，如果要在其它机器上连接mysql，必须修改root允许远程连接，或者添加一个允许远程连接的帐户，为了安全起见，我添加一个新的帐户：</p>
+<div class="jb51code">
+<div><div id="highlighter_31803" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO </code><code class="bash string">'yangxin'</code><code class="bash plain">@</code><code class="bash string">'%'</code> <code class="bash plain">IDENTIFIED BY </code><code class="bash string">'Yangxin0917!'</code> <code class="bash plain">WITH GRANT OPTION;</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>mysql8和原来的版本有点不一样，8的安全级别更高，所以在创建远程连接用户的时候，&#8203;不能用原来的命令（同时创建用户和赋权）:&#8203;</p>
+<p>必须先创建用户（密码规则：mysql8.0以上密码策略限制必须要大小写加数字特殊符号）：&#8203;</p>
+<blockquote>
+<p>创建用户<br>
+mysql&gt;create user <a href="mailto:chenadmin@'%'" rel="external nofollow">chenadmin@'%'</a> identified&nbsp; by 'Chenadmin0.';<br>
+进行赋值<br>
+mysql&gt;grant all privileges on *.* to <a href="mailto:chenadmin@'%'" rel="external nofollow">chenadmin@'%'</a> with grant option;<br>
+最后刷新<br>
+mysql&gt;flush privileges;<br>
+</p>
+</blockquote>
+<p><strong>配置默认编码为utf8</strong></p>
+<p>改/etc/my.cnf配置文件，在[mysqld]下添加编码配置，如下所示：</p>
+<div class="jb51code">
+<div><div id="highlighter_455337" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">[mysqld]</code></div><div class="line number2 index1 alt1"><code class="bash plain">character_set_server=utf8</code></div><div class="line number3 index2 alt2"><code class="bash plain">init_connect=</code><code class="bash string">'SET NAMES utf8'</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>重新启动mysql服务</p>
+<div class="jb51code">
+<div><div id="highlighter_525806" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">systemctl restart mysqld</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>以上就是本文的全部内容，希望对大家的学习有所帮助，也希望大家多多支持脚本之家。</p>
+            
+            <div class="art_xg">
+<h4>您可能感兴趣的文章:</h4><ul><li><a href="https://www.jb51.net/article/81465.htm" title="CentOS 7下MySQL服务启动失败的快速解决方法" target="_blank">CentOS 7下MySQL服务启动失败的快速解决方法</a></li><li><a href="https://www.jb51.net/article/72418.htm" title="centos 7安装mysql5.5和安装 mariadb使用的命令" target="_blank">centos 7安装mysql5.5和安装 mariadb使用的命令</a></li><li><a href="https://www.jb51.net/article/109164.htm" title="Centos7 下mysql重新启动MariaDB篇" target="_blank">Centos7 下mysql重新启动MariaDB篇</a></li><li><a href="https://www.jb51.net/article/117895.htm" title="CentOS 7下部署php7.1和开启MySQL扩展的方法教程" target="_blank">CentOS 7下部署php7.1和开启MySQL扩展的方法教程</a></li><li><a href="https://www.jb51.net/article/57544.htm" title="centos 下面安装python2.7 +pip +mysqld" target="_blank">centos 下面安装python2.7 +pip +mysqld</a></li><li><a href="https://www.jb51.net/article/72397.htm" title="centos 7安装mysql5.5的方法" target="_blank">centos 7安装mysql5.5的方法</a></li><li><a href="https://www.jb51.net/article/116032.htm" title="Centos7.3下mysql5.7.18安装并修改初始密码的方法" target="_blank">Centos7.3下mysql5.7.18安装并修改初始密码的方法</a></li><li><a href="https://www.jb51.net/article/105372.htm" title="CentOS 7安装Mysql并设置开机自启动的方法" target="_blank">CentOS 7安装Mysql并设置开机自启动的方法</a></li><li><a href="https://www.jb51.net/article/108752.htm" title="Linux centos7环境下MySQL安装教程" target="_blank">Linux centos7环境下MySQL安装教程</a></li><li><a href="https://www.jb51.net/article/76557.htm" title="CentOS下PHP7的编译安装及MySQL的支持和一些常见问题的解决办法" target="_blank">CentOS下PHP7的编译安装及MySQL的支持和一些常见问题的解决办法</a></li></ul>
+</div>
+<div class="clearfix">
+
+
+</div>
+        <p>原文链接：https://www.cnblogs.com/dowhile/p/CentOS7-an-zhuang-MySQL.html</p><div class="jb51ewm"><div class="fl"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/jb51ewm.png"></div><div class="fr"><p>微信公众号搜索 “ <span>脚本之家</span> ” ，选择关注</p><p>程序猿的那些事、送书等活动等着你</p></div></div></div><!--endmain-->
+<div class="tags clearfix">
+	<i class="icon-tag"></i>
+	<ul class="meta-tags items">
+	  <li class="tag item"><a href="http://common.jb51.net/tag/CentOS/1.htm" target="_blank" title="搜索关于CentOS的文章" rel="nofollow">CentOS</a></li>
+<li class="tag item"><a href="http://common.jb51.net/tag/7/1.htm" target="_blank" title="搜索关于7的文章" rel="nofollow">7</a></li>
+<li class="tag item"><a href="http://common.jb51.net/tag/MySQL/1.htm" target="_blank" title="搜索关于MySQL的文章" rel="nofollow">MySQL</a></li>
+
+	</ul>
+</div>        
+
+<div class="lbd clearfix">
+<div><iframe scrolling="no" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/s_002.htm" width="700" height="260" frameborder="0"></iframe><em style="display:none;"></em></div><script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/1s307x.js"></script>
+
+</div>
+<div id="shoucang"></div>
+
+<div class="xgcomm clearfix">
+	<h2>相关文章</h2>
+	<ul><li class="lbd clearfix"><div id="_71syp6tdwae"><iframe scrolling="no" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/s_003.htm" width="700" height="120" frameborder="0"></iframe><abbr id="pfwla" style="display:none;"></abbr></div><script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/46pg.js"></script>
+</li><li><div class="item-inner"><a href="https://www.jb51.net/article/123334.htm" title="MySQL curdate()函数的实例详解" class="img-wrap" target="_blank"> <img alt="MySQL curdate()函数的实例详解" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bcimg0.png"> </a><div class="rbox"><div class="rbox-inner"><p><a class="link title" target="_blank" href="https://www.jb51.net/article/123334.htm" title="MySQL curdate()函数的实例详解">MySQL curdate()函数的实例详解</a></p><div class="item-info"><div class="js">这篇文章主要介绍了MySQL curdate()函数的实例详解的相关资料,希望通过本文能帮助到大家理解应用MysqL curdate()的使用方法，需要的朋友可以参考下</div><span class="lbtn" style="float:right"> 2017-09-09 </span></div></div></div></div></li>
+<li><div class="item-inner"><a href="https://www.jb51.net/article/59547.htm" title="MySQL错误ERROR 1615 解决方法" class="img-wrap" target="_blank"> <img alt="MySQL错误ERROR 1615 解决方法" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bcimg1.png"> </a><div class="rbox"><div class="rbox-inner"><p><a class="link title" target="_blank" href="https://www.jb51.net/article/59547.htm" title="MySQL错误ERROR 1615 解决方法">MySQL错误ERROR 1615 解决方法</a></p><div class="item-info"><div class="js">这篇文章主要介绍了MySQL错误ERROR 1615 解决方法,这个问题是由于Mysql配置不当造成的,需要的朋友可以参考下</div><span class="lbtn" style="float:right"> 2015-01-01 </span></div></div></div></div></li>
+<li><div class="item-inner"><a href="https://www.jb51.net/article/154495.htm" title="MySQL半同步复制原理配置与介绍详解" class="img-wrap" target="_blank"> <img alt="MySQL半同步复制原理配置与介绍详解" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bcimg2.png"> </a><div class="rbox"><div class="rbox-inner"><p><a class="link title" target="_blank" href="https://www.jb51.net/article/154495.htm" title="MySQL半同步复制原理配置与介绍详解">MySQL半同步复制原理配置与介绍详解</a></p><div class="item-info"><div class="js">这篇文章主要介绍了MySQL半同步复制原理配置与介绍详解，小编觉得挺不错的，现在分享给大家，也给大家做个参考。一起跟随小编过来看看吧</div><span class="lbtn" style="float:right"> 2019-01-01 </span></div></div></div></div></li>
+<li><div class="item-inner"><a href="https://www.jb51.net/article/40474.htm" title="insert into … on duplicate key update / replace into 多行数据介绍" class="img-wrap" target="_blank"> <img alt="insert into … on duplicate key update / replace into 多行数据介绍" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bcimg3.png"> </a><div class="rbox"><div class="rbox-inner"><p><a class="link title" target="_blank" href="https://www.jb51.net/article/40474.htm" title="insert into … on duplicate key update / replace into 多行数据介绍">insert into … on duplicate key update / replace into 多行数</a></p><div class="item-info"><div class="js">当我插入一条数据时，我要判断(k1,k2)是否已经存在（1条selete）,若存在就update，不存在就insert</div><span class="lbtn" style="float:right"> 2013-08-08 </span></div></div></div></div></li>
+<li><div class="item-inner"><a href="https://www.jb51.net/article/158100.htm" title="分组查询GROUP BY的使用与SQL执行顺序的讲解" class="img-wrap" target="_blank"> <img alt="分组查询GROUP BY的使用与SQL执行顺序的讲解" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bcimg4.png"> </a><div class="rbox"><div class="rbox-inner"><p><a class="link title" target="_blank" href="https://www.jb51.net/article/158100.htm" title="分组查询GROUP BY的使用与SQL执行顺序的讲解">分组查询GROUP BY的使用与SQL执行顺序的讲解</a></p><div class="item-info"><div class="js">今天小编就为大家分享一篇关于分组查询GROUP BY的使用与SQL执行顺序的讲解，小编觉得内容挺不错的，现在分享给大家，具有很好的参考价值，需要的朋友一起跟随小编来看看吧</div><span class="lbtn" style="float:right"> 2019-03-03 </span></div></div></div></div></li>
+<li><div class="item-inner"><a href="https://www.jb51.net/article/132926.htm" title="mysql入门之1小时学会MySQL基础" class="img-wrap" target="_blank"> <img alt="mysql入门之1小时学会MySQL基础" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bcimg5.png"> </a><div class="rbox"><div class="rbox-inner"><p><a class="link title" target="_blank" href="https://www.jb51.net/article/132926.htm" title="mysql入门之1小时学会MySQL基础">mysql入门之1小时学会MySQL基础</a></p><div class="item-info"><div class="js">今天刚好看到了SYZ01的这篇mysql入门文章，感觉对于想学习mysql的朋友是个不错的资料，脚本之家特分享一下,需要的朋友可以参考下</div><span class="lbtn" style="float:right"> 2018-01-01 </span></div></div></div></div></li>
+<li><div class="item-inner"><a href="https://www.jb51.net/article/150970.htm" title="MySQL5.7.24版本的数据库安装过程图文详解" class="img-wrap" target="_blank"> <img alt="MySQL5.7.24版本的数据库安装过程图文详解" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bcimg6.png"> </a><div class="rbox"><div class="rbox-inner"><p><a class="link title" target="_blank" href="https://www.jb51.net/article/150970.htm" title="MySQL5.7.24版本的数据库安装过程图文详解">MySQL5.7.24版本的数据库安装过程图文详解</a></p><div class="item-info"><div class="js">这篇文章主要介绍了MySQL5.7.24版本的数据库安装过程,需要的朋友可以参考下</div><span class="lbtn" style="float:right"> 2018-11-11 </span></div></div></div></div></li>
+<li><div class="item-inner"><a href="https://www.jb51.net/article/27080.htm" title="php 不能连接数据库 php error Can''t connect to local MySQL server" class="img-wrap" target="_blank"> <img alt="php 不能连接数据库 php error Can''t connect to local MySQL server" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bcimg7.png"> </a><div class="rbox"><div class="rbox-inner"><p><a class="link title" target="_blank" href="https://www.jb51.net/article/27080.htm" title="php 不能连接数据库 php error Can''t connect to local MySQL server">php 不能连接数据库 php error Can''t connect to local MySQL s</a></p><div class="item-info"><div class="js">php 不能连接数据库 php error Can't connect to local MySQL server through socket '/tmp/mysql.sock' </div><span class="lbtn" style="float:right"> 2011-05-05 </span></div></div></div></div></li>
+<li><div class="item-inner"><a href="https://www.jb51.net/article/20371.htm" title="通过HSODBC访问mysql的实现步骤" class="img-wrap" target="_blank"> <img alt="通过HSODBC访问mysql的实现步骤" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bcimg8.png"> </a><div class="rbox"><div class="rbox-inner"><p><a class="link title" target="_blank" href="https://www.jb51.net/article/20371.htm" title="通过HSODBC访问mysql的实现步骤">通过HSODBC访问mysql的实现步骤</a></p><div class="item-info"><div class="js">通过HSODBC访问mysql的实现方法，需要的朋友可以参考下。</div><span class="lbtn" style="float:right"> 2009-10-10 </span></div></div></div></div></li>
+<li><div class="item-inner"><a href="https://www.jb51.net/article/85747.htm" title="检查mysql是否成功启动的方法(bat+bash)" class="img-wrap" target="_blank"> <img alt="检查mysql是否成功启动的方法(bat+bash)" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/bcimg9.png"> </a><div class="rbox"><div class="rbox-inner"><p><a class="link title" target="_blank" href="https://www.jb51.net/article/85747.htm" title="检查mysql是否成功启动的方法(bat+bash)">检查mysql是否成功启动的方法(bat+bash)</a></p><div class="item-info"><div class="js">这篇文章主要介绍了检查mysql是否成功启动的方法(bat+bash),如果mysql没有启动则开启服务，需要的朋友可以参考下</div><span class="lbtn" style="float:right"> 2016-06-06 </span></div></div></div></div></li>
+</ul>
+</div>
+<div class="lbd clearfix mt5">
+<div><iframe scrolling="no" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/s_004.htm" width="700" height="260" frameborder="0"></iframe></div><script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/vc0v.js"></script>
+
+</div>
+<a href="#comments"></a>
+<div id="comments">
+<h2>最新评论</h2>
+<div class="pd5"><div id="SOHUCS" sid="art_146298"></div></div>
+</div>
+      </div><!--endborder-->
+      </div><!--end fl-->
+      
+<div class="w350 fr">
+<div class="article-right">
+<div class="r300 clearfix"><script async="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/adsbygoogle.js"></script><ins class="adsbygoogle" style="display: inline-block; width: 300px; height: 250px;" data-ad-client="ca-pub-6384567588307613" data-ad-slot="2817964327" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:300px;height:250px;" width="300" height="250" frameborder="0"></iframe></ins></ins></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<div class="tabTitleBar mt10 bgf borderTblue">
+<div class="borderTnone pb10 YaHei">
+<h4 class="blue">大家感兴趣的内容</h4>
+<ul class="newsList newList-in">
+<li><em class="no1">1</em><a href="https://www.jb51.net/article/23876.htm" title="mysql安装图解 mysql图文安装教程(详细说明)" target="_blank">mysql安装图解 mysql图文安装教程</a></li><li><em class="no2">2</em><a href="https://www.jb51.net/article/39188.htm" title="windows下MySQL5.6版本安装及配置过程附有截图和详细说明" target="_blank">windows下MySQL5.6版本安装及配置</a></li><li><em class="no3">3</em><a href="https://www.jb51.net/article/26505.htm" title="Can''t connect to MySQL server on localhost (10061)解决方法" target="_blank">Can''t connect to MySQL server</a></li><li><em class="no4">4</em><a href="https://www.jb51.net/article/27458.htm" title="Mysql字符串截取函数SUBSTRING的用法说明" target="_blank">Mysql字符串截取函数SUBSTRING的</a></li><li><em class="no5">5</em><a href="https://www.jb51.net/article/31850.htm" title="MySQL创建用户与授权方法" target="_blank">MySQL创建用户与授权方法</a></li><li><em class="no6">6</em><a href="https://www.jb51.net/article/39454.htm" title="MySQL——修改root密码的4种方法(以windows为例)" target="_blank">MySQL——修改root密码的4种方法</a></li><li><em class="no7">7</em><a href="https://www.jb51.net/article/23966.htm" title="MySQL日期数据类型、时间类型使用总结" target="_blank">MySQL日期数据类型、时间类型使用</a></li><li><em class="no8">8</em><a href="https://www.jb51.net/article/48625.htm" title="MySQL提示:The server quit without updating PID file问题的解决办法" target="_blank">MySQL提示:The server quit with</a></li><li><em class="no9">9</em><a href="https://www.jb51.net/article/53344.htm" title="mysql update语句的用法详解" target="_blank">mysql update语句的用法详解</a></li><li><em class="no10">10</em><a href="https://www.jb51.net/article/28680.htm" title="MySQL 的CASE WHEN 语句使用说明" target="_blank">MySQL 的CASE WHEN 语句使用说明</a></li>
+</ul>
+</div>
+</div>
+<div class="r300 clearfix mt10"><script async="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/adsbygoogle.js"></script><!--thea+300*250--><ins class="adsbygoogle" style="display: inline-block; width: 300px; height: 250px;" data-ad-client="ca-pub-6389290466807248" data-ad-slot="6788945816" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0px;width:300px;height:250px;" width="300" height="250" frameborder="0"></iframe></ins></ins></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script><div class="blank5"></div><a href="https://www.50vm.com/server.html?pg=34" target="_blank"><img alt="" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/99idc300.jpg" width="300" height="100"></a>
+</div>
+<div class="tabTitleBar mt10 bgf borderTblue">
+<div class="borderTnone pb10 YaHei">
+<h4 class="blue">最近更新的内容</h4>
+<ul class="newsListA">
+<li><a href="https://www.jb51.net/article/140995.htm" title="mysql 8.0.11 压缩包版安装配置方法图文教程" target="_blank">mysql 8.0.11 压缩包版安装配置方法图文教</a></li><li><a href="https://www.jb51.net/article/126240.htm" title="MySQL 清除表空间碎片的实例详解" target="_blank">MySQL 清除表空间碎片的实例详解</a></li><li><a href="https://www.jb51.net/article/116032.htm" title="Centos7.3下mysql5.7.18安装并修改初始密码的方法" target="_blank">Centos7.3下mysql5.7.18安装并修改初始密</a></li><li><a href="https://www.jb51.net/article/30865.htm" title="mysql字符集和校对规则(Mysql校对集)" target="_blank">mysql字符集和校对规则(Mysql校对集)</a></li><li><a href="https://www.jb51.net/article/30915.htm" title="mysql提示[Warning] Invalid (old?) table or database name问题的解决方法" target="_blank">mysql提示[Warning] Invalid (old?) tabl</a></li><li><a href="https://www.jb51.net/article/23976.htm" title="MySQL 随机查询数据与随机更新数据实现代码" target="_blank">MySQL 随机查询数据与随机更新数据实现代</a></li><li><a href="https://www.jb51.net/article/38454.htm" title="深入解析mysql.sock不见的问题" target="_blank">深入解析mysql.sock不见的问题</a></li><li><a href="https://www.jb51.net/article/5154.htm" title="有关SQL模糊查询" target="_blank">有关SQL模糊查询</a></li><li><a href="https://www.jb51.net/article/34414.htm" title="MySQL与Oracle的语法区别详细对比" target="_blank">MySQL与Oracle的语法区别详细对比</a></li><li><a href="https://www.jb51.net/article/39304.htm" title="绿色版mysql注册卸载服务方法" target="_blank">绿色版mysql注册卸载服务方法</a></li>
+</ul>
+</div>
+</div>   
+<div class="r300 clearfix mt10"><div class="idc3"><a href="http://www.021.net/" target="_blank"><h1>众生网络</h1><span>品牌服务器租用</span> </a><a href="http://www.geisnic.com/" target="_blank"><h1>集思网络</h1><span>VPS主机</span> </a><a href="http://www.33ip.com/" target="_blank"><h1>枫信科技</h1><span>IDC服务商</span> </a></div>
+</div>
+<div class="tabTitleBar mt10 bgf borderTblue">
+<div class="borderTnone pb10 YaHei">
+<h4 class="blue">常用在线小工具</h4>
+<ul class="newsListA"><li><a href="http://tools.jb51.net/code/css" target="_blank"><font color="red">CSS代码工具</font></a></li><li><a href="http://tools.jb51.net/code/js" target="_blank"><font color="red">JavaScript代码格式化工具</font></a></li><li><a href="http://tools.jb51.net/code/xmlformat" target="_blank">在线XML格式化/压缩工具</a></li><li><a href="http://tools.jb51.net/code/phpformat" target="_blank"><font color="red">php代码在线格式化美化工具</font></a></li><li><a href="http://tools.jb51.net/code/sqlcodeformat" target="_blank">sql代码在线格式化美化工具</a></li><li><a href="http://tools.jb51.net/transcoding/html_transcode" target="_blank">在线HTML转义/反转义工具</a></li><li><a href="http://tools.jb51.net/code/json" target="_blank">在线JSON代码检验/检验/美化/格式化</a></li><li><a href="http://tools.jb51.net/regex/javascript" target="_blank">JavaScript正则在线测试工具</a></li><li><a href="http://tools.jb51.net/transcoding/jb51qrcode" target="_blank">在线生成二维码工具(加强版)</a></li><li><a href="http://tools.jb51.net/" target="_blank">更多在线工具</a></li>
+</ul>
+</div>
+</div>
+<div class="r300 clearfix mt10 mb10"><a href="http://tuidc.com/" target="_blank"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/tengyou300.gif" width="300" height="100"></a><div class="blank5"></div><a href="http://www.enkj.com/encloud/" target="_blank"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/enkj300.gif" alt="云服务器" width="300" height="100"></a>
+</div> 
+<div class="rFixedBox" style="position: static; top: 0px;">
+<script type="text/javascript">jb51_a_d("jb51xf");</script><script type="text/javascript">var cpro_id="u1397867";(window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"300",rsi1:"380",pat:"6",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0",ptbg:"90",piw:"0",pih:"0",ptp:"0"}</script><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/c.js" type="text/javascript"></script><div id="BAIDU_SSP__wrapper_u1397867_0" style="width: 300px; height: 380px; display: inline-block;"><iframe id="iframeu1397867_0" name="iframeu1397867_0" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/zcxm.htm" vspace="0" hspace="0" marginwidth="0" marginheight="0" scrolling="no" style="border:0;vertical-align:bottom;margin:0;width:300px;height:380px" allowtransparency="true" width="300" height="380" frameborder="0" align="center,center"></iframe></div>
+</div>
+  </div>   
+      
+      </div><!--end fr-->
+      </div>
+</div><!--end content-->
+<div id="footer">
+<div class="main clearfix">
+<p>
+<a rel="nofollow" href="https://www.jb51.net/about.htm" target="_blank">关于我们</a> - 
+<a rel="nofollow" href="https://www.jb51.net/support.htm" target="_blank">广告合作</a> - 
+<a rel="nofollow" href="https://www.jb51.net/linkus.htm" target="_blank">联系我们</a> -  
+<a rel="nofollow" href="https://www.jb51.net/sm.htm" target="_blank">免责声明</a> -  
+<a rel="nofollow" href="https://www.jb51.net/sitemap.htm" target="_blank">网站地图</a> - 
+<a rel="nofollow" href="tencent://message/?uin=461478385&amp;Site=http://www.jb51.net" target="_blank">投诉建议</a> - 
+<a rel="nofollow" href="https://www.jb51.net/up.htm" target="_blank">在线投稿</a>
+</p>
+<p><a rel="nofollow" class="ba" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32031102000137"><img src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/ghs.png"> 苏公网安备 32031102000137号</a>&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" class="ba" rel="nofollow" target="_blank">苏ICP备14036222号</a></p>
+<p>&#169;CopyRight 2006-2019 JB51.Net Inc All Rights Reserved. 脚本之家 版权所有</p>
+</div>
+</div><!--end footer-->
+<link type="text/css" rel="stylesheet" href="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/shCore.css">
+<link type="text/css" rel="Stylesheet" href="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/shThemeDefault.css">
+<script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/shCore.js"></script>
+<script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/shAutoloader.js"></script>
+<script type="text/javascript">
+(function(){
+	var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+/*更多导航*/
+$(".nav_top p").hover(function(){$(this).addClass("hover")},function(){$(this).removeClass("hover")});
+
+if (top.location != self.location)top.location=self.location;
+
+var varwindow=$(window);
+$(function(){
+	$('#content').find('img').each(function(){
+        var img = this;
+        if (img.width >= 650 && !$(this).hasClass("nohref")){
+            img.style.width = "650px";
+            img.style.height = "auto";
+            //$(img).removeAttr('height');
+            var aTag = document.createElement('a');
+            aTag.href = img.src;
+			aTag.target="_blank";
+            $(aTag).addClass('bPic')
+            .insertAfter(img).append(img)
+          }
+    });
+	varwindow.scroll(function()
+    {	
+    	//rFixedBox跟随滚动
+    	var h = varwindow.height();
+        var top = varwindow.scrollTop();
+    	var rFixedBox = $('.rFixedBox').prev().offset();
+        var fixedTop = rFixedBox.top;
+		
+        if(top>=fixedTop+344)
+        {
+			var h1 = parseInt($('#content').children('.main').height());
+			if(parseInt(top) + 340 < h1){
+				$('.rFixedBox').css({'position':'fixed','top': 0});
+			}else{
+				$('.rFixedBox').css({'position':'absolute','top': h1-510});
+			}
+        }
+        else
+        {
+            $('.rFixedBox').css({'position':'static', 'top':0});   
+        }	
+       /* return true;*/
+	   
+	   /*右侧快捷菜单*/
+	   sideFixed();
+    });
+	var ww = varwindow.width();
+	
+	function sideFixed(){
+	var scrolltop = document.body.scrollTop || document.documentElement.scrollTop;
+	var a1 = 550;
+	if(ww>440){
+		if(a1<=scrolltop){
+			$('#right-share').slideDown();
+			}
+		else{
+			$('#right-share').slideUp();
+			}
+		}
+	}
+	$('.rshare-weixin').hover(function(){
+			$('#weixin-code').removeClass('hide');
+		},function(){
+			$('#weixin-code').addClass('hide');
+		});
+	/*二维码*/
+	$('#right-share .rshare-top').on('click',function(){
+        $('html,body').animate({'scrollTop':0},500);
+    });
+/*$(document).ready(function() {
+  $("#content img").unveil();
+});	*/
+
+if(suoyin=="ok"){
+	GenerateContentList();
+}
+
+SyntaxHighlighter.autoloader(
+	'applescript			/jslib/syntaxhighlighter/scripts/shBrushAppleScript.js',
+	'actionscript3 as3		/jslib/syntaxhighlighter/scripts/shBrushAS3.js',
+	'bash shell				/jslib/syntaxhighlighter/scripts/shBrushBash.js',
+	'coldfusion cf			/jslib/syntaxhighlighter/scripts/shBrushColdFusion.js',
+	'cpp c					/jslib/syntaxhighlighter/scripts/shBrushCpp.js',
+	'obj-c objc				/jslib/syntaxhighlighter/scripts/shBrushObjC.js',
+	'c# c-sharp csharp		/jslib/syntaxhighlighter/scripts/shBrushCSharp.js',
+	'css					/jslib/syntaxhighlighter/scripts/shBrushCss.js',
+	'delphi pascal			/jslib/syntaxhighlighter/scripts/shBrushDelphi.js',
+	'diff patch pas			/jslib/syntaxhighlighter/scripts/shBrushDiff.js',
+	'erl erlang				/jslib/syntaxhighlighter/scripts/shBrushErlang.js',
+	'groovy					/jslib/syntaxhighlighter/scripts/shBrushGroovy.js',
+	'haxe hx				/jslib/syntaxhighlighter/scripts/shBrushHaxe.js',
+	'java					/jslib/syntaxhighlighter/scripts/shBrushJava.js',
+	'jfx javafx				/jslib/syntaxhighlighter/scripts/shBrushJavaFX.js',
+	'js jscript javascript	/jslib/syntaxhighlighter/scripts/shBrushJScript.js',
+	'perl pl				/jslib/syntaxhighlighter/scripts/shBrushPerl.js',
+	'php					/jslib/syntaxhighlighter/scripts/shBrushPhp.js',
+	'text plain				/jslib/syntaxhighlighter/scripts/shBrushPlain.js',
+	'py python				/jslib/syntaxhighlighter/scripts/shBrushPython.js',
+	'ruby rails ror rb		/jslib/syntaxhighlighter/scripts/shBrushRuby.js',
+	'scala					/jslib/syntaxhighlighter/scripts/shBrushScala.js',
+	'sql					/jslib/syntaxhighlighter/scripts/shBrushSql.js',
+	'vb vbnet				/jslib/syntaxhighlighter/scripts/shBrushVb.js',
+	'ps powershell			/jslib/syntaxhighlighter/scripts/shBrushPowerShell.js',
+	'xml xhtml xslt html	/jslib/syntaxhighlighter/scripts/shBrushXml.js'
+);
+SyntaxHighlighter.all();
+});
+var ourl="https://www.cnblogs.com/dowhile/p/CentOS7-an-zhuang-MySQL.html";
+</script>
+<script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/arcts.js"></script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script>
+<script>jbLoader();</script><script class="closetag">jbLoader(true);</script>
+<div id="tongji">
+<script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/tongji.js"></script><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/stat_002.php" language="JavaScript"></script><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/core_002.php" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1585378" target="_blank" title="站长统计">站长统计</a><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/stat.php" language="JavaScript"></script><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/core.php" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1255898178" target="_blank" title="站长统计">站长统计</a>
+</div>
+<script type="text/javascript">
+//tu+
+var cpro_id = "u1893014";
+document.write('<scri'+'pt src="//cpro.baidustatic.com/cpro/ui/i.js" type="text/javascript"></s'+'cript>');
+(function(){
+var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?2f793ca9dd6f4c32488903eed5c7fbcb":"https://jspassport.ssl.qhimg.com/11.0.1.js?2f793ca9dd6f4c32488903eed5c7fbcb";
+document.write('<script src="' + src + '" id="sozz"><\/script>');
+})();
+</script><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/i.js" type="text/javascript"></script><script src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/11.js" id="sozz"></script><script charset="utf-8" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/ab77b6ea7f3fbf79.js"></script> 
+<script type="text/javascript" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/pl.htm"></script>
+<script type="application/ld+json">
+        {
+            "@context": "https://ziyuan.baidu.com/contexts/cambrian.jsonld",
+            "@id": "https://www.jb51.net/article/146298.htm",
+            "appid": "1549322409310619",
+            "title": "CentOS 7安装MySQL的详细步骤",
+            "description": "这篇文章主要为大家介绍了CentOS 7安装MySQL的详细步骤，具有一定的参考价值，感兴趣的小伙伴们可以参考一下",
+            "pubDate": "2018-08-26T16:56:56",
+			"upDate": "2018-08-26T16:56:56"
+        }
+</script>
+
+
+
+<iframe id="google_osd_static_frame_8621986326386" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body><iframe id="google_esf" name="google_esf" src="CentOS%207%E5%AE%89%E8%A3%85MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4_Mysql_%E8%84%9A%E6%9C%AC%E4%B9%8B%E5%AE%B6_files/zrt_lookup.htm" style="display: none;" data-ad-client="ca-pub-6384567588307613"></iframe></html>
+<!-- published at 2019/4/5 12:30:51By dxycms qq:461478385  -->

@@ -1,0 +1,252 @@
+第3章 TP5.0 配置
+=============================================================
+上次复习
+
+1、框架名词
+	1、入口文件
+
+	2、应用
+
+	3、模块(前台模块 后台模块)
+
+	4、控制器
+
+	5、数据模型
+
+	6、视图
+
+	7、命名空间
+
+2、跨控制器调用
+	
+	# 实例化 当前模块User控制器
+	controller('User');
+	# 实例化后台模块User控制器
+	controller('Admin\User');
+
+3、跨方法调用
+	# 实例化当前控制器test方法
+	action('test');
+	# 实例化当前模块User控制器test方法
+	action('User\test');
+	# 实例化Admin模块User控制器test方法
+	action('Admin\User\test');
+
+4、如何新建一个模块
+
+5、如何新建一个控制器
+
+6、讲解TP运转流程
+
+=============================================================
+今日学习
+
+1、配置文件格式
+	a) ThinkPHP支持多种格式的配置格式，但最终都是解析为PHP数组的方式。
+
+	b) 我们主要的学习形式就是数组
+		return [
+			'name'=>'',
+			'age'=>'',
+		];
+
+2、配置的形式
+	1、惯例配置
+
+		a、惯例配置目录
+			C:\AppServ\www\tp5\thinkphp\convention.php
+
+		b、注意:
+			大家一般不要修改惯例配置
+
+	2、应用配置
+
+		a、应用配置目录
+			C:\AppServ\www\tp5\application\config.php
+
+	3、扩展配置
+		a、扩展配置
+			其实就是对配置文件进行分目录的管理
+
+		b、扩展配置目录
+			# C:\AppServ\www\tp5\application\database.php
+
+			# C:\AppServ\www\tp5\application\extra\用户可以自定义配置文件
+
+		c、读取database扩展配置	
+
+			# 读取databse中的扩展项
+			dump(config('扩展文件名.password'));
+			dump(config('database.password'));
+
+			# 读取所有的database扩展
+			dump(config('database'));
+
+		d、自定义扩展配置
+
+			1、在 扩展目录(C:\AppServ\www\tp5\application\extra)下 新建user.php
+
+			2、打开文件	
+				<?php 
+				return [
+					"name"=>"小郭",
+					"love"=>"作家",
+					"wai"=>"小四"
+
+				];
+
+			3、读取自定义扩展配置
+				dump(config('user'));
+				dump(config('user.wai')
+
+	4、场景配置
+		a、解决问题
+
+			开发过程可能不同环境下进行开发
+
+		b、如何使用
+
+			1、修改应用配置(C:\AppServ\www\tp5\application\config.php)
+    			'app_status'             => 'home',
+
+    		2、在应用目录下新建(C:\AppServ\www\tp5\application) 新建对应home.php
+
+    		3、在home.php 中书写相关配置
+
+	5、模块配置
+
+		a、解决问题
+
+			每一个模块，都有自己特有的配置
+
+		b、如何使用(以前台模块为例)
+
+			1、在前台模块下(C:\AppServ\www\tp5\application\index)新建 config.php
+
+			2、打开配置文件书写
+				<?php 
+				return [
+					"index"=>"我是前台配置"
+				];
+
+	6、动态配置
+
+		1、系统方法
+			// config(参数1,参数2);
+			config('name','PHP开发');
+
+		2、系统类
+
+			\think\Config::set('name','WEB前端');
+
+			use \think\Config;
+			Config::set('name','小程序开发');
+
+
+3、读取配置
+	
+	1、通过系统类 
+		# 如果配置项存在 直接输出 不存在返回NULL
+		1、打印配置信息
+
+			echo \think\Config::get('name');
+
+		2、打印数组配置信息
+			echo \think\Config::get('teacher');
+			echo \think\Config::get('teacher.name');
+		
+	2、通过系统方法
+		1、打印配置信息
+			echo config('name');
+
+		2、打印数组配置信息
+			dump(config('teacher'));
+			dump(config('teacher.name'));
+
+		3、读取所有配置
+			dump(config());
+
+	3、使用use
+		1、打印配置信息
+
+			use \think\Config;
+			echo Config::get('kouhao');
+		2、打印数组配置信息
+			use \think\Config;
+			echo Config::get('teacher');
+			echo Config::get('teacher.name');
+
+4、系统类(C:\AppServ\www\tp5\thinkphp\library\think)
+	
+	Config 设置和获取配置文件
+
+5、系统方法(C:\AppServ\www\tp5\thinkphp\helper.php)
+	
+	Controller  实例化控制器
+	action      调用模块的操作方法
+	config      设置和获取配置
+	dump        浏览器友好的变量输出
+	
+6、配置文件之间的加载顺序
+	1、优先级
+		动态配置>模块配置>场景配置>扩展配置>应用配置>惯例配置
+
+	2、加载顺序
+		惯例配置->应用配置->扩展配置->场景配置->模块配置->动态配置
+
+	3、配置文件实现原理
+		$data=array(
+			"name"=>"惯例配置",
+			'a'=>'a'
+			);
+
+		$data1=array(
+			"name"=>'应用配置',
+			"b"=>'b'
+			);
+		# 后面加载的配置，把前面加载匹配同名覆盖
+		dump(array_merge($data,$data1));
+	
+7、环境变量配置
+	1、TP5.0 支持环境变量配置
+
+	2、设置环境变量配置
+
+		a、打开网站根目录(C:\AppServ\www\tp5) 新建.env
+
+		b、书写环境配置
+			name=haoge
+			age=18
+
+			[database]
+			type=mysql
+			root=root
+			pass=123qweaasd
+		c、注意配置环境变量不能使用中文
+
+	3、读取环境配置
+		a、命名空间
+		    dump(\think\Env::get('name'));
+		    dump(\think\Env::get('abc','不存在'));
+		    # 读取数组配置
+		    # 不能读取整个数组
+		    dump(\think\Env::get('database.type'));
+
+		b、use 导入系统类
+		    use \think\Env;
+		    dump(Env::get('name'));
+		    # 读取数组配置
+		    # 不能读取整个数组
+			    dump(Env::get('database.type'));
+
+	4、如何使用
+
+		打开配置文件	
+			use \think\Env;
+			return [
+			    
+			    // 应用调试模式
+			    'app_debug'              => Env::get('app_debug',false),
+			    // 应用模式状态
+			    'app_status'             => Env::get('app_status',''),
+			];

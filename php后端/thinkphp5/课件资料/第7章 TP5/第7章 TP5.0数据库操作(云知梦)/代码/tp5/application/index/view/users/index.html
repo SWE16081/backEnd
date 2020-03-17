@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="__STATIC__/bs/css/bootstrap.min.css">
+	<script src="__STATIC__/bs/js/jquery.min.js"></script>
+	<script src="__STATIC__/bs/js/bootstrap.min.js"></script>
+</head>
+<body>
+	
+	<div class="container">
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<button class="btn btn-success">用户展示页面</button>
+				<a href="/user/create" class="btn btn-danger">添加用户</a>
+			</div>
+			<div class="panel-body">
+				<table class="table table-bordered table-hover">
+					<th>ID</th>
+					<th>NAME</th>
+					<th>PASS</th>
+					<th>AGE</th>
+					<th>修改</th>
+					<th>删除</th>
+					<th>删除</th>
+					{volist name="data" id="value"}
+					<tr>
+						<td>{$value.id}</td>
+						<td>{$value.name}</td>
+						<td>{$value.pass}</td>
+						<td>{$value.age}</td>
+						<td><a href="/user/{$value.id}/edit">修改</a></td>
+						<td>
+							<form action="/user/{$value.id}" method="post">
+								<input type="hidden" name="_method" value="delete">
+								<button>删除</button>
+							</form>
+						</td>
+						<td>
+							<button onclick="del(this,{$value.id})">Ajax_删除</button>
+						</td>
+					</tr>
+					{/volist}
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	// 删除数据方法
+	function del(obj,id){
+
+
+
+
+		// 发送sql语句
+
+		$.post('{:url("ajax_del")}',{id:id},function(data){
+
+			// 判断是否成功
+
+			if (data.statu==200) {
+
+				$(obj).parent().parent().remove();
+				alert(data.info);
+
+
+			}else{
+				alert(data.info);
+
+			}
+		});
+	}
+</script>
+</html>

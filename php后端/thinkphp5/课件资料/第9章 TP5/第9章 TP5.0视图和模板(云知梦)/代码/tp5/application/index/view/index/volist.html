@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<p>volist</p>
+
+<!-- 	{volist name="data" id="val"}
+		<p>{$key} {$val.id} {$val.name}</p>
+	{/volist} -->
+
+<!-- 	{volist name="data" id="val" offset="5" length="5"}
+		<p>{$key} {$val.id} {$val.name}</p>
+	{/volist} -->
+
+<!-- 	{volist name="data" id="val" mod=2}
+		{eq name="mod" value="0"}
+			<p style="color:red;">{$key} {$val.id} {$val.name}</p>
+		{/eq}
+		{eq name="mod" value="1"}
+			<p style="color:blue;">{$key} {$val.id} {$val.name}</p>
+		{/eq}
+	{/volist}  -->
+
+
+	<!-- {volist name="data" id="val" empty="没有任何数据"}
+		<p style="color:blue;">{$key} {$val.id} {$val.name}</p>
+	{/volist} -->
+
+	<!-- {volist name="data" id="val" empty="$empty"}
+		<p style="color:blue;">{$key} {$val.id} {$val.name}</p>
+	{/volist} -->
+
+	{volist name="data" id="val" key="abc"}
+		<p style="color:blue;">{$key} {$abc} {$val.id} {$val.name}</p>
+	{/volist}
+</body>
+</html>

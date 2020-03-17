@@ -1,0 +1,4 @@
+1.Artisan命令
+https://blog.csdn.net/qq_35396905/article/details/81949776
+Artisan 是 laravel 自带的命令行工具接口的名称。它为应用的开发提供了多种有用的命令工具。Artisan 的底层驱动是强大的 Symfony 控制台组件。你可以使用 list 命令来查看可用的 Artisan 命令：
+php artisan list

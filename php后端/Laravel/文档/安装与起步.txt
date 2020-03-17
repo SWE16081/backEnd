@@ -1,0 +1,30 @@
+开发环境安装： 
+    安装laragon教程:
+     https://laravelacademy.org/post/7754.html
+    启动laragon错误与纠正：
+     https://blog.csdn.net/LqAlbert/article/details/80556805
+     
+
+    使用 PhpStorm 来开发 Laravel 项目: 	https://blog.csdn.net/diannet/article/details/47724465
+    安装 Laravel IDE 助手:指令提示
+通过laragon 终端创建：
+    引入库：
+
+composer require barryvdh/laravel-ide-helper
+
+生成辅助文件：
+
+php artisan ide-helper:generate
+phpstorm如何安装和使用laravel plugin：代码不全
+https://www.cnblogs.com/wamptao/p/8533763.html
+
+数据库配置：
+.env
+DB_CONNECTION=mysql
+DB_HOST=localhost//默认是127.0.0.1 打开数据库时有一个主机名：localhost
+默认情况下会找不到数据库==》SQLSTATE[HY000] [1049] Unknown database 'larablog' 
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=larablog
+DB_USERNAME=root
+DB_PASSWORD=123456

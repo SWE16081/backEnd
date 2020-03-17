@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>联想 后台管理系统</title>
+	<link rel="shortcut icon" href="__ADMINS__/img/1.png">
+	<link rel="stylesheet" href="__ADMINS__/bs/css/bootstrap.min.css">
+	<script src="__ADMINS__/bs/js/jquery.min.js"></script>
+	<script src="__ADMINS__/bs/js/bootstrap.min.js"></script>
+	<style>
+		.navbar-blue{
+			background-color: #ccc;
+		}
+
+		.navbar .navbar-brand{
+			color:black;
+		}
+
+		.navbar .navbar-brand:hover{
+			color:black;
+		}
+
+		.navbar-default .navbar-nav>li>a{
+			color:black;
+		}
+		.navbar-default .navbar-nav>li>a:hover{
+			color:black;
+
+		}
+		
+		.body{
+			margin-top:90px;
+		}
+		.list-group{
+			display:none;
+		}
+		.panel-primary>.panel-heading{
+			background-color: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+	
+
+		{block name="nav"}
+		{/block}
+
+
+		<!-- 内容区域 -->
+		<div class="row body">
+
+			
+
+			{block name="menu"}
+
+			{/block}
+
+
+			<!-- 内容 -->
+			{block name="main"}
+
+			{/block}
+			
+		</div>
+	</div>
+
+
+	<!-- 修改密码的摸态框 -->
+	<div class="modal fade" id="editPass">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">修改密码</h4>
+				</div>
+				<div class="modal-body">
+					<form action="">
+						<div class="form-group">
+							<label for="">原密码</label>
+							<input type="password" name="" class="form-control" placeholder="请输入原密码" id="">
+						</div>
+						<div class="form-group">
+							<label for="">新密码</label>
+							<input type="password" name="" class="form-control" placeholder="请输入新密码" id="">
+						</div>
+						<div class="form-group">
+							<label for="">确认密码</label>
+							<input type="password" name="" class="form-control" placeholder="请再次输入密码" id="">
+						</div>
+						<div class="form-group pull-right">
+							<input type="submit" value="提交" class="btn btn-success">
+							<input type="reset" value="重置" class="btn btn-danger">
+						</div>
+
+						<div style="clear:both"></div>
+					</form>
+				</div>
+				
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</body>
+<script>
+	// 菜单切换
+	$(".panel-title").click(function(){
+		$(".list-group").hide();
+		$(this).parent().next().toggle(500);
+	});
+	
+</script>
+</html>

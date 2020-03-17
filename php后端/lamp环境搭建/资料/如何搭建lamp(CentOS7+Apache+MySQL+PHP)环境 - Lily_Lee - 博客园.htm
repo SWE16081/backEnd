@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>如何搭建lamp(CentOS7+Apache+MySQL+PHP)环境 - Lily_Lee - 博客园</title>
+<meta property="og:description" content="在网上搜资料,自己在本地虚拟机上尝试搭建,弄了整整一天一夜,终于弄好了. 网上的资料,虽然很多,但大多都是重复的,拿去试了之后,又很多都不能得到正确的结果.最终找到了适合我的linux环境的搭建方式;">
+    <link type="text/css" rel="stylesheet" href="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-SimpleMemory.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-SimpleMemory-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/apro-abra/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/apro-abra/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/apro-abra/wlwmanifest.xml">
+    <script src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019040101.js"></script><script async="" src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script>var currentBlogId=223068;var currentBlogApp='apro-abra',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<link rel="preload" href="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019040101.js" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/apro-abra/"><img id="blogLogo" src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/apro-abra/">LilyLee</a></h1>
+<h2>我的学习笔记</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/apro-abra/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Lily_Lee">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/apro-abra/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/apro-abra/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 8&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 1</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/apro-abra/p/4862285.html">如何搭建lamp(CentOS7+Apache+MySQL+PHP)环境</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown"><p>在网上搜资料,自己在本地虚拟机上尝试搭建,弄了整整一天一夜,终于弄好了.<br>
+网上的资料,虽然很多,但大多都是重复的,拿去试了之后,又很多都不能得到正确的结果.最终找到了适合我的linux环境的搭建方式;在这里贴出来:<br>
+<a href="https://www.howtoforge.com/apache_php_mysql_on_centos_7_lamp">Install Apache, PHP And MySQL On CentOS 7 (LAMP)</a><br>
+度娘真不给力啊,没搜出来靠谱的方法。最后用喜乐搜找到的靠谱的教程。</p>
+<p>这里还是要总结一下我的LAMP环境的搭建步骤。<br>
+我先在电脑里装了虚拟机，在虚拟机中测试了数次之后，再在服务器上搭建的。<br>
+说说我的环境：<br>
+虚拟机是：VMware-workstation-full-8.0.0-471780.exe；<br>
+Linux系统用的是：<a href="http://www.centoscn.com/plus/download.php?open=2&amp;id=5070&amp;uhash=85cd37ad5403363b399d867b">CentOS-7-x86_64-Minimal-1503-01.ios</a>;（阿里云上也是用的CentOS7-64bit）<br>
+准备好这两个之后，就开始一步一步搭建我们的LAMP环境了。</p>
+<p>一、安装虚拟机</p>
+<p>二、安装CentOS7</p>
+<pre><code class="hljs">注意：以下安装，我都是用的root权限。</code></pre>
+<p>三、安装Apache<br>
+1.安装<br>
+<code>yum -y install httpd</code><br>
+2.开启apache服务<br>
+<code>systemctl start httpd.service</code><br>
+3.设置apache服务开机启动<br>
+<code>systemctl enable httpd.service</code><br>
+4.验证apache服务是否安装成功<br>
+在本机浏览器中输入虚拟机的ip地址，CentOS7查看ip地址的方式为：<br>
+<code>ip addr</code><br>
+（阿里云不需要用这种方式查看，外网ip已经在你主机列表那里给你写出来了的；）<br>
+这里是访问不成功的<br>
+（阿里云用外网访问，能成功，不需要做以下步骤）<br>
+查了资料，说法是，CentOS7用的是Firewall-cmd，CentOS7之前用的是iptables防火墙；要想让外网能访问到apache主目录，就需要做以下的操作：<br>
+<code>firewall-cmd --permanent --zone=public --add-service=http</code><br>
+<code>firewall-cmd --permanent --zone=public --add-service=https</code><br>
+<code>firewall-cmd --reload</code><br>
+然后再访问外网ip，如果看到apache默认的页面--有Testing 123...字样，便是成功安装了apache服务了；</p>
+<p>四、安装PHP<br>
+1.安装<br>
+<code>yum -y install php</code><br>
+2.重启apache服务<br>
+<code>systemctl restart httpd</code>或者<code>systemctl restart httpd.service</code><br>
+然后，你可以写一个php文件在浏览器中运行一下了;<br>
+eg:<br>
+<code>vi /var/www/html/info.php</code><br>
+i<br>
+<code>&lt;?php         phpinfo();      ?&gt;</code><br>
+Esc<br>
+<code>:wq</code><br>
+然后，在自己电脑浏览器输入 192.168.1.1/info.php<br>
+运行，会出现php的一些信息</p>
+<p>五、安装MySQL<br>
+我这里根据所学的那个教程，也安装了MariaDB<br>
+1.安装<br>
+<code>yum -y install mariadb-service mariadb</code><br>
+2.开启MySQL服务<br>
+<code>systemctl start mariadb.service</code><br>
+3.设置开机启动MySQL服务<br>
+<code>systemctl enable mariadb.service</code><br>
+4.设置root帐户的密码<br>
+<code>mysql_secure_installation</code><br>
+然后会出现一串东西，可以仔细读一下，如果你懒得读，就在提示出来的时候，按Enter就好了，让你设置密码的时候，你就输入你想要的密码就行，然后继续在让你选择y/n是，Enter就好了；当一切结束的时候，你可以输入<code>mysql -uroot -p</code>的方式，验证一下；</p>
+<p>六、将PHP和MySQL关联起来<br>
+<code>yum search php</code>，选择你需要的安装：<code>yum -y install php-mysql</code></p>
+<p>七、安装常用的PHP模块<br>
+例如，GD库，curl，mbstring,...<br>
+1.安装：<br>
+<code>yum -y install php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-snmp php-soap curl curl-devel</code><br>
+2.重启apache服务<br>
+<code>systemctl restart httpd.service</code><br>
+然后，再次在浏览器中运行info.php，你会看到安装的模块的信息；</p>
+<p>至此，LAMP环境就搭建好了。</p>
+</div><div id="MySignature" style="display: block;">--- ---   LilyLee   --- ---</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/apro-abra/category/678608.html" target="_blank">PHP</a></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/apro-abra/tag/lamp/">lamp</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4862285,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('a80b531f-ed96-e411-b908-9dcfd8948a71');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/apro-abra/" target="_blank"><img src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20160624165440.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/apro-abra/">Lily_Lee</a><br>
+            <a href="http://home.cnblogs.com/u/apro-abra/followees">关注 - 8</a><br>
+            <a href="http://home.cnblogs.com/u/apro-abra/followers">粉丝 - 5</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('a80b531f-ed96-e411-b908-9dcfd8948a71');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(4862285,'Digg')">
+        <span class="diggnum" id="digg_count">8</span>
+    </div>
+    <div class="buryit" onclick="votePost(4862285,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/apro-abra/p/4424542.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/apro-abra/p/4424542.html" title="发布于2015-04-14 12:21">禁用COOKIE后SEESION 还能用吗</a><br><a href="https://www.cnblogs.com/apro-abra/p/4906382.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/apro-abra/p/4906382.html" title="发布于2015-10-24 11:38">Dell Inspiron 7520 安装Ubuntu 14.04 LTS</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2015-10-08 21:07</span> <a href="https://www.cnblogs.com/apro-abra/">Lily_Lee</a> 阅读(<span id="post_view_count">39624</span>) 评论(<span id="post_comment_count">1</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=4862285" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(4862285);return false;">收藏</a></div>
+	</div>
+	<script src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/highlight.js"></script><script>markdown_highlight();</script><script type="text/javascript">var allowComments=true,cb_blogId=223068,cb_entryId=4862285,cb_blogApp=currentBlogApp,cb_blogUserGuid='a80b531f-ed96-e411-b908-9dcfd8948a71',cb_entryCreatedDate='2015/10/8 21:07:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=true;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#4070120" class="layer">#1楼</a><a name="4070120" id="comment_anchor_4070120"></a><span id="comment-maxId" style="display:none;">4070120</span><span id="comment-maxDate" style="display:none;">2018/9/18 14:54:56</span>  <span class="comment_date">2018-09-18 14:54</span> <a id="a_comment_author_4070120" href="http://home.cnblogs.com/u/640897/" target="_blank">shixi</a> <a href="http://msg.cnblogs.com/send/shixi" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4070120" class="blog_comment_body">楼主，安装mysql的命令是yum -y install mariadb mariadb-server，其他地方写得挺不错的</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4070120,'Digg',this)">支持(2)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4070120,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-gitee')">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br><a href="https://www.bagevent.com/event/2468856" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-GAITC')">【活动】2019第四届全球人工技术大会解码“智能+时代”</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BAlamp(CentOS7+Apache+MySQL+PHP)%E7%8E%AF%E5%A2%83%20-%20Lily_Lee%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CKzp2cPyweECFUmDvAodI2AMWQ"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/happyday56/p/7182839.html" target="_blank" onclick="clickRecomItmem(7182839)">如何搭建lamp(CentOS7+Apache+MySQL+PHP)环境</a><br>·  <a href="https://www.cnblogs.com/nofacemale/p/5166644.html" target="_blank" onclick="clickRecomItmem(5166644)">lamp环境搭建(apache安装,mysql安装,php安装)</a><br>·  <a href="https://www.cnblogs.com/BK-zlj/p/9517157.html" target="_blank" onclick="clickRecomItmem(9517157)">如何搭建lamp(CentOS7+Apache+MySQL+PHP)环境</a><br>·  <a href="https://www.cnblogs.com/miaoer/p/6560896.html" target="_blank" onclick="clickRecomItmem(6560896)">搭建lamp(CentOS7+Apache+MySQL+PHP)环境</a><br>·  <a href="https://www.cnblogs.com/liguangsunls/p/7003635.html" target="_blank" onclick="clickRecomItmem(7003635)">Lamp(linux+apache+mysql+php)环境搭建</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CK3p2cPyweECFUmDvAodI2AMWQ"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/623478/" target="_blank">小米去年赚134亿雷军年薪百亿 获发B股作薪酬</a><br> ·  <a href="https://news.cnblogs.com/n/623473/" target="_blank">谷歌云服务新任CEO：将大力招聘销售人员 赶超亚马逊</a><br> ·  <a href="https://news.cnblogs.com/n/623470/" target="_blank">我们一天应该喝多少水？8乘8法则并无太多科学依据</a><br> ·  <a href="https://news.cnblogs.com/n/623472/" target="_blank">Uber首席科学家：无人驾驶普及要等很久</a><br> ·  <a href="https://news.cnblogs.com/n/623471/" target="_blank">百度转身to B：能否拨开云雾</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/apro-abra/">Lily_Lee</a><br>园龄：<a href="https://home.cnblogs.com/u/apro-abra/" title="入园时间：2015-01-08">4年3个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/apro-abra/followers/">5</a><br>关注：<a href="https://home.cnblogs.com/u/apro-abra/followees/">8</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('a80b531f-ed96-e411-b908-9dcfd8948a71')">+加关注</a></div><script>getFollowStatus('a80b531f-ed96-e411-b908-9dcfd8948a71')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/03/01');return false;">&lt;</a></td><td align="center">2019年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/05/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td class="CalTodayDay" align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/apro-abra/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/apro-abra/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/apro-abra/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/apro-abra/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/apro-abra/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/apro-abra/tag/lamp/">lamp</a>(1)</li><li><a href="https://www.cnblogs.com/apro-abra/tag/Ubuntu/">Ubuntu</a>(1)</li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/apro-abra/category/747838.html">Apache</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/apro-abra/category/747837.html">Git(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/apro-abra/category/747836.html">JavaScript</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/apro-abra/category/747839.html">Nginx</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/apro-abra/category/747834.html">Node.js</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/apro-abra/category/801961.html">Others(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/apro-abra/category/678608.html">PHP(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/apro-abra/category/747835.html">PostgreSQL(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/apro-abra/category/747868.html">Sublime Text 3(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/apro-abra/category/747832.html">Ubuntu(3)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/apro-abra/archive/2016/03.html">2016年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/apro-abra/archive/2015/11.html">2015年11月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/apro-abra/archive/2015/10.html">2015年10月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/apro-abra/archive/2015/04.html">2015年4月 (1)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/apro-abra/p/4862285.html#4070120">1. Re:如何搭建lamp(CentOS7+Apache+MySQL+PHP)环境</a></li>
+        <li class="recent_comment_body">楼主，安装mysql的命令是yum -y install mariadb mariadb-server，其他地方写得挺不错的</li>
+        <li class="recent_comment_author">--shixi</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/apro-abra/p/4862285.html">1. 如何搭建lamp(CentOS7+Apache+MySQL+PHP)环境(39621)</a></li><li><a href="https://www.cnblogs.com/apro-abra/p/4906382.html">2. Dell Inspiron 7520 安装Ubuntu 14.04 LTS(653)</a></li><li><a href="https://www.cnblogs.com/apro-abra/p/4906734.html">3. Ubuntu 14.04LTS+Git(530)</a></li><li><a href="https://www.cnblogs.com/apro-abra/p/4943130.html">4. PostgreSQL(EXCEPT,INTERSECT)(194)</a></li><li><a href="https://www.cnblogs.com/apro-abra/p/4424542.html">5. 禁用COOKIE后SEESION 还能用吗(135)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/apro-abra/p/4862285.html">1. 如何搭建lamp(CentOS7+Apache+MySQL+PHP)环境(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/apro-abra/p/4862285.html">1. 如何搭建lamp(CentOS7+Apache+MySQL+PHP)环境(8)</a></li><li><a href="https://www.cnblogs.com/apro-abra/p/4906734.html">2. Ubuntu 14.04LTS+Git(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 Lily_Lee
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

@@ -1,0 +1,323 @@
+第11章 TP5.0 杂项
+===============================================
+今日学习
+1、缓存
+	
+	a) 缓存的作用：
+
+		减少数据库压力
+		用户交互比较
+
+	b) TP对缓存的支持
+
+		支持的缓存类型包括file、memcache、wincache、sqlite、redis和xcache。
+
+	c) 缓存设置(C:\AppServ\www\tp5\application\config.php)
+
+		'cache'                  => [
+		    // 驱动方式
+		    'type'   => 'File',
+		    // 缓存保存目录
+		    'path'   => CACHE_PATH,
+		    // 缓存前缀
+		    'prefix' => '',
+		    // 缓存有效期 0表示永久缓存
+		    'expire' => 0,
+		],
+
+	d) 使用
+
+		1、设置缓存
+
+			Cache::set(名字,值,时间);
+			cache(名字,值,时间);
+
+			# 返回值 如果设置成功 true
+			# 如果设置失败 false
+
+
+		2、读取缓存
+
+			Cache::get(名字);
+			cache(名字);
+
+			# 返回值 如果获取成功 获取到的数据
+			# 如果获取失败 false
+
+		3、删除缓存
+
+			Cache::rm('UserData');
+			cache('UserData',NULL);
+
+			# 返回值 删除成功 true
+			# 删除失败 false
+
+		4、清空缓存
+
+			Cache::clear();
+
+			# 返回值 清空缓存成功 true 否则 false
+
+
+		5、使用缓存
+
+			// 从缓存中获取数据
+
+			if ($data=cache('UserData')) {
+			
+				// 如果数据存在
+				
+			}else{
+				// 如果缓存中没有数据
+				$data=Db::table('User')->select();
+
+				cache('UserData',$data,20);
+			}
+
+
+2、Session
+	
+	1、设置session
+
+		Session::set('name','云知梦');
+
+		session('name','100');
+
+	2、获取session
+
+		Session::get('name');
+		session('name');
+
+		# 返回值 如果获取成功 返回获取到的值 如果失败 NULL
+
+	3、判断是否设置
+
+		Session::has('name1');
+		session("?name"); 
+
+		# 返回值 如果存在返回True 如果不存在 false
+
+	4、删除session
+
+		Session::delete('data');
+    	session('name',null);
+
+    	# 删除session 无返回值
+
+    5、清空session
+
+    	Session::clear();
+    	session(null);
+
+3、Cookie
+	
+	1、设置Cookie
+
+		Cookie::set('name','云知梦');
+		Cookie::set('info','云知梦只为有梦想的人',50);
+
+		cookie('time','2017-10-25');
+		cookie('age',5,50);
+
+	2、获取Cookie
+
+		Cookie::get('name');
+		cookie('time');
+
+		# 获取Cookie 如果成功 返回获取值，如果失败返回NULL
+
+	3、判断Cookie
+
+		Cookie::has('name');
+		cookie("?name");
+
+		# 判断cookie是否设置，如果设置返回true，如果没有设置返回false
+
+	4、删除Cookie
+
+		Cookie::delete('name');
+		cookie('name',null);
+
+	5、清空Cookie
+
+		Cookie::clear();
+		cookie(null);
+
+4、分页
+	
+	1、控制器中如何书写
+
+		// 查询数据
+		// 分页效果
+		$data=Db::table('user')->paginate(3);
+		// 简化的分页效果
+		$data=Db::table('user')->paginate(3,true);
+
+		// 分配数据
+		$this->assign('data',$data);
+
+		// 加载页面
+		return $this->fetch();
+
+	2、页面中如何书写
+		{volist name="data" id="val"}
+			<tr>
+				<td>{$val.id}</td>
+				<td>{$val.name}</td>
+				<td>{$val.pass}</td>
+			</tr>
+			
+		{/volist}
+
+		{$data->render()}
+
+5、文件上传
+	
+	1、页面
+		<form action="{:url('upload')}" method="post" enctype="multipart/form-data">
+			<p>
+				File:
+				<input type="file" name="file" id="">
+			</p>
+			<p>
+				<input type="submit" value="提交">
+			</p>
+		</form>
+
+	2、控制器
+
+		public function upload(Request $request){
+
+			// 接收数据
+			$file=$request->file('file');
+
+			// 进行文件上传
+			if ($info=$file->move('./upload/')) {
+				dump($info->getsaveName());
+			}else{
+				dump($info->getError());
+			}
+		}
+
+6、验证码
+	
+	1、首先判断系统是否支持验证码
+
+	2、使用
+
+		1) 页面中
+
+			<form action="{:url('check')}" method="post">
+				<!-- {:captcha_img()} -->
+				<img src="{:captcha_src()}" alt="">
+				<input type="text" name="code" id="">
+				<input type="submit" value="提交">
+			</form>
+
+
+		2) 判断验证码
+			$code=input('post.code');
+
+			// 判断验证码是否正确
+			if (captcha_check($code)) {
+				echo "okokok";
+			}else{
+				echo "error";
+			}
+	3、验证码相关设置
+		'captcha'=>[
+
+		    'codeSet'  => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',
+		    // 验证码字符集合
+		    'expire'   => 1800,
+		    // 验证码过期时间（s）
+		    'useZh'    => false,
+		    // 使用中文验证码
+		    'zhSet'    => '们以我',
+		    // 中文验证码字符串
+		    'useImgBg' => false,
+		    // 使用背景图片
+		    'fontSize' => 25,
+		    // 验证码字体大小(px)
+		    'useCurve' => true,
+		    // 是否画混淆曲线
+		    'useNoise' => true,
+		    // 是否添加杂点
+		    'imageH'   => 0,
+		    // 验证码图片高度
+		    'imageW'   => 0,
+		    // 验证码图片宽度
+		    'length'   => 5,
+		    // 验证码位数
+		    'fontttf'  => '',
+		    // 验证码字体，不设置随机获取
+		    'bg'       => [243, 251, 254],
+		    // 背景颜色
+		    'reset'    => true,
+		    // 验证成功后是否重置
+
+		]
+
+7、图片处理
+	
+	1、读取图片
+		
+		$images=Image::open("./img/c.jpg");
+
+	2、获取基本信息
+		// 宽度
+		dump($images->width());
+		// 高度
+		dump($images->height());
+		// 类型
+		dump($images->type());
+		// 宽和高
+		dump($images->size());
+		// mime
+		dump($images->mime());
+
+	3、图片裁剪
+
+		crop(100,200,300,350);
+		// 从(300,350)的位置开始裁剪,裁剪100,200 大小，默认从(0,0)位置开始裁剪
+
+		// 裁剪默认从顶点开始裁剪
+			$images->crop(300,300)->save("./img/cai.jpg");
+		// 设置裁剪位置
+			$images->crop(300,300,100,100)->save('./img/cai1.jpg');
+
+	4、图片缩放
+
+		// 图片缩放 默认是等比例缩放，可以进行设置
+
+		// //常量，标识缩略图等比例缩放类型
+		// constTHUMB_SCALING???=?1
+		// //常量，标识缩略图缩放后填充类型
+		// constTHUMB_FILLED????=?2;
+		// //常量，标识缩略图居中裁剪类型
+		// constTHUMB_CENTER????=?3;
+		// //常量，标识缩略图左上角裁剪类型
+		// constTHUMB_NORTHWEST?=?4;
+		// //常量，标识缩略图右下角裁剪类型
+		// constTHUMB_SOUTHEAST?=?5;
+		// //常量，标识缩略图固定尺寸缩放类型
+		// constTHUMB_FIXED?????=?6;
+
+		$images->thumb(300,300,2)->save('./img/th.jpg');
+
+	5、图片翻转
+
+		$images->flip()->save("./img/fan.jpg");
+
+	6、图片旋转
+
+		$images->rotate(180)->save("./img/xuan.jpg");
+
+	7、水印
+
+		// 图片水印
+			$images->water("./img/logo.png",5,50)->save("./img/water.jpg");
+
+		// 文字水印
+
+			$images->text('123',"msyh.ttf",20,"#ff0000")->save('./img/text.jpg');

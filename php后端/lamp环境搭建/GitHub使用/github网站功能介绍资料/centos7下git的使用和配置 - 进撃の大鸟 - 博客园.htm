@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>centos7下git的使用和配置 - 进撃の大鸟 - 博客园</title>
+<meta property="og:description" content="1.下载git，使用命令： 2.配置git： 3.创建本地仓库： 这时git本地仓库已经搭好了，测试一下： 创建1个readme，执行git status ./ git add该文件： 再使用git ">
+    <link type="text/css" rel="stylesheet" href="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-CodingLife.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-CodingLife-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/daniaofighter/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/daniaofighter/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/daniaofighter/wlwmanifest.xml">
+    <script src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019040101.js"></script><script async="" src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script>var currentBlogId=287184;var currentBlogApp='daniaofighter',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<link rel="preload" href="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019040101.js" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/daniaofighter/"><img id="blogLogo" src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/daniaofighter/">进撃の大鸟</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/daniaofighter/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/daniaofighter/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/daniaofighter/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 37&nbsp; </span>
+<span id="stats_article_count">文章 - 1&nbsp; </span>
+<span id="stats-comment_count">评论 - 0</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/daniaofighter/p/9452661.html">centos7下git的使用和配置</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>1.下载git，使用命令：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">yum</span> <span style="color: #0000ff;">install</span> git</pre>
+</div>
+<p>2.配置git：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> git config --global user.name <span style="color: #800000;">"</span><span style="color: #800000;">Your Name</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">2</span> git config --global user.email <span style="color: #800000;">"</span><span style="color: #800000;">email@example.com</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">3</span> <span style="color: #000000;">#查看配置是否生效
+</span><span style="color: #008080;">4</span> git config --list</pre>
+</div>
+<p>3.创建本地仓库：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #000000;">#创建目录
+</span><span style="color: #008080;">2</span> <span style="color: #0000ff;">mkdir</span><span style="color: #000000;"> gitspace
+</span><span style="color: #008080;">3</span> <span style="color: #000000;">cd gitspace
+</span><span style="color: #008080;">4</span> git init</pre>
+</div>
+<p>这时git本地仓库已经搭好了，测试一下：</p>
+<p>创建1个readme，执行git status ./</p>
+<p><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180809235411786-853231287.png" alt=""></p>
+<p>git add该文件：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #000000;">#git add .添加所有文件
+</span><span style="color: #008080;">2</span> git add readme</pre>
+</div>
+<p>再使用git status查看：</p>
+<p><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810000007458-1142850348.png" alt=""></p>
+<p>readme已经加入暂存区，但还没提交本地仓库</p>
+<p>再使用git commit提交：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> git commit -m <span style="color: #800000;">"</span><span style="color: #800000;">add readme</span><span style="color: #800000;">"</span></pre>
+</div>
+<p><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810000207106-1765843665.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;提交后查看，本地已经没有需要提交的记录。</p>
+<p>4.配置远程仓库：</p>
+<p>1）先在自己的linux服务器本地生成ssh key，使用命令 “ssh-keygen -t rsa -C 
+"your_email@youremail.com"”，your_email是你的email，执行时一路按回车就行，这会在当前用户下生成1个公钥
+id_rsa.pub和一个私钥id_rsa,id_rsa.pub后面配置git要用到。</p>
+<p>&nbsp;</p>
+<p><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810001935557-215686148.png" alt=""></p>
+<p>2)在github上注册一个新用户，注册成功后，在settings设置ssh key：</p>
+<p>settings:</p>
+<p><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810002225015-1792098264.png" alt=""></p>
+<p>设置ssh key：</p>
+<p><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810002333035-601958171.png" alt=""></p>
+<p>ssh key为前面服务器上的id_rsa.pub，打开整个拷贝到key中：</p>
+<p><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810002646908-587736849.png" alt=""></p>
+<p>添加成功后，点击+号新增一个仓库：new repository</p>
+<p><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810003118600-458578386.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;输入仓库名称，保存</p>
+<p><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810003435304-198913024.png" alt=""></p>
+<p>保存成功后，进入项目中，里面有很多git命令提示，根据命令来即可、</p>
+<p><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810003819352-502009725.png" alt=""></p>
+<p>&nbsp;</p>
+<p>我们按照上面的方式提交远程仓库：</p>
+<p>&nbsp;<img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810004205657-92807121.png" alt=""></p>
+<p>然后刷新工程查看：</p>
+<p>&nbsp;<img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/964574-20180810004045883-1329244496.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;readme已经上传到github.</p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/daniaofighter/category/1262405.html" target="_blank">操作系统</a>,<a href="https://www.cnblogs.com/daniaofighter/category/1274840.html" target="_blank">git学习</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(9452661,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('1d7ef7f4-8022-e611-9fc1-ac853d9f53cc');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/daniaofighter/" target="_blank"><img src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20180726232256.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/daniaofighter/">进撃の大鸟</a><br>
+            <a href="http://home.cnblogs.com/u/daniaofighter/followees">关注 - 1</a><br>
+            <a href="http://home.cnblogs.com/u/daniaofighter/followers">粉丝 - 3</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('1d7ef7f4-8022-e611-9fc1-ac853d9f53cc');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(9452661,'Digg')">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(9452661,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/daniaofighter/p/9375274.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/daniaofighter/p/9375274.html" title="发布于2018-07-27 00:59">shell中[]和[[]]的比较</a><br><a href="https://www.cnblogs.com/daniaofighter/p/9452671.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/daniaofighter/p/9452671.html" title="发布于2018-08-10 00:55">git学习资料</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2018-08-10 00:44</span> <a href="https://www.cnblogs.com/daniaofighter/">进撃の大鸟</a> 阅读(<span id="post_view_count">2582</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=9452661" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(9452661);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=287184,cb_entryId=9452661,cb_blogApp=currentBlogApp,cb_blogUserGuid='1d7ef7f4-8022-e611-9fc1-ac853d9f53cc',cb_entryCreatedDate='2018/8/10 0:44:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-gitee')">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br><a href="https://www.bagevent.com/event/2468856" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-GAITC')">【活动】2019第四届全球人工技术大会解码“智能+时代”</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="centos7%E4%B8%8Bgit%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20%E8%BF%9B%E6%92%83%E3%81%AE%E5%A4%A7%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CN-c3ZrZv-ECFdW0lgodeYkEww"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/xuange306/p/6402796.html" target="_blank" onclick="clickRecomItmem(6402796)">centos7下git的安装和配置</a><br>·  <a href="https://www.cnblogs.com/linjiqin/p/3613390.html" target="_blank" onclick="clickRecomItmem(3613390)">git配置和使用</a><br>·  <a href="https://www.cnblogs.com/licnlt/p/8099921.html" target="_blank" onclick="clickRecomItmem(8099921)">Lnmp下配置Git  和GIt的使用</a><br>·  <a href="https://www.cnblogs.com/sameen/p/5326055.html" target="_blank" onclick="clickRecomItmem(5326055)">centos7下使用git</a><br>·  <a href="https://www.cnblogs.com/sunada2005/archive/2013/06/06/3121098.html" target="_blank" onclick="clickRecomItmem(3121098)">linux下git的安装和使用</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="COCc3ZrZv-ECFdW0lgodeYkEww"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/623428/" target="_blank">996.ICU背后：程序员在互联网公司的真实生态</a><br> ·  <a href="https://news.cnblogs.com/n/623427/" target="_blank">4月编程语言排行榜：C++ 重回前三，PHP 呈下降势头</a><br> ·  <a href="https://news.cnblogs.com/n/623426/" target="_blank">华为P30首批订单或超600万台，全年将达2000万部</a><br> ·  <a href="https://news.cnblogs.com/n/623425/" target="_blank">半导体降价汽车难卖 韩国支柱产业第一季度成绩惨淡</a><br> ·  <a href="https://news.cnblogs.com/n/623424/" target="_blank">睡觉被刷脸盗走1万 如何给手机里资产加层保护？</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/daniaofighter/">进撃の大鸟</a><br>园龄：<a href="https://home.cnblogs.com/u/daniaofighter/" title="入园时间：2016-05-25">2年10个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/daniaofighter/followers/">3</a><br>关注：<a href="https://home.cnblogs.com/u/daniaofighter/followees/">1</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('1d7ef7f4-8022-e611-9fc1-ac853d9f53cc')">+加关注</a></div><script>getFollowStatus('1d7ef7f4-8022-e611-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/03/01');return false;">&lt;</a></td><td align="center">2019年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/05/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td class="CalTodayDay" align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/daniaofighter/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/daniaofighter/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/daniaofighter/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/daniaofighter/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/daniaofighter/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/daniaofighter/tag/pyqt4/">pyqt4</a>(3)</li><li><a href="https://www.cnblogs.com/daniaofighter/tag/QLabel%E5%AF%B9%E9%BD%90%E6%96%B9%E5%BC%8F/">QLabel对齐方式</a>(1)</li><li><a href="https://www.cnblogs.com/daniaofighter/tag/qtcreator/">qtcreator</a>(1)</li><li><a href="https://www.cnblogs.com/daniaofighter/tag/shell/">shell</a>(1)</li><li><a href="https://www.cnblogs.com/daniaofighter/tag/linux/">linux</a>(1)</li><li><a href="https://www.cnblogs.com/daniaofighter/tag/pixmap/">pixmap</a>(1)</li><li><a href="https://www.cnblogs.com/daniaofighter/tag/pycharm%20phpstorm/">pycharm phpstorm</a>(1)</li><li><a href="https://www.cnblogs.com/daniaofighter/tag/pyqt/">pyqt</a>(1)</li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/daniaofighter/category/1274840.html">git学习(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/daniaofighter/category/916343.html">java学习(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/daniaofighter/category/1010966.html">PHP学习(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/daniaofighter/category/902936.html">pycharm设置(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/daniaofighter/category/985572.html">pyqt4学习(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/daniaofighter/category/902935.html">pyqt5学习(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/daniaofighter/category/833922.html">python学习(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/daniaofighter/category/1260000.html">shell学习(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/daniaofighter/category/908621.html">VS2013设置(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/daniaofighter/category/1262405.html">操作系统(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/daniaofighter/archive/2018/08.html">2018年8月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/daniaofighter/archive/2018/07.html">2018年7月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/daniaofighter/archive/2018/01.html">2018年1月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/daniaofighter/archive/2017/12.html">2017年12月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/daniaofighter/archive/2017/10.html">2017年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/daniaofighter/archive/2017/09.html">2017年9月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/daniaofighter/archive/2017/05.html">2017年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/daniaofighter/archive/2017/04.html">2017年4月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/daniaofighter/archive/2016/12.html">2016年12月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/daniaofighter/archive/2016/11.html">2016年11月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/daniaofighter/archive/2016/07.html">2016年7月 (2)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" style="display: none;">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"></div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/daniaofighter/p/5713127.html">1. pixmap和label设置图片自适应大小(8545)</a></li><li><a href="https://www.cnblogs.com/daniaofighter/p/9452661.html">2. centos7下git的使用和配置(2582)</a></li><li><a href="https://www.cnblogs.com/daniaofighter/p/9369349.html">3. centos7,yum安装工具报错(322)</a></li><li><a href="https://www.cnblogs.com/daniaofighter/p/6721071.html">4. 1QT在线帮助文档(133)</a></li><li><a href="https://www.cnblogs.com/daniaofighter/p/5713168.html">5. 设置label中的对齐方式(128)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap" style="display: none;">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/daniaofighter/p/9452661.html">1. centos7下git的使用和配置(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 进撃の大鸟
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

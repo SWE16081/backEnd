@@ -1,0 +1,17 @@
+    public function delReapt($arr){
+        $m=0;
+        $test=array();
+        for($i=0;$i<count($arr);$i++){
+            $flage=true;
+            for($j=0;$j<$i;$j++){
+                if($arr[$i]==$arr[$j]){
+                    $flage=false;
+                }
+            }
+            if($flage){
+                $test[$m]=$arr[$i];
+                $m++;
+            }
+    }
+        return $test;
+    }

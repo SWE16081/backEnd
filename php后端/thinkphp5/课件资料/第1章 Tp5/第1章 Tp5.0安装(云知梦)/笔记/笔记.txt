@@ -1,0 +1,252 @@
+第1章 Tp5.0 安装
+========================================================
+今日学习
+1、TP5.0系列课程
+	
+	<TP5.0 框架开发> <TP5.0 核心技术> <TP5.0 项目开发>
+
+2、讲师介绍
+	名字:程张浩(浩哥)
+	性别:男
+	外号:"少女杀手"
+
+3、如何学习本套课程
+	
+	1、www.yzmedu.com
+
+	2、网易云课程
+
+	3、腾讯课堂
+
+4、PHP框架?
+	
+	TP3.2 框架
+	laravel 框架 
+	Yii 框架
+	TP5.0 框架
+
+5、ThinkPHP框架
+	ThinkPHP是一个免费开源的，快速、简单的面向对象的轻量级PHP开发框架，是为了敏捷WEB应用开发和简化企业应用开发而诞生的。
+
+6、检测TP5.0 环境
+	PHP >= 5.4.0
+	PDO PHP Extension
+	MBstring PHP Extension
+	CURL PHP Extension
+
+7、TP5.0的安装
+	a) 源代码包安装
+
+		1、去thinkphp官网(www.thinkphp.cn) 下载 完整版本的TP5.0
+
+		2、解压压缩包
+
+		3、将解压文件拷贝网站根目录 (www)
+
+		4、重命名 tp5
+
+		5、地址栏访问 http://localhost/tp5/public/
+
+	b) composer
+		1、官网
+			composer是 PHP 用来管理依赖（dependency）关系的工具。类似于linux 中yum源。
+
+		2、下载地址
+
+			https://getcomposer.org/download/
+
+		3、安装composer
+
+			双击软件，点击next进行安装
+
+		4、检测软件是否安装成功
+
+			1、win+r 输入cmd 回车
+
+			2、输入 composer
+
+
+	c) composer 安装
+
+		1、首先命令行切换到 网站根目录(www)
+
+		2、切换国内镜像
+			composer config -g repo.packagist composer https://packagist.phpcomposer.com
+
+		3、安装tp5.0
+			composer create-project topthink/think composer_tp5 --prefer-dist
+
+		4、地址栏访问
+			http://localhost/composer_tp5/public/
+
+	d) git
+
+		1、简介
+			Git是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。
+
+		2、安装
+
+			找到对于的软件，双击安装，点击next
+
+		3、检测是否安装成功
+
+			命令行输入git
+
+	e) 使用git安装 tp5.0
+
+		1、首先命令行切换到 网站根目录(www)
+
+		2、拷贝项目仓库
+			git clone https://github.com/top-think/think git_tp5
+
+		3、切换到git_tp5 目录下
+
+		4、拷贝核心框架代码
+			git clone https://github.com/top-think/framework thinkphp
+
+		5、地址栏输入
+			http://localhost/git_tp5/public/
+
+	f) 三种安装方式比较
+		1、源代码包下载最方便
+
+		2、git 可以获取到最新的代码
+
+		3、建议大家使用源代码包下载
+
+8、配置虚拟主机
+	
+	1、配置本地路由表(C:\Windows\System32\drivers\etc\hosts)
+
+		127.0.0.1     www.tp.com
+
+	2、apache开启虚拟主机(C:\AppServ\Apache24\conf\httpd.conf)
+
+		# 第514行 去掉注释
+		Include conf/extra/httpd-vhosts.conf
+
+	3、修改虚拟主机配置(C:\AppServ\Apache24\conf\extra\httpd-vhosts.conf)
+		<VirtualHost *:80>
+		    DocumentRoot "C:\AppServ\www\tp5\public"
+		    ServerName www.tp.com
+			<Directory "C:\AppServ\www\tp5\public">
+			   
+			    Options Indexes FollowSymLinks
+			    
+			    AllowOverride All
+
+			    Require all granted
+			</Directory>
+		</VirtualHost>
+
+	4、重启apache
+
+
+	5、地址栏输入 www.tp.com 访问
+
+
+9、目录结构
+	|-application 应用目录 是整个网站的核心
+	|---|---index 前台目录
+	|---|-----|---controller 控制器
+	|---|-----|---model 数据模型
+	|---|-----|---view 页面
+	|---|---admin 后台目录
+	|-extend 扩展类库目录 
+	|-public 静态资源和入口文件
+	|---|---static 存放静态资源 css、js、img
+	|---|---index.php 入口文件
+	|-runtime 网站运行临时目录
+	|-tests 测试目录
+	|-thinkphp TP框架的核心文件
+	|---|---lang 语言包
+	|---|---library TP核心文件
+	|---|---tpl 模板页面
+	|-vendor 第三方扩展目录
+
+10、URL地址了解
+	
+	http://www.tp.com/  index.php   /Index   /Index    /index
+			 域名        入口文件    前台    控制器     方法
+
+11、了解TP开发模式
+	0、开始调试模式(C:\AppServ\www\tp5\application\config.php)
+    	'app_debug'              => true,
+
+	
+	1、链接数据库(C:\AppServ\www\tp5\application\database.php)
+
+		// 数据库类型
+		'type'            => 'mysql',
+		// 服务器地址
+		'hostname'        => '127.0.0.1',
+		// 数据库名
+		'database'        => 'yzm',
+		// 用户名
+		'username'        => 'root',
+		// 密码
+		'password'        => '123456789',
+
+	2、控制器中书写代码(C:\AppServ\www\tp5\application\index\controller\Index.php)
+		<?php
+		namespace app\index\controller;
+		// 引入系统数据类
+		use think\Db;
+		// 引入系统控制器类
+		use think\Controller;
+		class Index extends Controller
+		{
+		    public function index()
+		    {
+
+		    	// 从数据库中读取数据
+		    	$data=Db::table('user')->select();
+		    	// 分配数据给页面
+		    	$this->assign('data',$data);
+		    	// 加载页面
+		    	return view();
+		    }
+		}
+
+	3、页面中(C:\AppServ\www\tp5\application\index\view\index\index.html)
+		{volist name="data" id="value"}
+			<tr>
+				<td>{$value.id}</td>
+				<td>{$value.name}</td>
+				<td>{$value.pass}</td>
+			</tr>
+		{/volist}
+
+
+12、MVC模式
+	
+	m model 模型
+	v view 视图
+	c controller 控制器
+
+13、MVC在TP中如何体现
+	
+	1、M model 模型
+		#C:\AppServ\www\tp5\application\index\model
+
+		作用: 执行数据库相关处理
+
+	2、V view 视图
+		#C:\AppServ\www\tp5\application\index\view
+
+		作用：其实就是页面
+
+	3、C Controller 控制器
+		#C:\AppServ\www\tp5\application\index\controller
+
+		作用：主要负责整个逻辑运转
+
+
+14、MVC的变形
+	1、MC 模型和控制器
+		# 主要作用:用于接口开发
+
+
+	2、VC 视图和控制器
+		# 主要作用: 单页面的网站
+

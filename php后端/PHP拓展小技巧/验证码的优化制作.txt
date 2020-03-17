@@ -1,0 +1,28 @@
+1.建立画布  $im=imagecreate(x,y)
+2.设置背景颜色  $bgcolor=imagecolorallocate($im,red,green,blue)
+3.设置随机出现的字符或汉字  
+$lehgth=6;
+$string='';
+$arr=array（）;
+$arrlength=count($arr); 
+for($i=0;$i<$lehgth;$i++)
+{
+	$string.=$arr[rand(0,$arrlength-1)];
+}
+4.imagettfbbox    计算TTF文字所占区域即写第一个字母的位置 
+$tsize=imagettfbbox(大小,角度,字体,$string);
+
+
+5.imagettftext      //用指定的字体输出字符串
+imagettftext($im,$size,角度,$x,$y,$textcolor,$font,$string);
+6.生成图片
+header("content-type:image/jpeg");
+imagejpeg($im);
+imagedestroy();
+优化小技巧：
+1.在画布上画线条 ：
+//造线条的随机颜色
+$line1 = imagecolorallocate($image,rand(0,255),rand(0,255),rand(0,255));  
+// 在画布上画线条  
+imageline($image,$x1,$y1,r$x2,$y2,$line1);  
+imageline($image,rand(0,50),rand(0,25),rand(0,50),rand(0,25),$line1);  

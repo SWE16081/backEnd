@@ -1,0 +1,282 @@
+第5章 TP5.0 控制器
+==============================================
+上次复习
+1、路由
+	a、有利于SEO优化
+
+	b、简洁方便记忆
+
+2、路由模式
+	1、普通模式(PATHINFO)
+		http://www.tp.com/index.php/Index/Index/index
+
+	2、混合模式
+		支持PATHINFO和路由
+
+	3、强制模式
+		只支持路由模式
+
+	4、模式切换和配置文件有关
+		// 是否开启路由
+		'url_route_on'           => true,
+		// 是否强制使用路由
+		'url_route_must'         => false,
+
+3、设置路由
+	0、配置文件
+		C:\AppServ\www\tp5\application\Route.php
+
+	1、动态设置当个路由
+		use think\Route;
+
+		Route::rule();
+		Route::get();
+		Route::post();
+		Route::delete();
+		Route::put();
+
+	2、动态批量设置路由
+		Route::rule([
+			'路由规则1'=>'路由地址和参数',
+			'路由规则2'=>['路由地址和参数','匹配参数（数组）','变量规则（数组）']
+			...
+		],'','请求类型','匹配参数（数组）','变量规则');
+
+	3、配置文件注册路由
+		return[
+			'new/:id' => 'News/read',
+			'blog/:id' => ['Blog/update',['method'=>'post|put'],['id'=>'\d+']],
+		];
+
+==============================================
+今日学习
+
+1、新建控制器(前台模块为例)
+	
+	1、在前台控制器目录下(C:\AppServ\www\tp5\application\index\controller) 新建控制器文件 User.php
+
+	2、User.php文件中如何书写
+		<?php 
+		// 声明命名空间
+		namespace app\index\controller;
+		// 声明控制器
+		class User{
+			// 声明方法
+			public function index(){
+				return "我是User控制器下的index方法";
+			}
+		}
+
+	3、地址栏访问
+		http://www.tp.com/index.php/Index/user/index
+
+	4、注意:
+		1、控制器文件名必须首字母大写,文件名采用驼峰命名。
+
+		2、控制器名必须跟文件名一一对应
+
+		3、命名空间必须和文件名对应
+			namespace app\index\controller;
+			C:\AppServ\www\tp5\application\index\controller
+
+		4、如果控制器名字采用驼峰命名 UserInfo.php
+
+			http://www.tp.com/index.php/Index/user_info/index
+
+2、控制器如何加载页面
+	
+	1、系统View类
+
+		$view=new \think\View;
+		return $view->fetch();
+
+		use think\View;
+		$view=new View();
+		return $view->fetch();
+
+	2、系统Controller类
+		1、需要继承系统控制器类
+
+			use think\Controller;
+			// 声明控制器
+			class User extends Controller
+		
+		2、直接使用系统控制器类的方法
+			return $this->fetch();
+
+	3、系统函数
+
+		return view();
+
+3、数据输出
+	1、在应用配置文件中可以设置数据返回格式
+
+    	'default_return_type'    => 'json', #默认是html
+
+    2、ajax请求的时候如何返回数据
+
+    	'default_ajax_return'    => 'json',
+
+4、控制器的初始化
+	1、控制器初始化方法必须继承系统控制器
+
+		// 控制器的初始化方法
+		public function _initialize(){
+			echo "我是初始化方法";
+		}
+
+	2、只要调用控制器下的任意方法，都会先找初始化方法
+
+	3、控制器初始化方法的使用
+		1、可以用来提取控制器下公共的代码
+
+		2、后台权限把控
+
+5、前置操作
+	
+	0、前置方法 把一些公共的设置提取成方法进行调用
+
+	1、前置方法必须结合系统控制器
+
+	2、核心设置
+		// 前置方法属性
+		protected $beforeActionList=[
+			'one',
+			// 不想让谁使用前置方法two
+			'two'=>['except'=>"index"],
+			// 仅仅可以让谁使用前置方法three
+			'three'=>['only'=>'index'],
+		];
+
+6、页面跳转
+	0、页面跳转基于系统控制器类，所以控制器必须继承系统控制器
+
+	1、方法所在路径
+		C:\AppServ\www\tp5\thinkphp\library\traits\controlle\Jump.php
+
+	2、跳转方式
+		a、成功跳转
+			// $this->success(提示信息,跳转地址,用户自定义数据,跳转跳转,header信息);
+			// 跳转地址未设置时 默认返回上一个页面
+			$this->success('跳转成功',url('index/index'));
+		b、失败跳转
+
+			$this->error('登录失败');
+
+	3、跳转方法给模板页面的数据
+
+		1、$code 返回的状态码 成功 1 失败 0
+
+		2、$msg 页面的提示信息
+
+		3、$wait 等待时间
+
+		4、$url 制定跳转页面 默认返回上一个页面
+
+		5、$data 用户返回的数据
+
+	4、相关配置文件
+		// 默认跳转页面对应的模板文件
+		'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
+		'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
+
+
+	4、修改成功和失败的模板页面
+
+		
+		a、修改默认文件
+			1、默认文件位置
+				C:\AppServ\www\tp5\thinkphp\tpl\dispatch_jump.php
+
+			2、根据原有代码进行修改			
+				在成功失败模板页面进行修改
+
+		b、用户自定义页面跳转模板
+			1、修改配置文件
+				'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'success.tpl',
+				'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'error.tpl',
+
+			2、在系统模板目录下 (C:\AppServ\www\tp5\thinkphp\tpl) 新建 success.php 和error.php
+
+			3、自定义书写跳转页面
+
+7、重定向
+	
+	1、作用：
+		重定向(Redirect)就是通过各种方法将各种网络请求重新定个方向转到其它位置
+
+	2、使用:
+
+		redirect('跳转地址','其他参数',code,'隐士参数');
+
+		$this->redirect('index/index',['id'=>100,'name'=>'abc']);
+
+8、空控制器和空操作
+	1、空操作
+		# 主要解决一些用户恶意的地址栏输入，报错影响交互
+		public function _empty(){
+			$this->redirect('index/index');
+
+		}
+
+	2、空控制器
+		// 声明命名空间
+		namespace app\index\controller;
+		use think\Controller;
+		// 声明控制器
+		class Error extends Controller{
+			// index
+			public function index(){
+				$this->redirect('index/index');
+			}
+			// 空操作
+			public function _empty(){
+				$this->redirect('index/index');
+				
+			}
+		}
+
+	3、注意:
+		1、网站上线的时候每一个控制器都必须添加空操作
+
+		2、不论前台后台都需要写一个空控制器
+
+9、使用命令行
+	1、切换到网站的根目录下
+
+	2、输入php think
+
+	3、使用
+		1、创建控制器
+			php think make:controller app\index\controller\Goods
+
+		2、创建数据模型
+			php think make:model app\index\model\Goods
+
+		3、清空runtime 临时文件
+			php think clear
+
+
+10、资源控制器
+	1、使用命令行创建控制器
+		php think make:controller app\index\controller\Goods
+
+	2、资源控制器一般配合资源路由使用
+
+
+		
+11、系统类
+	Config
+	Env
+	Controller
+	View
+	Route
+	URL
+
+12、系统方法
+	config(); 
+	view();
+	controller();
+	action();
+	url();
+	dump();

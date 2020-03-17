@@ -1,0 +1,92 @@
+#home {
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+    margin: 50px auto;
+    min-width: 950px;
+    padding: 30px;
+    width: 85%;
+}
+#blogTitle h1 {
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 1.5em;
+}
+#navigator {
+    font-size: 18px;
+}
+#navList a {
+    display: block;
+    float: left;
+    height: 22px;
+    padding-top: 15%;
+    text-align: center;
+    width: 5em;
+}
+#navList a:hover{
+    color:#4C9ED9;
+}
+.catListTitle {
+    background-color: #f7f7f7;
+    font-size:2.35em;
+    border-left: 10px solid #99cc33;
+    font-size: 110%;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    margin-top: 21px;
+    padding: 10px 0 10px 14px;
+    text-align: left;
+}
+#sideBar {
+    font-size: 15px;
+}
+
+#sideBar h3 {
+    color: #6a6a6a;
+    font-size: 18px;
+}
+.blogStats {
+    color: #757575;
+    float: right;
+    margin-right: 2px;
+    margin-top: 15px;
+    text-align: right;
+}
+
+.postCon a:link, .postCon a:visited, .postCon a:active {
+    color: #4395f5;
+    text-decoration: none;
+}
+
+.postTitle a:link, .postTitle a:visited, .postTitle a:active {
+    color: #4395f5;
+    transition: all 0.4s linear 0s;
+}
+
+#topics .postTitle {
+    font-size: 180%;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+
+#blogTitle h2 {
+    color: #515151;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.84615;
+}
+
+body{
+   font-family: "Lucida Grande", Helvetica, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", sans-serif;
+}
+
+#MySignature{　　
+ border:solid 1px #E5E5E5;
+ padding:10px;
+   background:#E5EEF7 url(//images.cnblogs.com/cnblogs_com/grenet/226272/o_o_o_info.png) no-repeat scroll 15px 50%;
+   padding-left:80px;}
+#MySignature div{
+  line-height: 20px;
+}

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>Centos7安装mysql后无法启动，提示 Unit mysql.service failed to load：No such file or directory - 友缘聚友 - 博客园</title>
+<meta property="og:description" content="不想装Oracle，心想装个MySQL轻便一点，我用的Linux版本是Fedora24.执行完yum安装命令后发现竟然无法启动错误提示如下[java] view plain copy print?[r">
+    <link type="text/css" rel="stylesheet" href="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-CodingLife.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-CodingLife-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/youyuanjuyou/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/youyuanjuyou/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/youyuanjuyou/wlwmanifest.xml">
+    <script src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019040101.js"></script><script async="" src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script>var currentBlogId=402992;var currentBlogApp='youyuanjuyou',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<link rel="preload" href="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019040101.js" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/youyuanjuyou/"><img id="blogLogo" src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/youyuanjuyou/">友缘聚友</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/youyuanjuyou/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/youyuanjuyou/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/youyuanjuyou/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 245&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 1</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/youyuanjuyou/p/8258578.html">Centos7安装mysql后无法启动，提示 Unit mysql.service failed to load：No such file or directory</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p style="padding: 0px;">不想装<a href="http://lib.csdn.net/base/oracle" class="replace_word" title="Oracle知识库" target="_blank" style="text-decoration: none; color: rgb(223, 52, 52); font-weight: bold;">Oracle</a>，心想装个<a href="http://lib.csdn.net/base/mysql" class="replace_word" title="MySQL知识库" target="_blank" style="text-decoration: none; color: rgb(223, 52, 52); font-weight: bold;">MySQL</a>轻便一点，我用的<a href="http://lib.csdn.net/base/linux" class="replace_word" title="Linux知识库" target="_blank" style="text-decoration: none; color: rgb(223, 52, 52); font-weight: bold;">Linux</a>版本是Fedora24.执行完yum安装命令后发现竟然无法启动错误提示如下</p><p style="padding: 0px;"></p><div class="dp-highlighter bg_java" style="font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 0.8rem; width: 924.656px; overflow: hidden; padding-top: 1px; position: relative; border-color: rgb(204, 204, 204); margin-top: 18px !important; margin-bottom: 18px !important; background-color: rgb(231, 229, 220);"><div class="bar" style="padding-left: 45px;"><div class="tools" style="padding: 3px 8px 10px 10px; font-stretch: normal; font-size: 0.6rem; line-height: normal; font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; color: silver; border-left-width: 3px; border-left-style: solid; border-left-color: rgb(153, 153, 153); background-color: rgb(248, 248, 248);"><b>[java]</b>&nbsp;<a href="http://blog.csdn.net/ezitai/article/details/52085141#" class="ViewSource" title="view plain" target="_blank" style="text-decoration: none; border: none; padding: 0px; margin: 0px 10px 0px 0px; font-size: 0.6rem; color: rgb(12, 137, 207); background-image: none; background-attachment: initial; background-color: inherit; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;">view plain</a><span data-mod="popu_168">&nbsp;<a href="http://blog.csdn.net/ezitai/article/details/52085141#" class="CopyToClipboard" title="copy" target="_blank" style="text-decoration: none; border: none; padding: 0px; margin: 0px 10px 0px 0px; font-size: 0.6rem; color: rgb(12, 137, 207); background-image: none; background-attachment: initial; background-color: inherit; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;">copy</a><div style="position: absolute; left: 527px; top: 591px; width: 28px; height: 15px; z-index: 99;"></div></span><span data-mod="popu_169">&nbsp;<a href="http://blog.csdn.net/ezitai/article/details/52085141#" class="PrintSource" title="print" target="_blank" style="text-decoration: none; border: none; padding: 0px; margin: 0px 10px 0px 0px; font-size: 0.6rem; color: rgb(12, 137, 207); background-image: none; background-attachment: initial; background-color: inherit; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;">print</a></span><a href="http://blog.csdn.net/ezitai/article/details/52085141#" class="About" title="?" target="_blank" style="text-decoration: none; border: none; padding: 0px; margin: 0px 10px 0px 0px; font-size: 0.6rem; color: rgb(12, 137, 207); background-image: none; background-attachment: initial; background-color: inherit; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;">?</a></div></div><ol start="1" class="dp-j wiz-list-level1" style="padding: 0px; border: none; color: rgb(92, 92, 92); margin-bottom: 1px !important; margin-left: 45px !important; background-color: rgb(255, 255, 255);"><li class="alt" style="border-style: none none none solid; border-left-width: 3px; border-left-color: rgb(153, 153, 153); border-image-source: initial; border-image-slice: initial; border-image-width: initial; border-image-outset: initial; border-image-repeat: initial; list-style: decimal-leading-zero outside; color: inherit; line-height: 18px; padding: 0px 3px 0px 10px !important;"><span style="margin: 0px; padding: 0px; border: none; color: black; background-color: inherit;"><span style="margin: 0px; padding: 0px; border: none; background-color: inherit;">[root</span><span class="annotation" style="margin: 0px; padding: 0px; border: none; color: rgb(100, 100, 100); background-color: inherit;">@localhost</span><span style="margin: 0px; padding: 0px; border: none; background-color: inherit;">&nbsp;~]#&nbsp;systemctl&nbsp;start&nbsp;mysql.service&nbsp;&nbsp;</span></span></li><li class="" style="border-style: none none none solid; border-left-width: 3px; border-left-color: rgb(153, 153, 153); border-image-source: initial; border-image-slice: initial; border-image-width: initial; border-image-outset: initial; border-image-repeat: initial; list-style: decimal-leading-zero outside; color: rgb(85, 85, 85); line-height: 18px; padding: 0px 3px 0px 10px !important; background-color: rgb(248, 248, 248);"><span style="margin: 0px; padding: 0px; border: none; color: black; background-color: inherit;">Failed&nbsp;to&nbsp;start&nbsp;mysql.service:&nbsp;Unit&nbsp;mysql.service&nbsp;not&nbsp;found.&nbsp;&nbsp;</span></li></ol></div>查了半天资料，终于了解到<span style="text-align: justify;">MariaDB代替了mysql数据库，MariaDB数据库管理系统是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。</span><p style="padding: 0px;"></p><p style="padding: 0px;"></p><div style="text-align: justify;">因此用上述命令启动不起来，正确的方法如下</div><div><div class="dp-highlighter bg_java" style="font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 0.8rem; width: 924.656px; overflow: hidden; padding-top: 1px; position: relative; border-color: rgb(204, 204, 204); color: rgb(85, 85, 85); font-variant-ligatures: normal; orphans: 2; widows: 2; margin-top: 18px !important; margin-bottom: 18px !important; background-color: rgb(231, 229, 220);"><div class="bar" style="padding-left: 45px;"><div class="tools" style="padding: 3px 8px 10px 10px; font-stretch: normal; font-size: 0.6rem; line-height: normal; font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; color: silver; border-left-width: 3px; border-left-style: solid; border-left-color: rgb(153, 153, 153); background-color: rgb(248, 248, 248);"><b>[java]</b>&nbsp;<a href="http://blog.csdn.net/ezitai/article/details/52085141#" class="ViewSource" title="view plain" target="_blank" style="text-decoration: none; border: none; padding: 0px; margin: 0px 10px 0px 0px; font-size: 0.6rem; color: rgb(12, 137, 207); background-image: none; background-attachment: initial; background-color: inherit; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;">view plain</a><span data-mod="popu_168">&nbsp;<a href="http://blog.csdn.net/ezitai/article/details/52085141#" class="CopyToClipboard" title="copy" target="_blank" style="text-decoration: none; border: none; padding: 0px; margin: 0px 10px 0px 0px; font-size: 0.6rem; color: rgb(12, 137, 207); background-image: none; background-attachment: initial; background-color: inherit; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;">copy</a><div style="position: absolute; left: 527px; top: 833px; width: 28px; height: 15px; z-index: 99;"></div></span><span data-mod="popu_169">&nbsp;<a href="http://blog.csdn.net/ezitai/article/details/52085141#" class="PrintSource" title="print" target="_blank" style="text-decoration: none; border: none; padding: 0px; margin: 0px 10px 0px 0px; font-size: 0.6rem; color: rgb(12, 137, 207); background-image: none; background-attachment: initial; background-color: inherit; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;">print</a></span><a href="http://blog.csdn.net/ezitai/article/details/52085141#" class="About" title="?" target="_blank" style="text-decoration: none; border: none; padding: 0px; margin: 0px 10px 0px 0px; font-size: 0.6rem; color: rgb(12, 137, 207); background-image: none; background-attachment: initial; background-color: inherit; background-size: initial; background-origin: initial; background-clip: initial; background-position: initial; background-repeat: initial;">?</a></div></div><ol start="1" class="dp-j wiz-list-level1" style="padding: 0px; border: none; color: rgb(92, 92, 92); margin-bottom: 1px !important; margin-left: 45px !important; background-color: rgb(255, 255, 255);"><li class="alt" style="border-style: none none none solid; border-left-width: 3px; border-left-color: rgb(153, 153, 153); border-image-source: initial; border-image-slice: initial; border-image-width: initial; border-image-outset: initial; border-image-repeat: initial; list-style: decimal-leading-zero outside; color: inherit; line-height: 18px; padding: 0px 3px 0px 10px !important;"><span style="margin: 0px; padding: 0px; border: none; color: black; background-color: inherit;"><span style="margin: 0px; padding: 0px; border: none; background-color: inherit;">#&nbsp;yum&nbsp;install&nbsp;mariadb-server&nbsp;-y&nbsp;</span><span class="comment" style="margin: 0px; padding: 0px; border: none; color: rgb(0, 130, 0); background-color: inherit;">//如果已安装可以省略</span><span style="margin: 0px; padding: 0px; border: none; background-color: inherit;">&nbsp;&nbsp;</span></span></li><li class="" style="border-style: none none none solid; border-left-width: 3px; border-left-color: rgb(153, 153, 153); border-image-source: initial; border-image-slice: initial; border-image-width: initial; border-image-outset: initial; border-image-repeat: initial; list-style: decimal-leading-zero outside; color: rgb(85, 85, 85); line-height: 18px; padding: 0px 3px 0px 10px !important; background-color: rgb(248, 248, 248);"><span style="margin: 0px; padding: 0px; border: none; color: black; background-color: inherit;">#&nbsp;systemctl&nbsp;start&nbsp;mariadb.service&nbsp;<span class="comment" style="margin: 0px; padding: 0px; border: none; color: rgb(0, 130, 0); background-color: inherit;">//启动服务</span><span style="margin: 0px; padding: 0px; border: none; background-color: inherit;">&nbsp;&nbsp;</span></span></li><li class="alt" style="border-style: none none none solid; border-left-width: 3px; border-left-color: rgb(153, 153, 153); border-image-source: initial; border-image-slice: initial; border-image-width: initial; border-image-outset: initial; border-image-repeat: initial; list-style: decimal-leading-zero outside; color: inherit; line-height: 18px; padding: 0px 3px 0px 10px !important;"><span style="margin: 0px; padding: 0px; border: none; color: black; background-color: inherit;">#&nbsp;systemctl&nbsp;enable&nbsp;mariadb.service&nbsp;<span class="comment" style="margin: 0px; padding: 0px; border: none; color: rgb(0, 130, 0); background-color: inherit;">//开机启动服务</span><span style="margin: 0px; padding: 0px; border: none; background-color: inherit;">&nbsp;&nbsp;</span></span></li><li class="" style="border-style: none none none solid; border-left-width: 3px; border-left-color: rgb(153, 153, 153); border-image-source: initial; border-image-slice: initial; border-image-width: initial; border-image-outset: initial; border-image-repeat: initial; list-style: decimal-leading-zero outside; color: rgb(85, 85, 85); line-height: 18px; padding: 0px 3px 0px 10px !important; background-color: rgb(248, 248, 248);"><span style="margin: 0px; padding: 0px; border: none; color: black; background-color: inherit;">#&nbsp;mysql&nbsp;-u&nbsp;root&nbsp;-p&nbsp;<span class="comment" style="margin: 0px; padding: 0px; border: none; color: rgb(0, 130, 0); background-color: inherit;">//登录mysql</span><span style="margin: 0px; padding: 0px; border: none; background-color: inherit;">&nbsp;&nbsp;</span></span></li><li><br><div style="color:gray"><small>来源：&nbsp;<a href="http://blog.csdn.net/ezitai/article/details/52085141">http://blog.csdn.net/ezitai/article/details/52085141</a></small></div></li></ol></div></div><wiz_tmp_tag id="wiz-table-range-border" style="display: none;" contenteditable="false"><div id="wiz-table-col-line" style="display: none;"></div><div id="wiz-table-row-line" style="display: none;"></div><div id="wiz-table-range-border_start" style="display: none;"><div id="wiz-table-range-border_start_top"></div><div id="wiz-table-range-border_start_right"></div><div id="wiz-table-range-border_start_bottom"></div><div id="wiz-table-range-border_start_left"></div><div id="wiz-table-range-border_start_dot"></div></div><div id="wiz-table-range-border_range" style="display: none;"><div id="wiz-table-range-border_range_top"></div><div id="wiz-table-range-border_range_right"></div><div id="wiz-table-range-border_range_bottom"></div><div id="wiz-table-range-border_range_left"></div><div id="wiz-table-range-border_range_dot"></div></div></wiz_tmp_tag></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/youyuanjuyou/category/1145394.html" target="_blank">CentOS/各种疑难杂症解决</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(8258578,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('2ff1c4c3-d9ac-e611-845c-ac853d9f53ac');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/youyuanjuyou/" target="_blank"><img src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20171223015113.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/youyuanjuyou/">友缘聚友</a><br>
+            <a href="http://home.cnblogs.com/u/youyuanjuyou/followees">关注 - 3</a><br>
+            <a href="http://home.cnblogs.com/u/youyuanjuyou/followers">粉丝 - 1</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('2ff1c4c3-d9ac-e611-845c-ac853d9f53ac');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(8258578,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(8258578,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/youyuanjuyou/p/8258532.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/youyuanjuyou/p/8258532.html" title="发布于2018-01-10 14:49">epel源</a><br><a href="https://www.cnblogs.com/youyuanjuyou/p/8258584.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/youyuanjuyou/p/8258584.html" title="发布于2018-01-10 14:57">CMake Error at cmake/boost.cmake:76 (MESSAGE)</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2018-01-10 14:56</span> <a href="https://www.cnblogs.com/youyuanjuyou/">友缘聚友</a> 阅读(<span id="post_view_count">1839</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=8258578" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(8258578);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=402992,cb_entryId=8258578,cb_blogApp=currentBlogApp,cb_blogUserGuid='2ff1c4c3-d9ac-e611-845c-ac853d9f53ac',cb_entryCreatedDate='2018/1/10 14:56:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://cloud.baidu.com/campaign/purchase-2019/index.html?track=cp:dsp|pf:pc|pp:chui-bokeyuan-huodong-19caigouji-BCC-neiyeCH-190311|pu:neiyeCH-wenzilian|ci:2019cgj|kw:2105959" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-百度云')">【推荐】百度云“猪”你开年行大运，红包疯狂拿，低至1折</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-gitee')">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br><a href="https://www.bagevent.com/event/2468856" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-GAITC')">【活动】2019第四届全球人工技术大会解码“智能+时代”</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="Centos7%E5%AE%89%E8%A3%85mysql%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E6%8F%90%E7%A4%BA%20Unit%20mysql.service%20failed%20to%20load%EF%BC%9ANo%20such%20file%20or%20directory%20-%20%E5%8F%8B%E7%BC%98%E8%81%9A%E5%8F%8B%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CMW_1fbQveECFVG8lgodebAECQ"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/horanly/p/10476090.html" target="_blank" onclick="clickRecomItmem(10476090)">mysql安装时，提示：FailedtostartserviceMYSQL80</a><br>·  <a href="https://www.cnblogs.com/liushuchen/p/8404038.html" target="_blank" onclick="clickRecomItmem(8404038)">解决CentOS7关闭/开启防火墙出现Unit iptables.service failed to load: No such file or directory.</a><br>·  <a href="https://www.cnblogs.com/evai/p/5812473.html" target="_blank" onclick="clickRecomItmem(5812473)">启动 mysql 失败 Warning:The /usr/local/mysql/data directory is not owned by the 'mysql' or '_mysql'</a><br>·  <a href="https://www.cnblogs.com/alanleung/p/7411863.html" target="_blank" onclick="clickRecomItmem(7411863)">PHP使用MySQL报no such file or directory</a><br>·  <a href="https://www.cnblogs.com/xsj1989/p/5884372.html" target="_blank" onclick="clickRecomItmem(5884372)">MySQL安装，启动</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CMa_1fbQveECFVG8lgodebAECQ"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/623382/" target="_blank">AWS杀死了云计算：云计算四十年历史化蝶成茧</a><br> ·  <a href="https://news.cnblogs.com/n/623378/" target="_blank">少吃肉，不仅能减肥，还对记忆有好处</a><br> ·  <a href="https://news.cnblogs.com/n/623376/" target="_blank">不要996！程序员创建955.WLB不加班公司名单，GitHub周榜第二</a><br> ·  <a href="https://news.cnblogs.com/n/623375/" target="_blank">电竞运营师等“新职业”好不好干？听听过来人怎么说</a><br> ·  <a href="https://news.cnblogs.com/n/623371/" target="_blank">韩国大众开始用5G手机网络：月资费超人民币300元</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/youyuanjuyou/">友缘聚友</a><br>园龄：<a href="https://home.cnblogs.com/u/youyuanjuyou/" title="入园时间：2016-11-17">2年4个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/youyuanjuyou/followers/">1</a><br>关注：<a href="https://home.cnblogs.com/u/youyuanjuyou/followees/">3</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('2ff1c4c3-d9ac-e611-845c-ac853d9f53ac')">+加关注</a></div><script>getFollowStatus('2ff1c4c3-d9ac-e611-845c-ac853d9f53ac')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/03/01');return false;">&lt;</a></td><td align="center">2019年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/05/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalTodayDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block"></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/youyuanjuyou/category/1145274.html">Ajax介绍(10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/youyuanjuyou/category/1145385.html">CentOS/CentOS Linux基础(19)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/youyuanjuyou/category/1145393.html">CentOS/各种软件的安装(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/youyuanjuyou/category/1145394.html">CentOS/各种疑难杂症解决(10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/youyuanjuyou/category/1145392.html">CentOS/各种指令详解(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/youyuanjuyou/category/1145387.html">CentOS/配置LAMP环境(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/youyuanjuyou/category/1145389.html">CentOS/配置LNMP环境(11)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/youyuanjuyou/category/1145391.html">CentOS/学习Linux有关的网站(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/youyuanjuyou/category/1145395.html">CentOS/一键自动安装LNMP环境(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/youyuanjuyou/category/1136564.html">MySQL/MySQL编程(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/youyuanjuyou/category/1136556.html">MySQL/基础(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/youyuanjuyou/category/1136559.html">MySQL/数据操作语言DML(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/youyuanjuyou/category/1136560.html">MySQL/数据查询语言DQL(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/youyuanjuyou/category/1136557.html">MySQL/数据定义语言DDL(8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="https://www.cnblogs.com/youyuanjuyou/category/1136561.html">MySQL/数据控制语言DCL(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="https://www.cnblogs.com/youyuanjuyou/category/1136558.html">MySQL/数据库设计思想(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="https://www.cnblogs.com/youyuanjuyou/category/1136562.html">MySQL/数据事务语言DTL(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="https://www.cnblogs.com/youyuanjuyou/category/1135959.html">PHP/基础/基本语法知识/Error(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="https://www.cnblogs.com/youyuanjuyou/category/1135951.html">PHP/基础/基本语法知识/变量及类型(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_19" href="https://www.cnblogs.com/youyuanjuyou/category/1135961.html">PHP/基础/基本语法知识/表单(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_20" href="https://www.cnblogs.com/youyuanjuyou/category/1135953.html">PHP/基础/基本语法知识/常量(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_21" href="https://www.cnblogs.com/youyuanjuyou/category/1135956.html">PHP/基础/基本语法知识/函数(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_22" href="https://www.cnblogs.com/youyuanjuyou/category/1135955.html">PHP/基础/基本语法知识/流程控制语句(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_23" href="https://www.cnblogs.com/youyuanjuyou/category/1135960.html">PHP/基础/基本语法知识/目录与文件(10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_24" href="https://www.cnblogs.com/youyuanjuyou/category/1135958.html">PHP/基础/基本语法知识/日期(8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_25" href="https://www.cnblogs.com/youyuanjuyou/category/1135957.html">PHP/基础/基本语法知识/数组(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_26" href="https://www.cnblogs.com/youyuanjuyou/category/1135962.html">PHP/基础/基本语法知识/邮件(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_27" href="https://www.cnblogs.com/youyuanjuyou/category/1135954.html">PHP/基础/基本语法知识/运算操作(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_28" href="https://www.cnblogs.com/youyuanjuyou/category/1135964.html">PHP/基础/基本语法知识/杂七杂八(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_29" href="https://www.cnblogs.com/youyuanjuyou/category/1135963.html">PHP/基础/基本语法知识/正则表达式(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_30" href="https://www.cnblogs.com/youyuanjuyou/category/1137801.html">PHP/进阶/面向对象编程思想/基础知识(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_31" href="https://www.cnblogs.com/youyuanjuyou/category/1137802.html">PHP/进阶/面向对象编程思想/继承(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_32" href="https://www.cnblogs.com/youyuanjuyou/category/1137803.html">PHP/进阶/面向对象编程思想/类的扩大化技术(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_33" href="https://www.cnblogs.com/youyuanjuyou/category/1137805.html">PHP/进阶/面向对象编程思想/其他知识杂点</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_34" href="https://www.cnblogs.com/youyuanjuyou/category/1137804.html">PHP/进阶/面向对象编程思想/设计模式</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_35" href="https://www.cnblogs.com/youyuanjuyou/category/1136545.html">PHP/进阶/配置WAMP运行环境(18)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/youyuanjuyou/archive/2018/01.html">2018年1月 (70)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/youyuanjuyou/archive/2017/12.html">2017年12月 (175)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/youyuanjuyou/p/8258591.html#4138589">1. Re:FATAL ERROR: Could not find ./bin/my_print_defaults的解决办法</a></li>
+        <li class="recent_comment_body">好像也不行root@VM_0_2_centos mysql]# ./mysql/scripts/mysql_install_db --user=mysql-bash: ./mysql/scripts/......</li>
+        <li class="recent_comment_author">--萌哥-爱学习</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/youyuanjuyou/p/8258616.html">1. 解决CMake Error: The source directory "*" does not appear to contain CMakeLists.txt.(4668)</a></li><li><a href="https://www.cnblogs.com/youyuanjuyou/p/8258578.html">2. Centos7安装mysql后无法启动，提示 Unit mysql.service failed to load：No such file or directory(1839)</a></li><li><a href="https://www.cnblogs.com/youyuanjuyou/p/8099774.html">3. 【转】mysql，mysqli，PDO三种方式连接数据库(731)</a></li><li><a href="https://www.cnblogs.com/youyuanjuyou/p/8258536.html">4. mysql的三种安装方式(443)</a></li><li><a href="https://www.cnblogs.com/youyuanjuyou/p/8258591.html">5. FATAL ERROR: Could not find ./bin/my_print_defaults的解决办法(373)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/youyuanjuyou/p/8258591.html">1. FATAL ERROR: Could not find ./bin/my_print_defaults的解决办法(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/youyuanjuyou/p/8258616.html">1. 解决CMake Error: The source directory "*" does not appear to contain CMakeLists.txt.(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 友缘聚友
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

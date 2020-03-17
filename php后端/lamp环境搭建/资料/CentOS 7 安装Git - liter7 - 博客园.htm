@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>CentOS 7 安装Git - liter7 - 博客园</title>
+<meta property="og:description" content="服务器端 1.先从yum安装git 2.在需要的位置创建一个裸仓库（最后以.git结尾） 3.创建一个git用户并赋予密码 4.赋予git用户权限 5.禁用git用户shell登录（一定要禁用） 将g">
+    <link type="text/css" rel="stylesheet" href="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-SimpleMemory.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-SimpleMemory-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/liter7/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/liter7/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/liter7/wlwmanifest.xml">
+    <script src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019040101.js"></script><script async="" src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script>var currentBlogId=180331;var currentBlogApp='liter7',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<link rel="preload" href="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019040101.js" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/liter7/"><img id="blogLogo" src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/liter7/">Mr、Guo</a></h1>
+<h2>Hello World! 我来了</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/liter7/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/liter7">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/liter7/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/liter7/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 79&nbsp; </span>
+<span id="stats_article_count">文章 - 10&nbsp; </span>
+<span id="stats-comment_count">评论 - 4</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/liter7/p/6581344.html">CentOS 7 安装Git</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong><span style="font-size: 18px;">服务器端</span></strong></p>
+<p>1.先从yum安装git</p>
+<div class="cnblogs_code">
+<pre>yum –y install git</pre>
+</div>
+<p>2.在需要的位置创建一个裸仓库（最后以.git结尾）</p>
+<div class="cnblogs_code">
+<pre>cd /usr/<span style="color: #000000;">local
+mkdir git
+cd git
+git init --bare learngit.git<br></span></pre>
+</div>
+<p>3.创建一个git用户并赋予密码</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">useradd git
+passwd git</span></pre>
+</div>
+<p>4.赋予git用户权限</p>
+<div class="cnblogs_code">
+<pre>chown -R git:git learngit.git</pre>
+</div>
+<p>5.禁用git用户shell登录（一定要禁用）</p>
+<div class="cnblogs_code">
+<pre>vi /etc/passwd</pre>
+</div>
+<p>　　将git用户修改为如下（一般在最后一行）</p>
+<div class="cnblogs_code">
+<pre>git:x:<span style="color: #800080;">1000</span>:<span style="color: #800080;">1000</span>::/home/git:<strong>/usr/bin/git-shell</strong></pre>
+</div>
+<p>其他的不用改。服务端完成。</p>
+<p><span style="font-size: 18px;"><strong>&nbsp;客户端</strong></span></p>
+<p>我使用的客户端为git for windows</p>
+<p>1.安装，略...</p>
+<p>2.进入想要将项目放置的目录</p>
+<p>3.创建用户</p>
+<div class="cnblogs_code">
+<pre>git config --<span style="color: #0000ff;">global</span> user.name <span style="color: #800000;">"</span><span style="color: #800000;">你的名字</span><span style="color: #800000;">"</span><span style="color: #000000;">
+git config </span>--<span style="color: #0000ff;">global</span> user.email <span style="color: #800000;">"</span><span style="color: #800000;">你的邮箱</span><span style="color: #800000;">"</span></pre>
+</div>
+<p>4.创建秘钥（用来防止每次commit或push都需要密码）</p>
+<div class="cnblogs_code">
+<pre>ssh-keygen -t rsa -C <span style="color: #800000;">"</span><span style="color: #800000;">你的邮箱</span><span style="color: #800000;">"</span></pre>
+</div>
+<p>　　一直回车....</p>
+<p>5.将秘钥加入服务器列表</p>
+<p>　　5.1 取得公钥（本地）</p>
+<p>　　　　在当前目录下(若未改变目录，到C:\Users\Administrator\.ssh\id_rsa.pub)找到.ssh目录下的id_rsa.pub文件，使用notepad++或其他软件打开，复制其中内容（类似如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCq+DNXnrzPoGJe3uCObDG7DcMMotWght/QNZnnO39FLzin+xMj+cOGpwbi5PSRqUwVrq4So7uuQGz2xyLb3vjHYK3z7SG/Sk/HdQctvbIVo+NugXbgmopm25Ps518aDuQ7w8nlPY3IvxTqH1U2ijoCdqgnVrwKCCPf7QY/2HGI+nDbF+s6cCX4CIkhwWnWhJXVqmSxbPSA8sX/2NE71gwhypLLfH8PG8nHr36zSfCdf0/DASdzJD7wE3cdlvICT82TmmqZLPWgYQv+4zNjbuPpzupp5zBIN+piS9VfBv+RdFEtx3oPk3Ou0z1tR9T5Lpe55b+U.......... 你的邮箱</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>　　　　）</p>
+<p>　　5.2 将公钥加入服务器列表（服务器）</p>
+<p>　　　　CentOS 7默认列表在/root/.ssh/authorized_keys，使用vi 编辑此文件输入刚才复制的内容，保存退出。</p>
+<div class="cnblogs_code">
+<pre>vi /root/.ssh/<span style="color: #000000;">authorized_keys
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">i修改
+    </span><span style="color: #008000;">//esc后输入</span><span style="color: #008000;">:wq保存退出</span></pre>
+</div>
+<p>　　5.3 可以跳过此步，若克隆远程项目<strong>多次</strong>仍然需要密码，则检查上一步是否有错误，没有错误后，在配置这一步（服务器）</p>
+<p>　　　　在/home目录下创建.ssh目录，进入，创建authorized_keys文件</p>
+<div class="cnblogs_code">
+<pre>cd /<span style="color: #000000;">home
+mkdir .ssh
+cd .ssh
+vi authorized_keys</span></pre>
+</div>
+<p>　　　　加入我们的公钥后保存退出。</p>
+<p>6.克隆远程项目（本地）</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;"><span style="color: #000000;">cd F:</span><br><span style="color: #000000;">cd git</span><br>//</span><span style="color: #008000;">把ip换成自己服务器的</span>
+git clone git@<span style="color: #800080;">101.101</span>.<span style="color: #800080;">101.101</span>:/usr/local/git/learngit.git</pre>
+</div>
+<p>7.如果需要密码，输入你设置的git用户密码，若clone之后commit多此后仍然需要密码，执行5.3，若已经执行，检查公钥是否正确，然后退出git for windows，再此打开git for windows克隆。</p>
+<p>JavaEE 中使用git</p>
+<p>1.新建一个web项目，工作空间为上面克隆的位置F:\git\learngit.</p>
+<p>2.右键项目--&gt;Team--&gt;Commit</p>
+<p><img src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/611558-20170320105434002-952552014.png" alt="" width="864" height="333"></p>
+<p>然后选中要提交的文件--&gt;右键--&gt;Add to index，在右边添加Commit Message信息，然后提交。</p>
+<p>3.导入到项目</p>
+<p>右键--&gt;import--&gt;Git--&gt;projects from git--&gt;本地资源，可以添加，一般会自动显示，导入即可。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6581344,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('059e37cb-27a8-e311-8d02-90b11c0b17d6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/liter7/" target="_blank"><img src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/liter7/">liter7</a><br>
+            <a href="http://home.cnblogs.com/u/liter7/followees">关注 - 3</a><br>
+            <a href="http://home.cnblogs.com/u/liter7/followers">粉丝 - 9</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('059e37cb-27a8-e311-8d02-90b11c0b17d6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6581344,'Digg')">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(6581344,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/liter7/p/6427417.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/liter7/p/6427417.html" title="发布于2017-02-22 09:35">JS 获取字符串中的url并返回其下标索引</a><br><a href="https://www.cnblogs.com/liter7/p/7056774.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/liter7/p/7056774.html" title="发布于2017-06-20 23:03">Ubuntu16.04安装MySql5.7</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-03-20 10:59</span> <a href="https://www.cnblogs.com/liter7/">liter7</a> 阅读(<span id="post_view_count">58452</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6581344" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(6581344);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=180331,cb_entryId=6581344,cb_blogApp=currentBlogApp,cb_blogUserGuid='059e37cb-27a8-e311-8d02-90b11c0b17d6',cb_entryCreatedDate='2017/3/20 10:59:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://cloud.baidu.com/campaign/purchase-2019/index.html?track=cp:dsp|pf:pc|pp:chui-bokeyuan-huodong-19caigouji-BCC-neiyeCH-190311|pu:neiyeCH-wenzilian|ci:2019cgj|kw:2105959" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-百度云')">【推荐】百度云“猪”你开年行大运，红包疯狂拿，低至1折</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-gitee')">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br><a href="https://www.bagevent.com/event/2468856" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-GAITC')">【活动】2019第四届全球人工技术大会解码“智能+时代”</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="CentOS%207%20%E5%AE%89%E8%A3%85Git%20-%20liter7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CNWTk_SWvuECFUYNgQodMEoFkA"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_news" style="display: none;"></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CNaTk_SWvuECFUYNgQodMEoFkA"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/623392/" target="_blank">京东取消快递员底薪：下调公积金比例 揽收加入绩效</a><br> ·  <a href="https://news.cnblogs.com/n/623390/" target="_blank">自主研发大数据专用芯片，达博科技完成A轮融资，估值5亿美元</a><br> ·  <a href="https://news.cnblogs.com/n/623388/" target="_blank">SpaceX去年一箭发射64颗卫星 19颗已经失踪了</a><br> ·  <a href="https://news.cnblogs.com/n/623384/" target="_blank">职业金字塔的程序员，被996打回原形</a><br> ·  <a href="https://news.cnblogs.com/n/623381/" target="_blank">中国网红15年</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news">哎呦我去<div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/liter7/">liter7</a><br>园龄：<a href="https://home.cnblogs.com/u/liter7/" title="入园时间：2014-03-10">5年</a><br>粉丝：<a href="https://home.cnblogs.com/u/liter7/followers/">9</a><br>关注：<a href="https://home.cnblogs.com/u/liter7/followees/">3</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('059e37cb-27a8-e311-8d02-90b11c0b17d6')">+加关注</a></div><script>getFollowStatus('059e37cb-27a8-e311-8d02-90b11c0b17d6')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/03/01');return false;">&lt;</a></td><td align="center">2019年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/05/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalTodayDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/liter7/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/liter7/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/liter7/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/liter7/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/liter7/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/liter7/tag/Android/">Android</a>(12)</li><li><a href="https://www.cnblogs.com/liter7/tag/java%20web/">java web</a>(3)</li><li><a href="https://www.cnblogs.com/liter7/tag/Ubuntu16/">Ubuntu16</a>(2)</li><li><a href="https://www.cnblogs.com/liter7/tag/win%2010%20%E5%92%8Coffice%E6%BF%80%E6%B4%BB/">win 10 和office激活</a>(1)</li><li><a href="https://www.cnblogs.com/liter7/tag/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>(1)</li><li><a href="https://www.cnblogs.com/liter7/tag/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">数据结构与算法分析</a>(1)</li><li><a href="https://www.cnblogs.com/liter7/tag/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%98%E5%82%A8/">数据库存储</a>(1)</li><li><a href="https://www.cnblogs.com/liter7/tag/%E7%BA%BF%E6%80%A7%E5%B8%83%E5%B1%80/">线性布局</a>(1)</li><li><a href="https://www.cnblogs.com/liter7/tag/%E4%BF%AE%E6%94%B9%E5%AD%97%E4%BD%93%E5%A4%A7%E5%B0%8F/">修改字体大小</a>(1)</li><li><a href="https://www.cnblogs.com/liter7/tag/js/">js</a>(1)</li><li><a href="https://www.cnblogs.com/liter7/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/liter7/archive/2019/02.html">2019年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/liter7/archive/2018/09.html">2018年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/liter7/archive/2018/08.html">2018年8月 (34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/liter7/archive/2018/06.html">2018年6月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/liter7/archive/2018/05.html">2018年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/liter7/archive/2017/10.html">2017年10月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/liter7/archive/2017/09.html">2017年9月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/liter7/archive/2017/08.html">2017年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/liter7/archive/2017/07.html">2017年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/liter7/archive/2017/06.html">2017年6月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/liter7/archive/2017/03.html">2017年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/liter7/archive/2017/02.html">2017年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/liter7/archive/2016/12.html">2016年12月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/liter7/archive/2016/11.html">2016年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="https://www.cnblogs.com/liter7/archive/2016/02.html">2016年2月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="https://www.cnblogs.com/liter7/archive/2016/01.html">2016年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="https://www.cnblogs.com/liter7/archive/2015/08.html">2015年8月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="https://www.cnblogs.com/liter7/archive/2015/07.html">2015年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="https://www.cnblogs.com/liter7/archive/2014/03.html">2014年3月 (3)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/liter7/p/5173913.html#3357649">1. Re:Android布局之线性布局——LinearLayout</a></li>
+        <li class="recent_comment_body">@zdd多谢，以后我会注意的。:-D...</li>
+        <li class="recent_comment_author">--liter7</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/liter7/p/5173913.html#3357648">2. Re:Android布局之线性布局——LinearLayout</a></li>
+        <li class="recent_comment_body">语言水平有待提高，很多话说的不够明白。<br>另外排版也需要改进，现在的排版显得很乱。</li>
+        <li class="recent_comment_author">--zdd</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/liter7/p/5173913.html#3357646">3. Re:Android布局之线性布局——LinearLayout</a></li>
+        <li class="recent_comment_body">@zdd非常感谢！...</li>
+        <li class="recent_comment_author">--liter7</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/liter7/p/5173913.html#3357642">4. Re:Android布局之线性布局——LinearLayout</a></li>
+        <li class="recent_comment_body">wrap_parent -&gt; wrap_content</li>
+        <li class="recent_comment_author">--zdd</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/liter7/p/6581344.html">1. CentOS 7 安装Git(58452)</a></li><li><a href="https://www.cnblogs.com/liter7/p/5175012.html">2. C#语言之字符串和正则表达式(9072)</a></li><li><a href="https://www.cnblogs.com/liter7/p/5178674.html">3. Android布局之相对布局——RelativeLayout(8677)</a></li><li><a href="https://www.cnblogs.com/liter7/p/7745606.html">4. Spring Boot集成百度Ueditor(5448)</a></li><li><a href="https://www.cnblogs.com/liter7/p/7058081.html">5. Ubuntu16.04进入无限登录状态的解决办法(4991)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/liter7/p/5173913.html">1. Android布局之线性布局——LinearLayout(4)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/liter7/p/5175012.html">1. C#语言之字符串和正则表达式(2)</a></li><li><a href="https://www.cnblogs.com/liter7/p/7745606.html">2. Spring Boot集成百度Ueditor(1)</a></li><li><a href="https://www.cnblogs.com/liter7/p/6581344.html">3. CentOS 7 安装Git(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 liter7
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>
