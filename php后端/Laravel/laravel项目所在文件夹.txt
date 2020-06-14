@@ -1,2 +1,14 @@
 仿百度云
 G:\phpStudyProject\PHPTutorial\WWW\cloudUpdate
+
+wechatdemo5小程序后端
+G:\phpStudyProject\PHPTutorial\WWW\wechatdemo5
+
+laSwoole laravel集成hhxsv5/laravel-s
+
+G:\phpStudyProject\PHPTutorial\WWW\laSwoole 
+
+laravel 广播 队列 不确定
+G:\phpStudyProject\PHPTutorial\WWW\laravel 
+
+

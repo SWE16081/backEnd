@@ -1,4 +1,7 @@
-个人博客
-G:\phpStudy\PHPTutorial\WWW\tp5blog
+xxxx 童老师博客练手
+G:\phpStudyProject\PHPTutorial\WWW\TP5
 域名：
-www.tp5blog.com
+www.TP5.com
+
+
+
