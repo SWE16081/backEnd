@@ -323,7 +323,7 @@
 		http://www.tp.com/blog/index
 
 12、生成url地址
-	1、系统类
+	1、系统类 	
 
 		dump(Url::build('index/index/index'));
 
