@@ -1,0 +1,6 @@
+
+
+方法和类前打注释解释其作用
+方法前一行 /** 回车
+
+https://www.cnblogs.com/zmdComeOn/p/10676308.html
