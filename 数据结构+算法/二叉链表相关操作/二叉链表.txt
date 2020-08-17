@@ -1,0 +1,114 @@
+#pragma once
+using namespace std;
+const int QueueSize = 100;
+template<class T>
+struct BiNode
+{
+	T data;
+	BiNode<T>*lchild, *rchild;
+	
+};
+template<class T>
+class BiTree
+{
+private:
+	BiNode<T>*root;//指向根节点的头指针
+	BiNode<T>*Creat(BiNode<T>*bt);//构造函数调用
+	void Release(BiNode<T>*bt);//析构函数调用
+	void PreOrder(BiNode<T>*bt);//前序遍历函数调用
+	void InOrder(BiNode<T>*bt);//中序遍历函数调用
+	void PostOrder(BiNode<T>*bt);//后续遍历函数调用
+public:
+	T Q[QueueSize];
+	BiTree() { root = Creat(root); }//构造函数建立一个二叉树
+	~BiTree() { Release(root); }//析构函数，释放各节点的存储空间
+	void PreOrder() { PreOrder(root); }//前序遍历
+	void InOrder() { InOrder(root); }//中序遍历
+	void PostOrder() { PostOrder(root); }//后序遍历
+	void LeverOrder();//层序遍历
+
+};
+template<class T>//对private里的方法外联！！！！！
+void BiTree<T>::PreOrder(BiNode<T>*bt)
+{
+	if (bt == NULL)
+		return ;
+	else
+	{
+		cout<< bt->data;
+		PreOrder(bt->lchild);
+		PreOrder(bt->rchild);
+	}
+}
+template<class T>
+void BiTree<T>::InOrder(BiNode<T>*bt)
+{
+	if (bt == NULL)
+		return ;
+	else
+	{	
+		PreOrder(bt->lchild);
+		cout << bt->data;
+		PreOrder(bt->rchild);
+	}
+}
+template<class T>
+void BiTree<T>::PostOrder(BiNode<T>*bt)
+{
+	if (bt == NULL)
+		return ;
+	else
+	{
+		PreOrder(bt->lchild);
+		PreOrder(bt->rchild);
+		cout << bt->data; 		
+	}
+}
+template<class T>
+void BiTree<T>::LeverOrder()
+{
+	int front = rear = -1;
+	if (root == NULL)
+		return ;
+	else
+	{
+		rear++;
+		Q[rear] = root;
+	}
+	while (front != rear)
+	{
+		front++
+			BiNode<T>*q = Q[front];
+		cout << q->data;
+		if (q->lchild != NULL)
+			Q[++rear] = q->lchild;
+		if (q->rchild != NULL)
+			Q[++rear] =q->rchild;
+	}
+}
+template<class T>
+BiNode<T>*BiTree<T>::Creat(BiNode<T>*bt)
+{
+	char n;
+	cin >> n;
+	if (n=='#')//如果输入的为#该节点为空
+		bt =NULL;
+	else
+	{
+		bt = new BiNode<T>();
+		bt->data = n;
+		bt->lchild = Creat(bt->lchild);//递归建立左右子树
+		bt->rchild = Creat(bt->rchild);
+	}
+	return bt;//根节点
+}
+template<class T>
+void BiTree<T>::Release(BiNode<T>*bt)
+{
+	if (bt != NULL)
+	{
+		Release(bt->lchild);
+		Release(bt->rchild);
+		delete bt;
+	}
+}
