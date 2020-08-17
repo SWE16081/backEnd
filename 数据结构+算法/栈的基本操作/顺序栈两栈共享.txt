@@ -1,0 +1,121 @@
+#include<iostream>
+#include"Q.h"
+using namespace std;
+int main()
+{
+	int n,m; 
+	cin >> n>>m;
+	int*a = new int[n];
+	int*b = new int[m];
+	BothStack<int> A;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a[i];
+		A.Push(1, a[i]);
+		
+	}
+	for (int i = 0; i < m; i++)
+	{
+		cin >> b[i];
+		A.Push(2, b[i]);
+	}
+	A.print(1);
+	A.print(2);
+	A.Pop(1);
+	A.Pop(2);
+	A.print(1);
+	A.print(2);
+	return 0;
+}
+
+#pragma once
+using namespace std;
+const int StackSize = 100;
+template<class T>
+class BothStack
+{
+private:
+	T data[StackSize];
+	int top1, top2;
+public:
+	BothStack() { top1 = -1; top2 = StackSize - 1; }//将两栈初始化
+	~BothStack() {};
+	void Push(int i,T x);//入栈
+	T Pop(int i);//出栈
+	T GetTop(int i) //取栈顶元素
+	{ 
+		if (i ==1)
+		{
+			if (top != -1)
+				return data[top1];
+		}
+		if (i ==1)
+		{
+			if (top != StackSize)
+				return data[top2];
+		}
+	}
+	int Empty(i nt i) //判断栈是否为空
+	{ 
+		
+		if (top1 == -1 && top1 == StackSize)
+			return 1;
+		else
+			return 0;
+		
+	}
+	void print(int i);
+	
+};
+template<class T>
+void BothStack<T>::Push(int i, T x)
+{
+	if (top1 ==top2 - 1)//入栈前先判断栈是否为满
+		throw"栈满";
+	if (i == 1)//栈1进栈top加，栈二进栈top减
+		data[++top1] = x;
+	if (i == 2)
+		data[--top2] = x;
+}
+template<class T>
+T BothStack<T>::Pop(int i)
+{
+	if (i == 1)
+	{
+		if (top1 == -1)
+			throw"栈一已空";
+		return data[top1--];
+	}
+	if(i == 2)
+	{
+		if (top2 == StackSize-1)
+			throw"栈二已空";
+		return data[top2++];
+	}
+}
+template<class T>
+void BothStack<T>::print(int i)
+{
+	
+	if (i == 1)
+	{
+		int count = 0;
+		while (count != top1 + 1)
+		{
+			cout << data[count] << " ";
+			count++;
+		}
+		cout << endl;
+	}
+	if (i == 2)
+	{
+
+		int count = StackSize-1;
+		while (count != top2-1)
+		{
+			cout << data[count] << " ";
+			count--;
+		}
+		cout << endl;
+	}
+}

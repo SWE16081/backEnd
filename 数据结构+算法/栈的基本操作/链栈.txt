@@ -1,0 +1,81 @@
+#include<iostream>
+#include"Q.h"
+using namespace std;
+int main()
+{
+	int n; cin >> n;
+	int*a = new int[n];
+	LinkStack<int> A;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a[i];
+		A.push(a[i]);
+	}
+	A.print();
+	A.Pop();
+	A.print();
+	return 0;
+}
+#pragma once
+using namespace std;
+template<class T>
+struct Node
+{
+	T data;
+	Node <T>*next;
+	Node()
+	{
+		next = NULL;
+	}
+	Node(T data, Node*next)
+	{
+		this->next = next;
+		this->data = data;
+	}
+};
+template<class T>
+class LinkStack
+{
+private:
+	Node<T>*top;
+public:
+	LinkStack() { top = NULL; }//初始化一个空链栈
+	~LinkStack(){}
+	void push(T x);//入栈
+		T Pop();//出栈
+	T GetTop() { if top != NULL return top->data; }//取栈顶元素
+	int Empty() { top == NULL ? return 1 : return 0; }//判断栈是否为空
+	void print();
+};
+template<class T>
+void LinkStack<T>::push(T x)
+{
+	Node<T>*s = new Node<T>();
+	s->data = x;
+	s->next = top;
+	top = s;
+}
+template<class T>
+T LinkStack<T>::Pop()
+{
+	if (top == NULL) 
+		throw"栈为空";
+	else
+		T x=top->data;
+	Node<T>*p = new Node<T>();
+	p=top;
+	top = top->next;
+	delete p;
+	//return x;
+}
+template<class T>
+void LinkStack<T>::print()
+{
+	Node<T>*p = top;
+	while(p!= NULL)
+	{
+		cout << p->data<<" ";
+		p = p->next;
+	}
+	cout << endl;
+}
