@@ -1,0 +1,73 @@
+#include<iostream>
+#include"Q.h"
+using namespace std;
+int main()
+{
+	int n;
+	cin >> n;
+	int*a = new int[n];
+	CireQueue<int>b;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a[i];
+		b.EnQueue(a[i]);
+	}
+	b.print();
+	b.DeQueue();
+	b.print();
+	return 0;
+}
+
+#pragma once
+using namespace std;
+const int QueueSize = 100;
+template<class T>
+class CireQueue
+{
+private:
+	T data[QueueSize];
+	int front, rear;
+public:
+	CireQueue() { front = rear = QueueSize - 1; }//构造函数，初始化空队列
+	~CireQueue(){}
+	void EnQueue(T X);//入队，插入x
+	T DeQueue();//出队
+	T GetQueue();//取队头元素
+	int Empty() { front = rear ? return 1 : return 0; }
+	void print();//遍历
+};
+template<class T>
+void CireQueue<T>::EnQueue(T x)
+{
+	if ((rear + 1) % QueueSize == front)//入队前要判断队列是否为满
+		throw"队列已满";
+	rear = (rear + 1) % QueueSize;//正因为每次这样取余front,rear才不会大于QueueSize
+	data[rear] = x;
+}
+template<class T>
+T CireQueue<T>::DeQueue()//出队前要判断队列是否为空
+{
+	if (rear == front)
+		throw"队列为空";
+	front = (front + 1) % QueueSize;
+	return data[front];//返回出队前的队头元素
+}
+template<class T>
+T CireQueue<T>::GetQueue()//取队头元素前要判断队列是否为空
+{
+	if (rear == front)
+		throw"队列为空";
+	return data[(front + 1) % QueueSize];
+}
+template<class T>
+void CireQueue<T>::print()
+{
+	int n = rear;
+	int m = front;
+	while (n != m)
+	{
+		m = (m + 1) % QueueSize;
+		cout << data[m] << " ";
+	}
+	cout << endl;
+}

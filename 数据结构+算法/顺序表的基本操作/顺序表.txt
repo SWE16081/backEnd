@@ -1,0 +1,109 @@
+#include<iostream>
+#include"Q.h"
+using namespace std;
+int main()
+{
+
+	int n;
+	cin >> n;
+	int*a = new int[n];	
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a[i];
+	}
+	SeqList<int>b(a,n);
+	b.print();
+	cout<<b.Get(3)<<endl;
+	cout << b.Locate(2) << endl;
+	b.Insert(3, 4);
+	b.print();
+	b.Delete(3);
+	b.print();
+	cout<<b.Length()<<endl;
+	return 0;
+}
+
+
+#pragma once
+using namespace std;
+const int MaxSize = 100;
+template<class T>
+class SeqList
+{
+private:
+	T data[MaxSize];
+	int length;
+public:
+	SeqList() { length = 0; }//初始化空顺序表
+	SeqList(T a[], int n);//建立长度为n的顺序表
+	~SeqList() {}
+	int Length() { return length; }//求表长
+	T Get(int i);//按位查找O(1)
+	int Locate(T x);//按值查找O(n);
+	void Insert(int i, T x);//插入,时间复杂度O(n);
+	T Delete(int i);//删除,时间复杂度O(n);
+	void print();//遍历O(n);
+};
+template<class T>
+SeqList<T>::SeqList(T a[], int n)
+{
+	if (n > MaxSize)
+		throw"你的数组太长了";
+	for (int i = 0; i < n; i++)
+		data[i] = a[i];
+	length = n;
+}
+template<class T>
+T SeqList<T>::Get(int i)//查找第i位置的值，查找第元素
+{
+	if (i<0 || i>length)
+		throw"你要找的位置不在表中";
+	else
+		return data[i - 1];
+}
+template<class T>
+int SeqList<T>::Locate(T x)
+{
+	for (int i = 0; i < length; i++)
+	{
+		if (data[i] == x)
+			return i;
+	}
+	return 0;
+}
+template<class T>
+void SeqList<T>::Insert(int i, T x)//先判断 顺序表满了没
+{
+	if (length >= MaxSize)
+		throw"顺序表已满";
+	if (i<0 || i>length)//再判断插入的位置是否合法
+		throw"你插入的位置不在表中";
+	for (int j = length; j >= i; j--)
+	{
+		data[j] = data[j - 1];//插入一个原来的要往后移，第j个元素下 标为j-1
+	}
+	data[i - 1] = x;
+	length++;
+}
+template<class T>
+T SeqList<T>::Delete(int i)//先判断顺序表是否为空
+{
+	if (length == 0)
+		throw"顺序表为空";
+	if (i<0 || i>length)
+		throw"你删除的位置不在表中";
+	int x = data[i - 1];//取出位置i元素
+	for (int j = i; j < length; j++)
+		data[j - 1] = data[j];
+	length--;
+	return x;
+}
+template<class T>
+void SeqList<T>::print()
+{
+	for (int i = 0; i < length; i++)
+	{
+		cout << data[i] << " ";
+	}
+	cout << endl;
+}

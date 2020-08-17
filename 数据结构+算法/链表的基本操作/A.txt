@@ -1,0 +1,192 @@
+#include<iostream>
+#include"Q.h"
+using namespace std;
+int main()
+{
+	int n;
+	cin >> n;
+	int*a = new int[n];
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a[i];
+	}
+	LinkList<int>f(a, n);
+	f.PrintList();
+	f.Insert(5, 3);
+	f.PrintList();
+	f.Delete(1); 
+	f.PrintList();
+
+	return 0;
+}
+
+#pragma once
+using namespace std;
+template<class T>
+struct Node
+{
+	T data;
+	Node <T>*next;
+	Node()
+	{
+		next = NULL;
+	}
+		//Node(T data, Node*next)
+	//{
+	//	this->next = next;
+	//	this->data = data;
+	//}//没作用
+};
+template<class T>
+class LinkList
+{
+private:
+	Node<T>*first;
+public:
+	LinkList(T a[], int n);//生成一个有N个节点的链表
+	~LinkList();
+	int	GetLength();//求表长
+	void Insert(int i, T x);//插入
+	T Delete(int i);//删除
+	T Get(int i);//按位查找
+	int Locate(T x);//按值查找
+	void PrintList();//遍历
+};
+template<class T>
+LinkList<T>::LinkList(T a[], int n)//尾插法
+{
+	first = new Node<T>();
+	Node<T>*p = first;
+	for (int i = 0; i < n; i++)
+	{
+		Node<T>*s = new Node<T>();//定义新节点必须这样定义不能用Node<T>*s
+		s->data = a[i];
+		p->next = s;
+		p = s;
+	}
+	p->next = NULL;
+}
+//template<class T>
+//LinkList<T>::LinkList(T a[], int n)//头插法
+//{
+//	first = new Node<T>();
+//	//first->next = NULL;
+//	for (int i = 0; i < n; i++)
+//	{
+//		Node<T>*s = new Node<T>();
+//		//first->next = NULL;
+//		s->data = a[i];
+//		s->next = first->next;
+//		first->next = s;
+//	}
+//}
+template<class T>
+int LinkList<T>::GetLength()
+{
+	int length = 0;
+	Node<T>*p = new Node<T>();
+	p = first->next;
+	while (p != NULL)
+	{
+		p = p->next;
+		length++;
+	}
+	return length;
+}
+template<class T>
+void LinkList<T>::Insert(int i, T x)
+{
+	Node<T>*p = new Node<T>();
+	p = first;
+	int count = 0;
+	while (count < i - 1 && p != NULL)
+	{
+		p = p->next;
+		count++;
+	}
+	if (p == NULL)
+		throw" 没有找到第i-1个位置,即插入位置不在链表里";
+	else {
+		Node<T>*s = new Node<T>();
+		s->data = x;
+		s->next = p->next;
+		p->next = s;
+	}
+}
+template<class T>
+T LinkList<T>::Delete(int i)
+{
+	Node<T>*p = new Node<T>();
+	p = first;
+	int count = 0;
+	while (p != NULL&&count <i-1)//找到要删节点的前驱用p保存
+	{
+		p = p->next;
+		count++;
+	}
+	if (p == NULL&&p->next == NULL)//要删的节点没有前驱或要删的节点不存在
+	{
+		throw "删除的位置不存在";
+	}
+	else
+	{
+		Node<T>*q = new Node<T>();
+		
+		q = p->next;
+                T x = q->data;//保存删除节点的数据；
+		p->next = q->next;
+		delete q;
+		return x;
+	}
+}
+template<class T>
+T LinkList<T>::Get(int i)
+{
+	Node<T>*p = new Node<T>();
+	p = first->next;
+	int count = 1;
+	while (p != NULL&&count<i)//第一个节点移到第i个要移i-1次
+	{
+		p = p->next;
+		count++;
+	}
+	if (p == NUll)
+		throw"没找到";
+	else
+		return p->data;
+}
+template<class T>
+int LinkList<T>::Locate(T x)
+{
+	Node<T>*p = first->next;
+	int count = 1;
+	while (p != NULL)
+	{
+		if (p->data == x)
+			return count;
+		p = p->next;
+		count++;
+	}
+	return 0;
+}
+template<class T>
+void LinkList<T>::PrintList()
+{
+	Node<T>*p = first->next;
+	while (p != NULL)
+	{
+		cout << p->data << " ";
+		p = p->next;
+	}
+	cout << endl;
+}
+template<class T>
+LinkList<T>::~LinkList()
+{
+	while (first != NULL)
+	{
+		Node<T>*p = first;
+		first = first->next;
+		delete p;
+	}
+}
