@@ -1,0 +1,34 @@
+// 代理模式
+// 声明了真实主题与代理主题的共同接口，
+// 在任何可以使用真实主题的地方都可以使用代理主题
+abstract class subject{
+	abstract function request();
+}
+//真实主题
+class realSubject extends subject{
+	function request(){
+		return "真实主题";
+	}
+}
+//代理主题
+//
+class proxySubject extends subject{
+	private $realRequest;
+	function __construct(){
+		$this->realRequest=new realSubject();
+	}
+	function request(){
+		return '代理主题访问:'.$this->realRequest->request();
+	}
+}
+
+
+//借助代理主题 使用真实主题
+class client{
+	function test(){
+		$proxySubject=new proxySubject();
+		echo $proxySubject->request();
+	}
+}
+$client=new client();
+$client->test();

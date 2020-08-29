@@ -1,0 +1,48 @@
+// 原型模式
+// 抽象原型
+interface prototype{
+	function myclone();
+	function copy();
+}
+//具体原型
+class concreteProtype implements prototype{
+	private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function setName($name){
+		$this->name=$name;
+	}
+	function getName(){
+		return $this->name;
+	}
+	function myclone(){
+		return  clone $this;//浅拷贝
+	}
+	function copy() {
+		// 深拷贝实现
+		$serialize_obj = serialize($this); // 序列化
+		$clone_obj = unserialize($serialize_obj); // 反序列化       
+		return $clone_obj;
+    }
+}
+
+//客户
+class client{
+	function test(){
+		// $test=new concreteProtype('具体测试原型');
+		// $copy_test=$test->myclone();
+		// $copy_test->setName('克隆的具体测试原型');
+		// echo $test->getName();
+		// echo "<br>";
+		// echo $copy_test->getName();
+		$test=new concreteProtype('具体测试原型');
+		$copy_test=$test->copy();
+		$copy_test->setName('克隆的具体测试原型');
+		echo $test->getName();
+		echo "<br>";
+		echo $copy_test->getName();
+	}
+}
+$client=new client();
+$client->test();

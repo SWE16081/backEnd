@@ -1,0 +1,45 @@
+// 享元模式
+// 单纯享元模式
+// 抽象享元角色
+abstract class Flyweight{
+	abstract function operation($outState);
+}
+//具体享元角色
+class concreteFlyweight extends Flyweight{
+	//内部状态
+	private $innerState;
+	function __construct($innerState){
+		$this->innerState=$innerState;
+	}
+	//外部状态作为参数传入
+	function operation($outState){
+		echo "对象的内部状态：".$this->innerState.'_传入的外部状态：'.$outState;
+		echo "<br>";
+	}
+}
+//享元工厂角色
+class FlyweightFactory{
+	static public $instance=array();
+	static function getinstance($name,$innerState){
+		if(!array_key_exists($name,self::$instance)){
+			self::$instance[$name]=new concreteFlyweight($innerState);
+		}
+		return self::$instance[$name];
+	}
+}
+//客户端不能讲具体享元角色实例化
+//要通过工厂角色
+class client{
+	function test(){
+		$concreteFlyweight=FlyweightFactory::getinstance('具体享元角色','内部状态');
+		$concreteFlyweight->operation('外部状态');//输出：对象的内部状态：内部状态_传入的外部状态：外部状态
+		$concreteFlyweight2=FlyweightFactory::getinstance('具体享元角色2','内部状态2');
+		$concreteFlyweight2->operation('外部状态2');//输出：对象的内部状态：内部状态2_传入的外部状态：外部状态2
+		//这时候再起申请 具体享元角色对象 并传入新的内部状态3 
+		//由于之前申请过 所以不会在生成新的 具体享元角色对象
+		$concreteFlyweight=FlyweightFactory::getinstance('具体享元角色','内部状态3');
+		$concreteFlyweight->operation('外部状态3');//输出：对象的内部状态：内部状态_传入的外部状态：外部状态3
+	}
+}
+$client=new client();
+$client->test();

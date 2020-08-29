@@ -1,0 +1,80 @@
+//复合享元模式
+//本身不能共享，可以分解成单纯享元对象
+//
+abstract class Flyweight{
+	abstract function operation($outState);
+}
+//具体享元角色
+class concreteFlyweight extends Flyweight{
+	//内部状态
+	private $innerState;
+	function __construct($innerState){
+		$this->innerState=$innerState;
+	}
+	//外部状态作为参数传入
+	function operation($outState){
+		echo "对象的内部状态：".$this->innerState.'_传入的外部状态：'.$outState;
+		echo "<br>";
+	}
+}
+//复合享元角色
+//一个复合享元对象的所有单纯享元对象的外部状态与复合享元对象的外部状态相等
+class UnsharedConcreteFlyweight extends Flyweight{
+	private $unshareWeight;
+	function __construct(){
+		$this->unshareWeight=array();
+	}
+	function add($innersate,Flyweight $flyweight){
+		$this->unshareWeight[]=$flyweight;
+	}
+	function operation($outState){
+		foreach ($this->unshareWeight as $key => $value) {
+			$value->operation($outState);
+		}
+	}
+}
+//享元工厂角色
+class FlyweightFactory{
+	private $flyweight;
+	function __construct(){
+		$this->flyweight=array();
+	}
+
+
+	// static public $instance=array();
+   function getinstance($innerState){
+		if(is_array($innerState)){
+			$unsharedConcreteFlyweight=new UnsharedConcreteFlyweight();
+			foreach ($innerState as $key => $value) {
+				$unsharedConcreteFlyweight->add($value,$this->getinstance($value));
+			}
+			return $unsharedConcreteFlyweight;
+		}
+		else if(is_string($innerState)){
+			if (isset($this->flyweight[$innerState])) {
+		    return $this->flyweight[$innerState];
+		   } else {
+		    return $this->flyweight[$innerState] = new concreteFlyweight($innerState);
+		   }
+
+		}
+	}
+}
+//客户端不能讲具体享元角色实例化
+//要通过工厂角色
+class client{
+	function test(){
+		 $flyweightFactory = new FlyweightFactory();
+		  $flyweight = $flyweightFactory->getinstance('state A');
+		  $flyweight->operation('other state A');
+		  
+		  $flyweight = $flyweightFactory->getinstance('state B');
+		  $flyweight->operation('other state B');
+		  
+		  /* 复合对象*/
+		  $uflyweight = $flyweightFactory->getinstance(array('state A', 'state B'));
+		  $uflyweight->operation('other state vv');
+	}
+}
+$client=new client();
+$client->test();

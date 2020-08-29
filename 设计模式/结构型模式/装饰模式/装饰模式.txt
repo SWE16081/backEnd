@@ -1,0 +1,64 @@
+//装饰模式
+//抽象构架角色
+interface Component{
+	function sampleOperation();
+}
+//具体构件角色
+//在此角色上动态的添加修改功能
+class  concreteComponent implements Component{
+	private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function sampleOperation(){
+		return  $this->name.":原有功能_";
+	}
+}
+//装饰角色
+class Decorator implements Component{
+	private $component;
+	function __construct(Component $component){
+		$this->component=$component;
+	}
+	function sampleOperation(){
+		$this->component->sampleOperation();
+	}
+}
+//具体装饰角色
+class concreteDecorator extends Decorator{
+	private $component,$name;
+	function __construct(Component $component,$name){
+		$this->component=$component;
+		$this->name=$name;
+	}
+	function sampleOperation(){
+		return  $this->component->sampleOperation().$this->name."添加了新功能_";
+	}
+}
+
+class concreteDecorator2 extends Decorator{
+		private $component,$name;
+	function __construct(Component $component,$name){
+		$this->component=$component;
+		$this->name=$name;
+	}
+	function sampleOperation(){
+		return  $this->component->sampleOperation().$this->name."添加了新功能_";
+	}
+}
+
+class client{
+	function test(){
+		$concreteComponent=new concreteComponent('具体装饰角色');
+		echo $concreteComponent->sampleOperation();
+		echo"<br>";
+		$concreteDecorator=new concreteDecorator($concreteComponent,'具体装饰角色');
+			echo $concreteDecorator->sampleOperation();
+		echo"<br>";
+		$concreteDecorator2=new concreteDecorator2($concreteDecorator,'具体装饰角色');
+			echo $concreteDecorator2->sampleOperation();
+		echo"<br>";
+	}
+}
+$client=new client();
+$client->test();

@@ -1,0 +1,248 @@
+// 建造者模式与抽象工厂联合使用
+// 建造者模式的产品类由抽象工厂生产 然后由builder组装
+// 多产品类
+// 抽象产品类
+interface product{
+	function setScreen($screen);
+	function getScreen();
+	function setBattery($battery);
+	function getBattery();
+	function setSystem($system);
+	function getSystem();
+}
+//手机类
+class phone implements product{
+	private $screen;
+	private $battery;
+	private $system;
+	function setScreen($screen){
+		$this->screen=$screen;
+	}
+	function getScreen(){
+		return $this->screen;
+	}
+	function setBattery($battery){
+	    $this->battery=$battery;
+	}
+	function getBattery(){
+		return $this->battery;
+	}
+	function setSystem($system){
+		return $this->system=$system;
+	}
+	function getSystem(){
+		return $this->system;
+	}
+}
+//电脑类
+class computer implements product{
+	private $screen;
+	private $battery;
+	private $system;
+	function setScreen($screen){
+		$this->screen=$screen;
+	}
+	function getScreen(){
+		return $this->screen;
+	}
+	function setBattery($battery){
+	    $this->battery=$battery;
+	}
+	function getBattery(){
+		return $this->battery;
+	}
+	function setSystem($system){
+		return $this->system=$system;
+	}
+	function getSystem(){
+		return $this->system;
+	}
+}
+//抽象创建者build
+abstract class Build{
+	abstract function buildScreen();
+	abstract function buildBattery();
+	abstract function buildSystem();
+	abstract function getProduct();
+}
+
+//具体创建者 conreteBuild
+class concreteBuild extends Build{
+	private $product;
+	function __construct(){
+		$this->product=new phone();
+	}
+	function buildScreen(){
+		$this->product->setScreen("手机屏幕xxx");
+	}
+
+	function buildBattery(){
+		$this->product->setBattery('手机电池xxx');
+	}
+	function buildSystem(){
+		$this->product->setSystem('手机系统xxx');
+	}
+	function getProduct(){
+		return $this->product;
+	}
+}
+//具体创建者 conreteBuild2
+class concreteBuild2 extends Build{
+	public $product,$myFactory;
+	function __construct(){
+		$this->myFactory=new myFactory();
+		$this->product=new computer();
+	}
+	function buildScreen(){
+		$screenA=$this->myFactory->createScreen();
+		$this->product->setScreen($screenA);
+	}
+
+	function buildBattery(){
+		$this->product->setBattery($this->myFactory->createBattery());
+	}
+	function buildSystem(){
+		$this->product->setSystem($this->myFactory->createSystem());
+	}
+	function getProduct(){
+		return $this->product;
+	}
+}
+//指导者 Director
+class Director{
+	private $concreteBuild,$product;
+	function __construct($name){
+		if($name=="手机"){
+		//制造产品
+		$this->concreteBuild=new concreteBuild();
+		//获取产品
+		$this->product=$this->concreteBuild->getProduct();
+		}
+		else if($name=="电脑"){
+		  //制造产品
+		  $this->concreteBuild=new concreteBuild2();
+		}
+		$this->concreteBuild->buildScreen();
+		$this->concreteBuild->buildBattery();
+		$this->concreteBuild->buildSystem();
+		//获取产品
+		$this->product=$this->concreteBuild->getProduct();
+
+	}
+	function getProduct(){
+		return $this->product;
+	}
+}
+//抽象工厂
+interface Factory{
+	function createScreen();
+	function createBattery();
+	function createSystem();
+}
+//具体工厂
+class  myFactory implements Factory{
+	function createScreen(){
+		$singleA=new screenA('屏幕A','大小自适应');
+		return $singleA;
+	}
+	function createBattery(){
+		$batteryA=new batteryA('电池A','大小自适应');
+		return $batteryA;
+	}
+	function createSystem(){
+		$systemA=new systemA('系统A','大小自适应');
+		return $systemA;
+	}
+}
+//抽象零件产品类
+interface screen{
+	function setName($name);
+	function setSize($size);
+	function getName();
+	function getSize();
+}
+//每个抽象产品类构造是不同的，这里按照一样的算
+interface battery{
+	function setName($name);
+	function setSize($size);
+	function getName();
+	function getSize();
+}
+interface system{
+	function setName($name);
+	function setSize($size);
+	function getName();
+	function getSize();
+}
+class screenA implements screen{
+	public $name,$size;
+	function __construct($name,$size){
+		$this->name=$name;
+		$this->size=$size;
+	}
+	function setName($name){
+		$this->name=$name;
+	}
+	function setSize($size){
+		$this->size=$size;
+	}
+	function getName(){
+		return $this->name;
+	}
+	function getSize(){
+		return $this->size;
+	}
+}
+class batteryA implements battery{
+	public $name,$size;
+	function __construct($name,$size){
+		$this->name=$name;
+		$this->size=$size;
+	}
+	function setName($name){
+		$this->name=$name;
+	}
+	function setSize($size){
+		$this->size=$size;
+	}
+	function getName(){
+		return $this->name;
+	}
+	function getSize(){
+		return $this->size;
+	}
+}
+class systemA implements system{
+	public $name,$size;
+	function __construct($name,$size){
+		$this->name=$name;
+		$this->size=$size;
+	}
+	function setName($name){
+		$this->name=$name;
+	}
+	function setSize($size){
+		$this->size=$size;
+	}
+	function getName(){
+		return $this->name;
+	}
+	function getSize(){
+		return $this->size;
+	}
+}
+//client 用户购买产品
+class client{
+	function buyProduct(){
+		$director=new Director("电脑");
+		// $director=new Director("手机");
+		$product=$director->getProduct();
+		echo $product->getScreen()->getName();
+		echo '<br>';
+		echo $product->getBattery()->getName();
+		echo '<br>';
+		echo $product->getSystem()->getName();
+	}
+}
+$client=new Client();
+$client->buyProduct();

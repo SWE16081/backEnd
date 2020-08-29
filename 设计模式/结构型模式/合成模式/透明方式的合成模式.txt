@@ -1,0 +1,96 @@
+//透明方式的合成模式
+//在Component中声明所有用来管理子类对象的方法
+//包括add()、remove()、getChild()
+//抽象构建角色
+interface Component{
+	function add(Component $component);
+	function remove(Component $component);
+	function getChild();
+	function getComposite();
+	function sampleOperation();
+}
+//树枝构件角色
+class Composite implements Component{
+	private $name,$componets;
+	function __construct($name){
+		$this->name=$name;
+		$this->componets=array();
+	}
+	//聚集管理方法，增加一个子件对象
+	function add(Component $component){
+		$this->componets[]=$component;
+	}
+	//聚集管理方法，删除一个子件对象
+	function remove(Component $component){
+		foreach ($this->componets as $key => $value) {
+			if($component==$value){
+				unset($this->componets[$key]);
+			}
+			return true;
+		}
+		return false;
+	}
+	//获取子件
+	function getChild(){
+		return $this->componets;
+	}
+	//返回当前实例
+	function getComposite(){
+		return $this;
+	}
+	//遍历
+	function sampleOperation(){
+		echo "跟节点：".$this->name;
+		echo"<br>";
+		foreach ($this->componets as $key => $value) {
+			if(!is_array($value->getChild())){
+				  echo "叶子节点：".$value->name;
+		          echo"<br>";
+			}
+			else{
+				$value->sampleOperation();
+			}
+		}
+	}
+}
+//树叶构件角色
+class Leaf implements Component{
+	public $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function add(Component $component){
+		return null;
+	}
+	function remove(Component $component){
+		return null;
+	}
+	function getChild(){
+		return null;
+	}
+	function getComposite(){
+		return null;
+	}
+	function sampleOperation(){
+		return null;
+	}
+}
+// //client
+// //
+$leaf1=new leaf('叶子节点1');
+$leaf2=new leaf('叶子节点2');
+$composite=new Composite('根节点1');
+$composite->add($leaf1);
+$composite->add($leaf2);
+$leaf3=new leaf('叶子3');
+$leaf4=new leaf('叶子4');
+$composite2=new Composite('根节点2');
+$composite->add($composite2);
+$composite2->add($leaf3);
+$composite2->add($leaf4);
+$composite->sampleOperation();
+// var_dump($composite2->getChild());
+// var_dump($composite->remove($composite2));
+$composite->remove($leaf1);
+
+$composite->sampleOperation();

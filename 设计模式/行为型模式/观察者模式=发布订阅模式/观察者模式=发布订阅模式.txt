@@ -1,0 +1,89 @@
+//观察者模式(发布订阅模式)
+//
+//抽象主题角色
+interface Subject{
+	//添加删除主题
+	function add(Observer $observer);
+	function delete(Observer $observer);
+	//通知观察者
+	function notifyObserver($message);
+}
+//具体主题角色
+class ConcreteSubject implements Subject{
+	private $observer,$name;
+	function __construct($name){
+		$this->observer=array();
+		$this->name=$name;
+	}
+	function add(Observer $observer){
+		if(!in_array($observer, $this->observer)){
+			$this->observer[]=$observer;
+		}
+		echo "主题：".$this->name.'添加观察者：'.$observer->name.'<br>';
+	}
+	function delete(Observer $observer){
+		foreach ($this->observer as $key => $value) {
+			if($value==$observer){
+				unset($this->observer[$key]);
+				break;
+			}
+		}
+		echo "主题：".$this->name.'删除观察者：'.$observer->name.'<br>';
+	}
+    //通知观察者
+    //通知所有观察者
+	function notifyObserver($message){
+		foreach ($this->observer as $key => $value) {
+			$value->update($this->name,$message);
+		}
+	}
+}
+
+//抽象观察者
+interface Observer{
+	function update($name,$message);
+}
+//具体观察者
+class ConcreteObserverA implements Observer{
+	public $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function update($name,$message){
+		echo "主题：".$name.'发来消息:'.'观察者：'.$this->name.$message.'<br>';
+	}
+}
+class ConcreteObserverB implements Observer{
+	public $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function update($name,$message){
+		echo "主题：".$name.'发来消息:'.'观察者：'.$this->name.$message.'<br>';
+	}
+}
+class ConcreteObserverC implements Observer{
+	public $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function update($name,$message){
+		echo "主题：".$name.'发来消息:'.'观察者：'.$this->name.$message.'<br>';
+	}
+}
+class client{
+	function test(){
+		$concreteSubject=new ConcreteSubject('A');
+		$b=new ConcreteObserverA('B');
+		$c=new ConcreteObserverB('C');
+		$d=new ConcreteObserverC('D');
+		$concreteSubject->add($b);
+		$concreteSubject->add($c);
+		$concreteSubject->add($d);
+		$concreteSubject->notifyObserver("更新数据30条");
+		$concreteSubject->delete($d);
+		$concreteSubject->notifyObserver("更新数据20条");
+	}
+}
+$client=new client();
+$client->test();

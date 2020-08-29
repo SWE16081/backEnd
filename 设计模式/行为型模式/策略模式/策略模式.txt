@@ -1,0 +1,57 @@
+// 策略模式
+// 
+//抽象策略角色
+abstract class Strategy{
+	abstract function mystrategy($price);
+}
+//具体策略角色
+class ConcreteSrategyA extends Strategy{
+	private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function mystrategy($price){
+		return $this->name.'策略:价格翻倍'.$price*2;
+	}
+}
+//具体策略角色
+class ConcreteSrategyB extends Strategy{
+	private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function mystrategy($price){
+		return $this->name.'策略:价格下降0.5倍'.$price*0.5;
+	}
+}
+//具体策略角色
+class ConcreteSrategyC extends Strategy{
+	private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function mystrategy($price){
+		return $this->name.'策略:价格减少100:'.($price-100);
+	}
+}
+// 环境角色
+// 持有一个Strategy类的引用
+// 决定使用的具体策略类
+ class Context{
+ 	 private $stratrgy;
+	 function __construct(Strategy $stratrgy){
+	 	$this->stratrgy=$stratrgy;
+	 }
+	 function contextInterface($price){
+	 	 echo $this->stratrgy->mystrategy($price).'<br>';
+	 }
+}
+$a=new ConcreteSrategyA('A');
+$b=new ConcreteSrategyB('B');
+$c=new ConcreteSrategyC('C');
+$context=new Context($a);
+$context->contextInterface(1000);
+$context2=new Context($b);
+$context2->contextInterface(1000);
+$context3=new Context($c);
+$context3->contextInterface(1000);

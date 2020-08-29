@@ -1,0 +1,45 @@
+// 责任链模式
+//
+//抽象处理者角色
+abstract class myHandler{
+	private $successor;
+	//处理请求
+	abstract function handleRequest();
+	//返回成功处理的对象
+	function setSuccessor(myHandler $successor){
+		$this->successor=$successor;
+	}
+	function getSuccessor(){
+		return $this->successor;
+	}
+}
+//具体处理者角色
+class ConcreteHandler extends myHandler{
+    public  $name;
+    function __construct($name){
+    	$this->name=$name;
+    }
+
+	function handleRequest(){
+		
+		//当前处理者有下家，将请求传递给下家处理
+		if($this->getSuccessor()!=null){
+			echo "处理者：".$this->name.'将请求传给下家：'.$this->getSuccessor()->name.'<br>';
+		  $this->getSuccessor()->getSuccessor();
+		}
+	}
+
+}
+class Client{
+	function test(){
+		$a=new ConcreteHandler('具体处理者A');
+		$b=new ConcreteHandler('具体处理者B');
+		$c=new ConcreteHandler('具体处理者C');
+		$a->setSuccessor($b);
+		$a->handleRequest();
+		$b->setSuccessor($c);
+		$b->handleRequest();
+	}
+}
+$client=new client();
+$client->test();

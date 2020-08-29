@@ -1,0 +1,35 @@
+// 对象的适配器模式
+// 使用委派关系连接到Adaptee
+interface target{
+	function sampleOperation();
+	function sampleOperation2();
+}
+//源角色 
+class adaptee{
+	function sampleOperation(){
+		echo "原来的接口";
+	}
+}
+//适配器角色
+class adapter  implements target{
+	private $adaptee;
+	function __construct(adaptee $adaptee){
+		$this->adaptee=$adaptee;
+	}
+	function sampleOperation2(){
+		$this->adaptee->sampleOperation();
+	}
+	function sampleOperation(){
+		
+	}
+}
+
+class client{
+	function test(){
+		$adaptee=new adaptee();
+		$adapter=new adapter($adaptee);
+	$adapter->sampleOperation2();
+	}
+}
+$client=new client();
+$client->test();

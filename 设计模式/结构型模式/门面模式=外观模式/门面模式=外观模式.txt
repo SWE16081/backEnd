@@ -1,0 +1,55 @@
+// 门面模式 facade
+// 门面角色
+
+class Facade{
+	private $camera,$light,$alarm;
+	function __construct(){
+		$this->camera=new Camera();
+		$this->light=new Light();
+		$this->alarm=new alarm();
+	}
+	function active(){
+		$this->camera->open();
+		$this->light->open();
+		$this->alarm->open();
+	}
+	function deactive(){
+	    $this->camera->close();
+		$this->light->close();
+		$this->alarm->close();
+	}
+}
+//子系统
+class Camera{
+	function open(){
+		echo "打开摄像头 <br>";
+	}
+	function close(){
+        echo "关闭摄像头 <br>";
+	}
+}
+class Light{
+	function open(){
+		echo "打开灯 <br>";
+	}
+	function close(){
+		echo "关闭灯 <br>";
+	}
+}
+class alarm{
+	function open(){
+		echo "打开警报器 <br>";
+	}
+	function close(){
+		echo "关闭警报器 <br>";
+	}
+}
+class client{
+	function test(){
+		$facade=new Facade();
+		$facade->active();
+		$facade->deactive();
+	}
+}
+$client=new client();
+$client->test();

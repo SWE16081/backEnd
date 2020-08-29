@@ -1,0 +1,76 @@
+// 黑箱聚集与内禀迭代子
+//
+//抽象迭代子角色
+interface myIterator{
+	function first();
+	function next();
+	function currentItem();
+	function done();
+}
+//抽象聚集角色
+abstract class Aggregate {
+	abstract function createIterator();
+}
+
+//具体聚集角色
+class ConcreteAggregate extends Aggregate{
+	private $concreteIterator;
+	private $arr=['a','b','c','d','e','f'];
+	function __construct(){
+		$this->concreteIterator=new ConcreteIterator();
+	}
+	function createIterator(){
+		return new ConcreteIterator();
+	}
+	//php没有内部类 错误代码
+	//成员内部类：具体迭代子
+	private class ConcreteIterator implements myIterator{
+		// private $name;
+		private $index;
+		private $size;
+		function __construct( ){
+			// $this->name=$name;
+			$this->size=count($this->arr);
+			$this->index=0;
+		}
+		//移动到第一个元素
+		function first(){
+			$this->index=1;
+		}
+		//移动到下一个元素
+		function next(){
+			if($this->index<$this->size){
+				$this->index++;
+			}
+		}
+		//返回当前元素
+		function currentItem(){
+			return $this->arr[$this->index];
+		}
+		//是否是最后一个元素
+		function done(){
+			if($this->index>=$this->size){
+				return true;
+			}
+			return false;
+		}
+	}
+}
+
+//持有对聚集及其迭代子对象的引用
+class client{
+	private $iterator;
+	private $agg;
+	function __construct(){
+		$this->agg=new ConcreteAggregate();
+	}
+	function test(){
+		$this->iterator=$this->agg->createIterator();
+		while(!$this->iterator->done()){
+			echo "元素：".$this->iterator->currentItem().'<br>';;
+			$this->iterator->next();
+		}
+	}
+}
+$client=new client();
+$client->test();

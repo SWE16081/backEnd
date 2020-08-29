@@ -1,0 +1,27 @@
+// 缺省适配器模式
+//接口类
+interface  abstractService{
+	function serviceOperation();
+	function serviceOperation2();
+	function serviceOperation3();
+}
+//抽象适配器类
+class serviceAdapter implements abstractService{
+	function serviceOperation(){
+		echo"方法1";
+	}
+	function serviceOperation2(){
+		echo"方法2";
+	}
+	function serviceOperation3(){
+		echo"方法3";
+	}
+}
+//只实现其中一个方法
+class client extends serviceAdapter{
+	function serviceOperation(){
+		echo"实现方法1";
+	}
+}
+$client=new client();
+$client->serviceOperation();

@@ -1,0 +1,29 @@
+//类的适配器模式
+//采用继承的方式连接到Adaptee
+//目标角色 新的要替换的接口
+//
+interface target{
+	function sampleOperation();
+	function sampleOperation2();
+}
+//源角色
+class adaptee{
+	function sampleOperation(){
+		echo "原来的接口";
+	}
+}
+//适配器角色
+class adapter extends adaptee implements target{
+	function sampleOperation2(){
+		$this->sampleOperation();
+	}
+}
+
+class client{
+	function test(){
+		$adapter=new adapter();
+	$adapter->sampleOperation2();
+	}
+}
+$client=new client();
+$client->test();

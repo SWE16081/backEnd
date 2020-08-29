@@ -1,0 +1,72 @@
+// 桥梁模式
+//抽象化角色
+abstract class Abstraction{
+	 function operation(){
+	 		echo $this->name.':修正抽象化角色__使用：';
+		$this->implementor->operationImp();
+	 }
+}
+//修正抽象化角色
+//扩展抽象化角色 改变和修正父类对抽象化的定义
+class RefinedAbstractionA extends Abstraction{
+	private $implementor,$name;
+	function __construct($name,Implementor $implementor){
+		$this->implementor=$implementor;
+		$this->name=$name;
+	}
+	function operation(){
+		echo $this->name.':修正抽象化角色__使用：';
+		$this->implementor->operationImp();
+	}
+}
+
+class RefinedAbstractionB extends Abstraction{
+	private $implementor,$name;
+	function __construct($name,Implementor $implementor){
+		$this->implementor=$implementor;
+		$this->name=$name;
+	}
+	function operation(){
+		echo $this->name.':修正抽象化角色__使用：';
+		$this->implementor->operationImp();
+	}
+}
+//实现化角色
+interface Implementor{
+	function operationImp();
+}
+//具体实现化角色
+class ConcreateImplementorA implements Implementor{
+	private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function operationImp(){
+		echo $this->name."具体实现化角色<br>";
+	}
+}
+
+class ConcreateImplementorB implements Implementor{
+	private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function operationImp(){
+		echo $this->name."具体实现化角色<br>";
+	}
+}
+
+class Client{
+	function test(){
+		$a=new ConcreateImplementorA('A');
+		$a->operationImp();
+		$b=new ConcreateImplementorB('B');
+		$b->operationImp();
+		$refinedAbstraction=new RefinedAbstractionA('C',$a);
+		$refinedAbstraction->operation();
+		$refinedAbstraction2=new RefinedAbstractionB('D',$b);
+		$refinedAbstraction2->operation();
+	}
+}
+$client=new Client();
+$client->test();

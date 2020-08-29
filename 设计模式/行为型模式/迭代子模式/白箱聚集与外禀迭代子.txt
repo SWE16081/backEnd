@@ -1,0 +1,98 @@
+// 迭代子模式(游标模式)
+// 白箱聚集 外禀迭代子
+//抽象迭代子角色
+//定义遍历元素所需的接口
+interface myIterator{
+	//移动到第一个元素
+	function first();
+	//移动到下一个元素
+	function next();
+	//返回当前元素
+	function currentItem();
+	//是否是最后一个元素
+	function done();
+}
+//具体迭代子角色
+class ConcreteIterator implements myIterator{
+	private $name,$concreteAggregate;
+	private $index=0;
+	private $size=0;
+	function __construct(ConcreteAggregate $concreteAggregate){
+		$this->concreteAggregate=$concreteAggregate;
+		// $this->name=$name;
+		$this->size=$concreteAggregate->size();
+		$this->index=0;
+	}
+	//移动到第一个元素
+	function first(){
+		$this->index=1;
+	}
+	//移动到下一个元素
+	function next(){
+		if($this->index<$this->size){
+			$this->index++;
+		}
+	}
+	//返回当前元素
+	function currentItem(){
+		return $this->concreteAggregate->getElement($this->index);
+	}
+	//是否是最后一个元素
+	function done(){
+		if($this->index>=$this->size){
+			return true;
+		}
+		return false;
+	}
+}
+//聚集角色
+//给出创建迭代子对象的接口
+abstract class Aggregate{
+	//创建迭代子对象
+	abstract function createIterator();
+	//迭代子长度
+	abstract function size();
+}
+//具体聚集角色
+//实现创建迭代子对象实例 并返回迭代子实例
+class ConcreteAggregate extends Aggregate{
+	private $name;
+	private $arr=['a','b','c','d','e','f'];
+	function __construct(){
+		// $this->name=$name;
+	}
+
+	function createIterator(){
+		return new ConcreteIterator($this);
+	}
+	//向外界提供聚集元素
+	function getElement($index){
+		if($index<count($this->arr)){
+			return $this->arr[$index];
+		}else{
+			return null;
+		}
+	}
+	function size(){
+		return count($this->arr);
+	}
+}
+
+
+//持有对聚集及其迭代子对象的引用
+class client{
+	private $iterator;
+	private $agg;
+	function __construct(){
+		$this->agg=new ConcreteAggregate();
+	}
+	function test(){
+		$this->iterator=$this->agg->createIterator();
+		while(!$this->iterator->done()){
+			echo "元素：".$this->iterator->currentItem().'<br>';;
+			$this->iterator->next();
+		}
+	}
+}
+$client=new client();
+$client->test();

@@ -1,0 +1,38 @@
+//聚合类
+class ObjA {
+	public $num = 0;
+	public $objB;//包含的对象
+	function __construct() {
+		$this->objB = new ObjB();
+	}
+	//只有实现了下面方法聚合类 才能实现深复制
+	/*function __clone() {
+		$this->objB = clone $this->objB;
+	}*/
+}
+ 
+class ObjB {
+	public $num2 = 0;
+}
+ 
+//原型对象
+$objA = new ObjA();
+ //浅拷贝
+//复制对象（‘=’复制引用）
+$objA2 = $objA;
+$objA2->num = 2;
+//随着$objA2->num的变化 $objA->num也变化了
+print_r($objA->num.'<br/>');//结果为2
+print_r($objA2->num.'<br/>');//结果为2
+ //在clone的对象引用其他对象时clone依然为浅拷贝
+//复制对象（‘clone’关键字克隆）
+$objA3 = clone $objA;
+$objA3->num = 4;
+//随着$objA3->num的变化 $objA->num没有变化
+print_r($objA->num.'<br/>');//结果为2
+print_r($objA3->num.'<br/>');//结果为4
+//但是clone的对象（是聚合类）中包含其他对象时所包含的对象（objB）复制的是引用
+$objA3->objB->num2 = 7;
+print_r($objA3->objB->num2.'<br/>');//结果是7
+print_r($objA->objB->num2.'<br/>');//结果是7
+

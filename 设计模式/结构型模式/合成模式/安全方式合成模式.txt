@@ -1,0 +1,90 @@
+// 合成模式
+// 安全方式的合成模式
+// 抽象构建角色 给出共有的接口以及默认行为
+// 在composite中声明所有管理子类对象的方法
+interface component{
+	//返回自己实例
+	function getComposite();
+    //遍历
+	function sampleOperation();
+}
+//树枝构建角色
+class composite implements component{
+	private $componets,$name;
+	function __construct($name){
+		$this->componets=array();
+		$this->name=$name;
+	}
+	function getComposite(){
+		return $this;
+	}
+	function sampleOperation(){
+		echo"根节点值：".$this->name;
+		echo"<br>";
+		foreach ($this->componets as $key => $value) {
+			 if(!is_array($this->componets[$key]->getChild())){
+			 		echo"值：".$this->componets[$key]->name;
+			        echo "<br>";
+			 }
+			 else{
+			 	$value->sampleOperation();
+			 }
+		}
+	}
+	//聚集管理方法，添加一个子对象
+	function add(component $component){
+		$this->componets[]=$component;
+	}
+	//管理聚集方法，删除一个子对象
+	function remove(component $componet){
+		foreach ($this->componets as $key => $value) {
+			if($componet==$value){
+				unset($this->componets[$key]);
+				return true;
+			}
+		}
+		return false;
+
+	}
+	//管理聚集方法，返回所有子对象
+	function getChild(){
+		return $this->componets;
+	}
+
+}
+//树叶构建
+class leaf implements component{
+	public $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function getComposite(){
+		return null;
+	}
+	function sampleOperation(){
+
+	}
+	 function getChild() { 
+	 	return null; 
+	 }
+}
+
+//client
+//
+$leaf1=new leaf('叶子节点1');
+$leaf2=new leaf('叶子节点2');
+$composite=new composite('根节点1');
+$composite->add($leaf1);
+$composite->add($leaf2);
+$leaf3=new leaf('叶子3');
+$leaf4=new leaf('叶子4');
+$composite2=new composite('根节点2');
+$composite->add($composite2);
+$composite2->add($leaf3);
+$composite2->add($leaf4);
+$composite->sampleOperation();
+var_dump($composite2->getChild());
+var_dump($composite->remove($composite2));
+// $composite->remove($leaf1);
+
+$composite->sampleOperation();

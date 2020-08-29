@@ -1,0 +1,46 @@
+// 模板模式
+//
+//抽象模板角色
+abstract class AbstractTemplate{
+	//抽象方法
+	//定义一个或多个抽象层操作，子类实现
+	abstract function abstractMethodsA();
+	abstract function abstractMethodsB();
+	abstract function abstractMethodsC();
+	function concreteMethod(){
+		echo "父类基本方法<br>";
+	}
+	//模板方法
+	//定义一个实现模板的方法，子类不加修饰的完全继承
+	//模板不限于一个
+	function templateMethods(){
+		$this->concreteMethod();
+		$this->abstractMethodsA();
+		$this->abstractMethodsB();
+		$this->abstractMethodsC();
+	}
+	//钩子方法 
+	//空实现
+	function hookMethods(){
+
+	}
+
+}
+
+//具体模板角色
+class ConcreteTemplate extends AbstractTemplate{
+	function abstractMethodsA(){
+		echo "操作1<br>";
+	}
+	function abstractMethodsB(){
+		echo "操作2<br>";
+	}
+	function abstractMethodsC(){
+		echo "操作3<br>";
+	}
+	function hookMethods(){
+
+	}
+}
+$a=new ConcreteTemplate();
+$a->templateMethods();

@@ -1,0 +1,147 @@
+//建造者模式
+//多产品类
+//抽象产品类
+interface product{
+	function setScreen($screen);
+	function getScreen();
+	function setBattery($battery);
+	function getBattery();
+	function setSystem($system);
+	function getSystem();
+}
+//手机类
+class phone implements product{
+	private $screen;
+	private $battery;
+	private $system;
+	function setScreen($screen){
+		$this->screen=$screen;
+	}
+	function getScreen(){
+		return $this->screen;
+	}
+	function setBattery($battery){
+	    $this->battery=$battery;
+	}
+	function getBattery(){
+		return $this->battery;
+	}
+	function setSystem($system){
+		return $this->system=$system;
+	}
+	function getSystem(){
+		return $this->system;
+	}
+}
+//电脑类
+class computer implements product{
+	private $screen;
+	private $battery;
+	private $system;
+	function setScreen($screen){
+		$this->screen=$screen;
+	}
+	function getScreen(){
+		return $this->screen;
+	}
+	function setBattery($battery){
+	    $this->battery=$battery;
+	}
+	function getBattery(){
+		return $this->battery;
+	}
+	function setSystem($system){
+		return $this->system=$system;
+	}
+	function getSystem(){
+		return $this->system;
+	}
+
+}
+//抽象创建者build
+abstract class Build{
+	abstract function buildScreen();
+	abstract function buildBattery();
+	abstract function buildSystem();
+	abstract function getProduct();
+}
+
+//具体创建者 conreteBuild
+class concreteBuild extends Build{
+	private $product;
+	function __construct(){
+		$this->product=new phone();
+	}
+	function buildScreen(){
+		$this->product->setScreen("手机屏幕xxx");
+	}
+
+	function buildBattery(){
+		$this->product->setBattery('手机电池xxx');
+	}
+	function buildSystem(){
+		$this->product->setSystem('手机系统xxx');
+	}
+	function getProduct(){
+		return $this->product;
+	}
+}
+//具体创建者 conreteBuild2
+class concreteBuild2 extends Build{
+	private $product;
+	function __construct(){
+		$this->product=new phone();
+	}
+	function buildScreen(){
+		$this->product->setScreen("电脑屏幕xxx");
+	}
+
+	function buildBattery(){
+		$this->product->setBattery('电脑电池xxx');
+	}
+	function buildSystem(){
+		$this->product->setSystem('电脑系统xxx');
+	}
+	function getProduct(){
+		return $this->product;
+	}
+}
+//指导者 Director
+class Director{
+	private $concreteBuild,$product;
+	function __construct($name){
+		if($name=="手机"){
+		//制造产品
+		$this->concreteBuild=new concreteBuild();
+		//获取产品
+		$this->product=$this->concreteBuild->getProduct();
+		}else if($name=="电脑"){
+		  //制造产品
+		  $this->concreteBuild=new concreteBuild2();
+		}
+		$this->concreteBuild->buildScreen();
+		$this->concreteBuild->buildBattery();
+		$this->concreteBuild->buildSystem();
+		//获取产品
+		$this->product=$this->concreteBuild->getProduct();
+
+	}
+	function getProduct(){
+		return $this->product;
+	}
+}
+//client 用户购买产品
+class client{
+	function buyProduct(){
+		// $director=new Director("电脑");
+		$director=new Director("手机");
+		$product=$director->getProduct();
+		echo $product->getScreen();
+		echo '<br>';
+		echo $product->getBattery();
+		echo '<br>';
+		echo $product->getSystem();
+	}
+}
+$client=new Client();
+$client->buyProduct();
