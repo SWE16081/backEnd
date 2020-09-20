@@ -1,0 +1,119 @@
+// //访问者模式实例
+// //歌手评价
+// //未使用访问者模式之前
+// interface  Person{
+// 	function evaluate($choose);
+// }
+// class Man implements Person{
+
+// 	//评价有多种选择
+// 	function evaluate($choose){
+// 		if($choose=="成功"){
+// 			echo '男生对歌手评价成功<br>';
+// 		}else if($choose=="失败"){
+// 			echo '男生对歌手评价失败<br>';
+// 		}
+// 	}
+// }
+// class Woman implements Person{
+
+// 	//评价有多种选择
+// 	function evaluate($choose){
+// 		if($choose=="成功"){
+// 			echo '女生对歌手评价成功<br>';
+// 		}else if($choose=="失败"){
+// 			echo '女生对歌手评价失败<br>';
+// 		}
+// 	}
+// }
+// $a=new Man();
+// $a->evaluate('成功');
+// $a->evaluate('失败');
+// $b=new Woman();
+// $b->evaluate('成功');
+// $b->evaluate('失败');
+// //这样写的坏处是如果还有其他的人群比如学生 老人孩子
+// //或者 还提供了其他的评价选择 那么evaluate方法里面就需要根据具体的评价选择做出相应的修改
+//
+
+
+
+
+//抽象访问者
+ interface Action{
+	function operation(Person $person);
+	function operation2(Person $person);
+}
+class Success implements Action{
+	function operation(Person $person){
+		echo $person->name.'对歌手评价成功<br>';
+	}
+	function operation2(Person $person){
+		echo $person->name.'对歌手评价成功<br>';
+	}
+}
+class Fail implements Action{
+	function operation(Person $person){
+		echo $person->name.'对歌手评价失败<br>';
+	}
+	function operation2(Person $person){
+		echo $person->name.'对歌手评价失败<br>';
+	}
+}
+//人 抽象访问者角色
+ interface Person{
+ 	function accept(Action $action);
+
+ }
+ class Man implements Person{
+ 	public $name;
+ 	function __construct($name){
+ 		$this->name=$name;
+ 	}
+ 	function accept(Action $action){
+ 		$action->operation($this);
+ 	}
+ }
+ class Woman implements Person{
+ 		public $name;
+ 	function __construct($name){
+ 		$this->name=$name;
+ 	}
+ 	function accept(Action $action){
+ 		$action->operation2($this);
+ 	}
+ }
+class ObjectStructure{
+	 private $victor;
+	 private $person;
+	function __construct(){
+		$victor=array();
+	}
+	function action(Action $action){
+		foreach ($this->victor as $key => $value) {
+			$value->accept($action);
+		}
+	}
+	function add(Person $person){
+		$this->victor[]=$person;
+	}
+}
+//
+class Client{
+	function test(){
+		//创建结构对象
+		$objectStructure=new ObjectStructure();
+		//增加节点
+		$objectStructure->add(new Man('男生'));
+		$objectStructure->add(new Woman('女生'));
+		//创建访问者
+		$visitor=new Success();
+		//让访问者访问结构
+		$objectStructure->action($visitor);
+		$visitor2=new Fail();
+		//让访问者访问结构
+		$objectStructure->action($visitor2);
+	}
+}
+$client=new Client();
+$client->test();

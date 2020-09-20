@@ -1,0 +1,112 @@
+//访问者模式
+//抽象访问者角色
+//声明一个接受操作 接受一个访问者作为一个参量
+interface  Visitor{
+	//访问操作
+	function visit(Node $node);
+	function visit2(Node $node);
+}
+//具体访问者
+class VisitorA implements Visitor{
+	 private $name;
+	 function __construct($name){
+	 	$this->name=$name;
+	 }
+	//访问操作
+	function visit(Node $node){
+		echo "访问者".$this->name.'访问';
+        $node->operationA();
+	}
+	function visit2(Node $node){
+		echo "访问者".$this->name.'访问';
+        $node->operationB();
+	}
+}
+
+class VisitorB implements Visitor{
+	private $name;
+	 function __construct($name){
+	 	$this->name=$name;
+	 }
+	//访问操作
+	function visit(Node $node){
+		echo "访问者".$this->name.'访问';
+		$node->operationA();
+	}
+	function visit2(Node $node){
+		echo "访问者".$this->name.'访问';
+        $node->operationB();
+	}
+}
+//抽象节点角色
+abstract class Node{
+	abstract function accept(Visitor $visitor);
+}
+//具体节点角色
+//数组
+class NodeA  extends Node{
+	private $name,$data;
+	function __construct($name,$data){
+		$this->name=$name;
+		$this->data=$data;
+	}
+	function accept(Visitor $visitor){
+		$visitor->visit($this);
+	}
+	function operationA(){
+		echo "节点".$this->name."节点值为：".$this->data."<br>";
+	}
+}
+//hashMap
+class NodeB extends Node{
+	private $name,$data;
+	function __construct($name,$data){
+		$this->name=$name;
+		$this->data=$data;
+	}
+	function accept(Visitor $visitor){
+        $visitor->visit2($this);
+	}
+	function operationB(){
+       echo "节点".$this->name."节点值为：".$this->data."<br>";
+	}
+}
+//结构对象角色
+//保存一些不同类型对象的聚集
+//持有一个聚集 提供Add方法管理聚集
+//遍历结构中的所有元素
+//提供接口让访问者对象可以访问每一个元素
+class ObjectStructure{
+	 private $victor;
+	 private $node;
+	function __consruct(){
+		$victor=array();
+	}
+	function action(Visitor $visitor){
+		foreach ($this->victor as $key => $value) {
+			$value->accept($visitor);
+		}
+	}
+	function add(Node $node){
+		$this->victor[]=$node;
+	}
+}
+//
+class Client{
+	function test(){
+		//创建结构对象
+		$objectStructure=new ObjectStructure();
+		//增加节点
+		$objectStructure->add(new NodeA('A',3));
+		$objectStructure->add(new NodeB('B',4));
+		//创建访问者
+		$visitor=new VisitorA('A');
+		//让访问者访问结构
+		$objectStructure->action($visitor);
+		$visitor2=new VisitorB('B');
+		//让访问者访问结构
+		$objectStructure->action($visitor2);
+	}
+}
+$client=new Client();
+$client->test();

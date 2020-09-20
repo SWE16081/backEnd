@@ -1,0 +1,142 @@
+// 备忘录模式
+// 一个状态 多个检查点
+// 备忘录模式的白箱实现
+// 备忘录角色
+// 存储发起人对象的内部状态
+// 保护其内容不被发起人对象之外的任何对象所读取
+class Memento{
+	private $name;
+	private $state=array();
+	private $index=0;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function setState($state){
+		if(!in_array($state,$this->state)){
+			$this->state[$this->index]=$state;
+		    $this->index++;
+
+		}
+
+	}
+	function getState($index){
+		// return $this->state[$this->index];
+		return $this->state[$index];
+	}
+	function getName(){
+		return $this->name;
+	}
+	function sel(){
+		echo '检查点长度：'.count($this->state).'<br>';
+		foreach ($this->state as $key => $value) {
+			echo "".$this->name.':'.$value.'<br>';
+		}
+	}
+}
+//发起人角色
+//创建一个含有当前的内部状态的备忘录对象
+//使用备忘录对象存储其内部状态
+class Originator{
+	private $state=array();
+	private $index=0;
+	// 返回新的备忘录对象
+	function createMemento($name){
+		return new Memento($name);
+	}
+	//恢复备忘录状态 到某个检查点
+	function restoreMemento(Memento $memento,$index,$arr){
+		$res=[];
+		foreach ($arr as $key => $value) {
+			if(array_key_exists($value, $this->state)){
+				$res[]=$this->state[$value];
+			}
+		}
+		$this->state=$res;
+	}
+	function setState($state){
+		foreach ($state as $key => $value) {
+			if(!in_array($value,$this->state)){
+				$this->state[$this->index]=$value;
+				$this->index++;
+				$arr[]=$key;
+			}
+		}
+		return implode(',', $arr);
+		
+	}
+	function sel(){
+		// echo '发起人状态长度'.count($this->state).'<br>';
+		foreach ($this->state as $key => $value) {
+			echo '发起人状态'.$key.':'.$value.'<br>';
+		}
+	}
+	// function getState(){
+	// 	echo  $this->state[$this->index];
+	// }
+}
+//负责人角色
+//负责保存备忘录对象
+//不检查备忘录对象的内容
+//存储多个备忘录
+class Caretaker{
+	private $memento=array();
+	private $index=0;
+	//备忘录取值
+	function retrieveMemento($index){
+		return $this->memento[$index];
+	}
+	//备忘录赋值
+	function saveMemento(Memento $memento){
+		if(!in_array($memento,$this->memento)){
+			$this->memento[$this->index]=$memento;
+		    $this->index++;
+		}
+		
+	}
+	function sel(){
+		echo '备忘录个数'.count($this->memento).'<br>';
+		foreach ($this->memento as $key => $value) {
+			$value->sel();
+		}
+	
+	}
+}
+class client{
+	function test(){
+		$caretaker=new Caretaker();
+		$originator=new Originator();
+		//发起人开启状态
+		
+		$arr=$originator->setState(['开启1','开启2']);
+		//查看当前状态
+		$originator->sel();
+		//发起人创建备忘录
+		$memento=$originator->createMemento('备忘录A');
+		// $memento2=clone $memento;
+		//备忘录存储状态
+		$memento->setState('检查点1:',$arr);
+
+		//负责人存储备忘录
+		$caretaker->saveMemento($memento);
+		$caretaker->sel();
+		//修改发起人状态
+		$arr2=$originator->setState(['关闭1','关闭2']);
+		//查看当前状态
+		$originator->sel();
+		//存储到备忘录
+		$memento->setState('检查点2:',$arr);
+		$caretaker->saveMemento($memento);
+		$caretaker->sel();
+		// 恢复发起人状态
+		// 获取备忘录
+		$memento3=$caretaker->retrieveMemento(0);
+		$arr=explode(',', $arr);
+		// 恢复发起人状态 到某个检查点的 某个状态
+		$originator->restoreMemento($memento3,0,$arr);
+		// 查看当前状态
+		$originator->sel();
+			
+	}
+}
+$client=new client();
+$client->test();

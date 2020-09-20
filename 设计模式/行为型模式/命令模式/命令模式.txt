@@ -1,0 +1,73 @@
+// 命令模式
+// 遥控器的例子
+//命令角色
+interface Command{
+	//执行命令
+	function execute();
+}
+//具体命令角色
+//具体命令可以有多个
+//每个具体命令的接收者也可以有多个
+class ConcreteCommand implements Command{
+	private $receiver;
+	public $name;
+	function __construct($name,Receiver $receiver){
+		$this->receiver=$receiver;
+		$this->name=$name;
+	}
+	//接收者执行命令
+	function execute(){
+		$this->receiver->action($this);
+	}
+}
+//请求者
+//负责调用命令对象执行请求
+class Invoker{
+	private $command;
+	public $name;
+	function __construct($name,Command $command){
+		$this->command=$command;
+		$this->name=$name;
+	}
+	//请求者请求发出命令
+	function action(){
+		echo "请求者：".$this->name.'请求命令:'.$this->command->name.'<br>';
+		$this->command->execute();
+	}
+}
+//接收者
+//负责具体实施和执行一个请求
+//可以有多个
+class Receiver{
+	public $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function action(Command $command){
+		echo "接受者：".$this->name.'接收命令:'.$command->name.'并执行<br>';
+	}
+}
+//创建一个具体的命令对象并确定其接受者
+class client{
+	private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function test(){
+
+		$receiver=new Receiver('电脑');
+		$receiver2=new Receiver('电视');
+		$receiver3=new Receiver('空调');
+        $concreteCommand=new ConcreteCommand('打开',$receiver); 
+         $concreteCommand2=new ConcreteCommand('打开',$receiver2); 
+          $concreteCommand3=new ConcreteCommand('打开',$receiver3); 
+		$invoker=new Invoker('遥控器',$concreteCommand);
+        $invoker2=new Invoker('遥控器',$concreteCommand2); 
+        $invoker3=new Invoker('遥控器',$concreteCommand3); 
+		$invoker->action();
+		$invoker2->action();
+		$invoker3->action();
+	}
+}
+$client=new client('玉皇大帝');
+$client->test();

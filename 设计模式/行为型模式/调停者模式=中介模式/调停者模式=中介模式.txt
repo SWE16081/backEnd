@@ -1,0 +1,75 @@
+// 调停者模式
+// 抽象同事类角色
+abstract class Colleague{
+	private $mediator;
+	function __construct(Mediator $mediator){
+		$this->mediator=$mediator;
+	}
+	//调用调停者
+	abstract function call(Colleague $colleague,$message);
+	//被调停者调用
+	abstract function called(Colleague $colleague,$message);
+
+}
+//具体同事类角色
+class ColleagueA extends Colleague{
+	private $mediator;
+	public $name;
+	function __construct(Mediator $mediator,$name){
+		$this->mediator=$mediator;
+		$this->name=$name;
+	}
+	//调用调停者
+	function call(Colleague $colleague,$message){
+		echo $this->name.'想要向'.$colleague->name.'发出请求'.$message.'<br>';
+		$this->mediator->changed($this,$colleague,$message);
+	}
+	//被调停者调用
+	function called(Colleague $colleague,$message){
+     echo $this->name.'接收到'.$colleague->name.'发出的请求'.$message.'<br>';
+	}
+}
+class ColleagueB extends Colleague{
+	public $mediator;
+	public $name;
+	function __construct(Mediator $mediator,$name){
+		$this->mediator=$mediator;
+		$this->name=$name;
+	}
+	//调用调停者
+	function call(Colleague $colleague,$message){
+		echo $this->name.'想要向'.$colleague->name.'发出请求:'.$message.'请求调停者：'.$this->mediator->name.'转达<br>';
+		$this->mediator->changed($this,$colleague,$message);
+	}
+	//被调停者调用
+	function called(Colleague $colleague,$message){
+     echo $this->name.'接收到'.$colleague->name.'发出的请求:'.$message.'<br>';
+	}
+}
+// 抽象调停者角色
+abstract class Mediator{
+	abstract function changed(Colleague $colleague,Colleague $colleague2,$message);
+}
+//具体调停者角色
+//管理所有具体的同事类角色
+class ConcreteMediator extends Mediator{
+	public $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function changed(Colleague $colleague,Colleague $colleague2,$message){
+		echo '调停者:'.$this->name.'转发请求给'.$colleague2->name.'<br>';
+		$colleague2	->called($colleague,$message);
+	}
+}
+class client{
+	function test(){
+		$mediator=new ConcreteMediator('具体调停者');
+		$colleagueA=new ColleagueA($mediator,'同事A');
+		$colleagueB=new ColleagueB($mediator,'同事B');
+		//同事A找同事B请求某些操作
+		$colleagueA->call($colleagueB,'有一份文件要签名');
+	}
+}
+$client=new client();
+$client->test();

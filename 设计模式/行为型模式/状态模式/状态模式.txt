@@ -1,0 +1,61 @@
+// 状态模式
+//抽象状态角色
+//封装环境对象特定状态所对应的特定行为
+interface State{
+	function sampleOperation();
+}
+//具体状态角色
+class ConcreteStateA implements State{
+    private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function sampleOperation(){
+		echo $this->name.'打击<br>';
+	}
+}
+//具体状态角色
+class ConcreteStateB implements State{
+    private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function sampleOperation(){
+		echo $this->name.'打击<br>';
+	}
+}
+//具体状态角色
+class ConcreteStateC implements State{
+    private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function sampleOperation(){
+		echo $this->name.'打击<br>';
+	}
+}
+//环境角色
+class Context{
+	private $state;
+	private $name;
+	function __construct($name){
+		$this->name=$name;
+	}
+	function sampleOperation(){
+		$this->state->sampleOperation();
+	}
+	function setState(State $state){
+		$this->state=$state;
+	}
+
+}
+$a=new ConcreteStateA('编钟A');
+$b=new ConcreteStateB('编钟B');
+$c=new ConcreteStateC('编钟C');
+$context=new Context('环境');
+$context->setState($a);
+$context->sampleOperation();
+$context->setState($b);
+$context->sampleOperation();
+$context->setState($c);
+$context->sampleOperation();
