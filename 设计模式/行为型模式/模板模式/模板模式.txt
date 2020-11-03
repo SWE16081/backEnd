@@ -1,4 +1,4 @@
-// 模板模式
+	// 模板模式
 //
 //抽象模板角色
 abstract class AbstractTemplate{
