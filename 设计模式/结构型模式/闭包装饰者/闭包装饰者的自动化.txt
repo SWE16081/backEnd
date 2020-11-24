@@ -1,0 +1,52 @@
+// 闭包装饰者模式
+class Starbucks {
+	public $cost=10;
+	function cost(){
+		return $this->cost;
+	}
+}
+class Decorator {
+	function operation(Starbucks $starbucks,Closure $closure){
+		return $starbucks;
+	}
+}
+//咖啡加奶泡
+class Whip extends Decorator{
+    function operation(Starbucks $starbucks,Closure $closure){
+		 $starbucks->cost=$starbucks->cost()+1;
+		return $closure($starbucks);//执行闭包
+	}
+}
+//咖啡加摩卡
+class Mocha extends Decorator{
+	function operation(Starbucks $starbucks,Closure $closure){
+		$starbucks->cost=$starbucks->cost()+2;
+	    return $closure($starbucks);//执行闭包
+	}
+}
+
+class test{
+    function test2(){
+        $coffee=new Starbucks();
+        //定义一个闭包用于执行具体装饰类的cost
+        //cost()主要作用改变cost变量 执行$fuc闭包
+        $fuc0=function($coffee){
+            return $coffee;
+        };
+        $arr=[new Whip(),new Mocha()];
+        $fucn=array_reduce($arr,$this->test3(),$fuc0);
+        $coffee=$fucn($coffee);
+        echo $coffee->cost;
+    }
+    //闭包装饰着抽象化 将上面的$fuc1，$fuc2，$fuc3抽象为一个闭包
+    function test3(){
+        return function ($fuc, $decorator){
+            return function($coffee)use ($fuc,$decorator){
+                $decorator->operation($coffee,$fuc);
+                return $coffee;//多层嵌套的闭包获取返回值每个闭包到要有返回值 like递归
+            };
+        };
+    }
+}
+$a=new test();
+$a->test2();

@@ -1,0 +1,43 @@
+//原始装饰模式
+interface Coffee{
+	public function cost();
+}
+
+
+class Starbucks implements Coffee{
+	function cost(){
+		return 10;
+	}
+}
+class Decorator implements Coffee{
+	protected $coffee;
+	public function __construct(Coffee $coffee){
+		$this->coffee=$coffee;
+	}
+	function cost(){
+		return $this->coffee->cost();
+	}
+}
+//咖啡加奶泡
+class Whip extends Decorator{
+    function cost(){
+		return $this->coffee->cost()+1;
+	}
+}
+//咖啡加摩卡
+class Mocha extends Decorator{
+	function cost(){
+		return $this->coffee->cost()+2;
+	}
+}
+
+class test{
+	function test2(){
+		$coffee=new Starbucks();
+		$coffee=new Whip($coffee);
+		$coffee=new Mocha($coffee);
+		echo $coffee->cost();
+	}
+}
+$a=new test();
+$a->test2();

@@ -1,0 +1,41 @@
+// 无构造函数的装饰者
+class Starbucks {
+	public $cost=10;
+	function cost(){
+		return $this->cost;
+	}
+}
+class Decorator {
+	function cost(Starbucks $starbucks){
+		return $starbucks;
+	}
+}
+//咖啡加奶泡
+class Whip extends Decorator{
+    function cost(Starbucks $starbucks){
+		 $starbucks->cost=$starbucks->cost()+1;
+		return $starbucks;
+	}
+}
+//咖啡加摩卡
+class Mocha extends Decorator{
+	function cost(Starbucks $starbucks){
+		$starbucks->cost=$starbucks->cost()+2;
+		return $starbucks;
+	}
+}
+
+class test{
+	function test2(){
+		$coffee=new Starbucks();
+		$coffee=(new Whip())->cost($coffee);
+		$coffee=(new Mocha())->cost($coffee);
+		echo $coffee->cost();
+	}
+}
+$a=new test();
+$a->test2();
+//改造后，装饰者类通过函数cost来注入具体类caffee	，
+//而不是通过构造函数，这样做有助于自动化进行装饰处理。
+//我们改造后发现， 想要对具体类通过装饰类进行处理，需要不断的调用cost函数，
+//如果有10个装饰操作，就要手动写10个语句，因此我们继续进行改造
