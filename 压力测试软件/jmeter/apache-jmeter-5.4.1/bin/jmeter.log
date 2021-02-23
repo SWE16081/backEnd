@@ -1,0 +1,22 @@
+2021-02-01 13:27:44,797 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2021-02-01 13:27:44,897 INFO o.a.j.JMeter: Loading user properties from: user.properties
+2021-02-01 13:27:44,946 INFO o.a.j.JMeter: Loading system properties from: system.properties
+2021-02-01 13:27:45,039 INFO o.a.j.JMeter: Copyright (c) 1998-2021 The Apache Software Foundation
+2021-02-01 13:27:45,039 INFO o.a.j.JMeter: Version 5.4.1
+2021-02-01 13:27:45,040 INFO o.a.j.JMeter: java.version=1.8.0_144
+2021-02-01 13:27:45,040 INFO o.a.j.JMeter: java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+2021-02-01 13:27:45,040 INFO o.a.j.JMeter: os.name=Windows 10
+2021-02-01 13:27:45,040 INFO o.a.j.JMeter: os.arch=amd64
+2021-02-01 13:27:45,041 INFO o.a.j.JMeter: os.version=10.0
+2021-02-01 13:27:45,042 INFO o.a.j.JMeter: file.encoding=GBK
+2021-02-01 13:27:45,042 INFO o.a.j.JMeter: java.awt.headless=null
+2021-02-01 13:27:45,043 INFO o.a.j.JMeter: Max memory     =1073741824
+2021-02-01 13:27:45,043 INFO o.a.j.JMeter: Available Processors =8
+2021-02-01 13:27:45,074 INFO o.a.j.JMeter: Default Locale=English (EN)
+2021-02-01 13:27:45,076 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2021-02-01 13:27:45,076 INFO o.a.j.JMeter: JMeterHome=G:\桌面\学习文件\后端\backEnd\压力测试软件\jmeter\apache-jmeter-5.4.1
+2021-02-01 13:27:45,077 INFO o.a.j.JMeter: user.dir  =G:\桌面\学习文件\后端\backEnd\压力测试软件\jmeter\apache-jmeter-5.4.1\bin
+2021-02-01 13:27:45,080 INFO o.a.j.JMeter: PWD       =G:\桌面\学习文件\后端\backEnd\压力测试软件\jmeter\apache-jmeter-5.4.1\bin
+2021-02-01 13:27:54,103 INFO o.a.j.JMeter: IP: 169.254.108.108 Name: DESKTOP-HV3ACRF FullName: DESKTOP-HV3ACRF
+2021-02-01 13:27:55,796 INFO o.a.j.JMeter: Setting LAF to: com.github.weisj.darklaf.DarkLaf:com.github.weisj.darklaf.theme.DarculaTheme
+2021-02-01 13:27:58,584 INFO o.a.j.JMeter: Loaded icon properties from org/apache/jmeter/images/icon.properties
