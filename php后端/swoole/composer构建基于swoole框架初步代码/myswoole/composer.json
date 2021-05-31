@@ -1,0 +1,17 @@
+{
+    "name": "my/swoole",
+    "description": "myswoole Framework.",
+    "keywords": [
+        "framework",
+        "myswoole"
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "application/",
+            "Swe\\": "framework/Swe"
+        }
+    },
+    "require": {
+        "php": "^7.1.3"
+    }
+}
